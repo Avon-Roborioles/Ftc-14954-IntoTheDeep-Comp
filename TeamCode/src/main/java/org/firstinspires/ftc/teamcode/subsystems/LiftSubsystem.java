@@ -10,12 +10,16 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private int topPosition = -8300;
+    private int topBarPosition = -4000;
+    private double joystickSensitivity = 10;
+    private double liftTargetPosition = 0;
     private Telemetry telemetry;
     private double power = 1;
 
     public enum liftPosition {
         TOP,
-        BOTTOM
+        BOTTOM,
+        TOPBAR
 
     }
     public liftPosition liftPos;
@@ -41,19 +45,33 @@ public class LiftSubsystem extends SubsystemBase {
         liftMotor.set(power);
         liftPos = liftPosition.BOTTOM;
     }
+    public void setTopBarPosition () {
+        liftMotor.setTargetPosition(topBarPosition);
+        liftMotor.set(power);
+        liftPos = liftPosition.TOPBAR;
+    }
     public boolean isBusy () {
         return !liftMotor.atTargetPosition();
     }
-//    public void runLift () {
-//        liftMotor.set(power);
-//    }
+
     public void stopLift () {
         liftMotor.stopMotor();
     }
+    public void runLiftJoystick(double input){
+        power = input;
+        liftTargetPosition = liftMotor.getCurrentPosition() + (input * joystickSensitivity);
+        if (liftTargetPosition < topPosition) {
+            liftTargetPosition = topPosition;
+        }else if(liftTargetPosition > 0) {
+            liftTargetPosition = 0;
+        }
+        liftMotor.setTargetPosition((int) liftTargetPosition);
+        liftMotor.set(power);
+    }
     public void getLiftTelemetry () {
-//        telemetry.addData("liftEnum", liftPos);
-//        telemetry.addData("rawpos", liftMotor.getCurrentPosition());
-//        telemetry.update();
+        telemetry.addData("liftEnum", liftPos);
+        telemetry.addData("rawpos", liftMotor.getCurrentPosition());
+        telemetry.update();
 
     }
 }

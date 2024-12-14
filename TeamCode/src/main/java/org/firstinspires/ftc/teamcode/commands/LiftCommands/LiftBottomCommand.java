@@ -13,9 +13,7 @@ public class LiftBottomCommand extends CommandBase {
     }
     @Override
     public void execute () {
-        liftSubsystem.getLiftTelemetry();
         liftSubsystem.setBottomPosition();
-//        liftSubsystem.runLift();
     }
     @Override
     public boolean isFinished () {
