@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
@@ -29,6 +30,7 @@ public class IntakeScore extends SequentialCommandGroup {
                 new CollectSample(intake),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
+                new WaitCommand(2000),
                 new PassAuto(pass, box, intake),
                 new LiftTopCommand(lift),
                 new SwingArmMidCommand(swingArm)

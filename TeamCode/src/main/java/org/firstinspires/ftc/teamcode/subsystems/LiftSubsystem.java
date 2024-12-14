@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
-    private int topPosition = -8300;
-    private int topBarPosition = -4000;
+    private int topPosition = -3000;
+    private int topBarPosition = -100;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
     private Telemetry telemetry;
@@ -37,16 +37,19 @@ public class LiftSubsystem extends SubsystemBase {
     }
     public void setTopPosition () {
         liftMotor.setTargetPosition(topPosition);
+//        liftTargetPosition= topPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOP;
     }
     public void setBottomPosition () {
         liftMotor.setTargetPosition(0);
+//        liftTargetPosition = 0;
         liftMotor.set(power);
         liftPos = liftPosition.BOTTOM;
     }
     public void setTopBarPosition () {
-        liftMotor.setTargetPosition(topBarPosition);
+        liftMotor.setTargetPosition(-300);
+//        liftTargetPosition = topBarPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOPBAR;
     }
@@ -59,14 +62,15 @@ public class LiftSubsystem extends SubsystemBase {
     }
     public void runLiftJoystick(double input){
         power = input;
-        liftTargetPosition = liftMotor.getCurrentPosition() + (input * joystickSensitivity);
+        liftTargetPosition = liftMotor.getCurrentPosition() + (-input * joystickSensitivity);
         if (liftTargetPosition < topPosition) {
             liftTargetPosition = topPosition;
         }else if(liftTargetPosition > 0) {
             liftTargetPosition = 0;
         }
         liftMotor.setTargetPosition((int) liftTargetPosition);
-        liftMotor.set(power);
+        liftMotor.set(Math.abs(power));
+        getLiftTelemetry();
     }
     public void getLiftTelemetry () {
         telemetry.addData("liftEnum", liftPos);
@@ -74,4 +78,9 @@ public class LiftSubsystem extends SubsystemBase {
         telemetry.update();
 
     }
+//    @Override
+//    public void periodic(){
+//        liftMotor.setTargetPosition((int) liftTargetPosition);
+//        liftMotor.set(Math.abs(power));
+//    }
 }

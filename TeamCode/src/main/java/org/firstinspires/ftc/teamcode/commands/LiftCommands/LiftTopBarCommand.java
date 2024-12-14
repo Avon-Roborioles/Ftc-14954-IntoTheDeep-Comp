@@ -19,7 +19,7 @@ public class LiftTopBarCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return !liftSubsystem.isBusy();
     }
 
     @Override

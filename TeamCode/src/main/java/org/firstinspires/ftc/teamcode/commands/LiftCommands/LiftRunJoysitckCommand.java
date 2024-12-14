@@ -17,18 +17,18 @@ public class LiftRunJoysitckCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        liftSubsystem.runLiftJoystick(joystickInput.getAsDouble());
+    public void initialize() {
+        liftSubsystem.runLiftJoystick(-joystickInput.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        liftSubsystem.stopLift();
-    }
+//
+//    @Override
+//    public void end(boolean interrupted) {
+//        liftSubsystem.stopLift();
+//    }
 
 }
