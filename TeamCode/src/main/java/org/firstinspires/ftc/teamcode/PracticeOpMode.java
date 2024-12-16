@@ -15,20 +15,16 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.IntakeScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftRunJoysitckCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.PassAuto;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -126,7 +122,7 @@ public class PracticeOpMode extends CommandOpMode {
                 .whenPressed(new HandoffCommand(wrist))
                 .whenPressed(new RetractCommand(extend));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new PassAuto(pass, box, intake));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)

@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
-import org.firstinspires.ftc.teamcode.commands.PassAuto;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
