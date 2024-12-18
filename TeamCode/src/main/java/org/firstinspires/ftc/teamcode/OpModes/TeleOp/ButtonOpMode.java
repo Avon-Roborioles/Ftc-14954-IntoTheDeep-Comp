@@ -14,12 +14,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.IntakeScore;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
@@ -49,6 +51,8 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 public class ButtonOpMode extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
+    private TouchSensor touch1, touch2;
+    private Servo extendservo;
 
     private Follower follower;
     private PedroDriveSubsystem pedroDriveSubsystem;
@@ -73,6 +77,8 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp = new GamepadEx(gamepad2);
 
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
+        touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
+        touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         frontLeft = new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_312);
         frontRight = new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_312);
         backLeft = new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_312);
@@ -82,9 +88,10 @@ public class ButtonOpMode extends CommandOpMode {
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        extend = new ExtendSubsystem(hardwareMap.get(Servo.class, "extension"));
+        extendservo = hardwareMap.get(Servo.class, "extension");
+        extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"));
-        liftSubsystem = new LiftSubsystem(liftMotor);
+        liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
@@ -122,6 +129,8 @@ public class ButtonOpMode extends CommandOpMode {
         //Swing Arm (X)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                        .whenPressed(new Reject(intake));
 
         //Extend (Bumpers)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)

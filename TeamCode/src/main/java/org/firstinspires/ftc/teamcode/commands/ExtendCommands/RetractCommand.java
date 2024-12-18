@@ -15,5 +15,5 @@ public class RetractCommand extends CommandBase {
     subsystem.retract();
      }
      @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return subsystem.retracted();}
 }

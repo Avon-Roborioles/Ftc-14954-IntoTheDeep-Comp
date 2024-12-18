@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -49,6 +50,8 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 public class CompTeleOpBlue extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
+    private TouchSensor touch1, touch2;
+    private Servo extendservo;
 
     private Follower follower;
     private PedroDriveSubsystem pedroDriveSubsystem;
@@ -69,7 +72,8 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
-
+        touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
+        touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         frontLeft = new Motor(hardwareMap,"frontLeft", Motor.GoBILDA.RPM_312);
         frontRight = new Motor(hardwareMap,"frontRight", Motor.GoBILDA.RPM_312);
@@ -80,9 +84,10 @@ public class CompTeleOpBlue extends CommandOpMode {
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        extend = new ExtendSubsystem(hardwareMap.get(Servo.class, "extension"));
+        extendservo = hardwareMap.get(Servo.class, "extension");
+        extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"));
-        liftSubsystem = new LiftSubsystem(liftMotor);
+        liftSubsystem = new LiftSubsystem(liftMotor, touch1 );
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
@@ -118,7 +123,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         //Swing Arm (X & Y)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new SwingArmUpCommand(swingArmSubsystem));
+                .whenPressed(new SwingArmUpCommand(swingArmSubsystem, box));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
 

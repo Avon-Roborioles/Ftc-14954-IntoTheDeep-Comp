@@ -32,7 +32,6 @@ public class IntakeScore extends SequentialCommandGroup {
                 new CollectSample(intake),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
-                new WaitCommand(2000),
                 new PassAuto(pass, box, intake),
                 new LiftTopCommand(lift),
                 new SwingArmMidCommand(swingArm)

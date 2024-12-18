@@ -43,9 +43,9 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    public void runMotor() {motor.setPower(-1);}
+    public void runMotor() {motor.setPower(-0.8);}
 
-    public void rejectMotor() {motor.setPower(1);}
+    public void rejectMotor() {motor.setPower(0.8);}
 
     public void redlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
