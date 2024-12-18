@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -81,13 +82,13 @@ public class PracticeOpMode extends CommandOpMode {
         backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-//        follower = new Follower(hardwareMap);
-//        follower.startTeleopDrive();
-//        follower.setMaxPower(1);
+        follower = new Follower(hardwareMap);
+        follower.startTeleopDrive();
+        follower.setMaxPower(1);
 
 
-//        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
-//        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
+        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
 
 
         drive = new DriveSubsystem(
@@ -96,7 +97,6 @@ public class PracticeOpMode extends CommandOpMode {
                 backLeft,
                 backRight);
 
-        liftSubsystem.setDefaultCommand(new LiftTelemetryCommand(liftSubsystem));
 
         intake = new IntakeSubsystem(telemetry, hardwareMap.get(DcMotor.class, "Intake"),
                 hardwareMap.get(ColorSensor.class, "intakeColor"),
@@ -109,12 +109,8 @@ public class PracticeOpMode extends CommandOpMode {
 
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new LiftTopCommand(liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new RaiseWrist(wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new LowerWrist(wrist));
+                .toggleWhenPressed(new LowerWrist(wrist), new RaiseWrist(wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new HandoffCommand(wrist))
                 .whenPressed(new ExtendCommand(extend));
@@ -131,12 +127,13 @@ public class PracticeOpMode extends CommandOpMode {
                 .whenPressed(new IntakeScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.START)
                 .whenPressed(new HandoffCommand(wrist));
-        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+        operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new LiftTopBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new LiftTopCommand(liftSubsystem));
 
-//        liftSubsystem.setDefaultCommand(new LiftRunJoysitckCommand(liftSubsystem, operatorOp::getRightY));
         pass.setDefaultCommand(new PassCommand(pass,operatorOp::getLeftY));
         intake.rainbowlight();
 

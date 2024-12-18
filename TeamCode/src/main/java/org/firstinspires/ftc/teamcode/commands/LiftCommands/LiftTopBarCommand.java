@@ -13,7 +13,7 @@ public class LiftTopBarCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         liftSubsystem.setTopBarPosition();
     }
 

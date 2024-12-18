@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private int topPosition = -3000;
-    private int topBarPosition = -100;
+    private int topBarPosition = -1000;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
     private Telemetry telemetry;
@@ -48,12 +48,13 @@ public class LiftSubsystem extends SubsystemBase {
         liftPos = liftPosition.BOTTOM;
     }
     public void setTopBarPosition () {
-        liftMotor.setTargetPosition(-300);
+        liftMotor.setTargetPosition(topBarPosition);
 //        liftTargetPosition = topBarPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOPBAR;
     }
     public boolean isBusy () {
+        getLiftTelemetry();
         return !liftMotor.atTargetPosition();
     }
 
