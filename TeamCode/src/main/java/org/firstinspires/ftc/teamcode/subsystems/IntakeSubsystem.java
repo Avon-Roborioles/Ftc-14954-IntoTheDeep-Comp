@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeSubsystem extends SubsystemBase {
     private DcMotor motor;
+    private Telemetry telemetry;
     private ColorSensor colorSensor;
     private RevBlinkinLedDriver blinkin;
     private boolean RedAlliance = false;
@@ -21,6 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor) {
+        this.telemetry = telemetry;
         this.motor = motor;
         this.colorSensor = colorSensor;
         this.blinkin = blinkin;
@@ -31,34 +33,33 @@ public class IntakeSubsystem extends SubsystemBase {
         // start as blue alliance
         this.allianceColor.setPosition(0.61);
     }
+
     @Override
-    public void periodic(){
-//        if (isColorSensorRed()) {
-//            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-//        } else if (isColorSensorBlue()) {
-//            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-//        } else if (isColorSensorYellow()) {
-//            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-//        } else {
-//            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
-//        }
+    public void periodic() {
+        if (isColorSensorRed()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        } else if (isColorSensorBlue()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+        } else if (isColorSensorYellow()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+        } else {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
+        }
     }
 
+    public void runMotor() {motor.setPower(-1);}
 
-    public void runMotor() {
-        motor.setPower(-1);
-    }
-    public void rejectMotor(){motor.setPower(1);}
-    public void redlight(){
+    public void rejectMotor() {motor.setPower(1);}
+
+    public void redlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
     }
-    public void bluelight(){
+
+    public void bluelight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
     }
-    public void yellowlight(){
+
+    public void yellowlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
     }
-    public void rainbowlight(){
+
+    public void rainbowlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
     }
 
@@ -66,15 +67,11 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setPower(0);
     }
 
-    public boolean hasSample() { return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.9); }
+    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.9);}
 
-    public boolean isColorSensorRed() {
-        return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();
-    }
+    public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();}
 
-    public boolean isColorSensorBlue() {
-        return colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green();
-    }
+    public boolean isColorSensorBlue() {return colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green();}
 
     // Update or remove method as yellow detection isn't used in the intake, only periodic color update
     public boolean isColorSensorYellow() {
@@ -86,15 +83,19 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void changeAlliance() {
         this.RedAlliance = !getRedAlliance();
-        if(RedAlliance) {
+        if (RedAlliance) {
             allianceColor.setPosition(0.28);
         } else {
             allianceColor.setPosition(0.61);
         }
     }
 
-    public boolean getRedAlliance() {
-        return RedAlliance;
+    public void setRedAlliance() {
+        RedAlliance = true;
+    }
+
+    public void setBlueAlliance() {
+        RedAlliance = false;
     }
 
     public void getTelemetry(Telemetry telemetry) {
@@ -114,4 +115,9 @@ public class IntakeSubsystem extends SubsystemBase {
             telemetry.addData("Alliance", "Blue");
         }
     }
-}
+
+        public boolean getRedAlliance() {
+            return RedAlliance;
+        }
+    }
+

@@ -18,15 +18,15 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.IntakeScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
@@ -45,8 +45,8 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-@TeleOp(name = "ButtonOpMode")
-public class ButtonOpMode extends CommandOpMode {
+@TeleOp(name = "CompTeleOpRed")
+public class CompTeleOpRed extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
 
@@ -64,8 +64,6 @@ public class ButtonOpMode extends CommandOpMode {
     private BoxxySubsystem box;
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
-
-
     @Override
     public void initialize() {
 
@@ -73,10 +71,10 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp = new GamepadEx(gamepad2);
 
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
-        frontLeft = new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_312);
-        frontRight = new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_312);
-        backLeft = new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_312);
-        backRight = new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_312);
+        frontLeft = new Motor(hardwareMap,"frontLeft", Motor.GoBILDA.RPM_312);
+        frontRight = new Motor(hardwareMap,"frontRight", Motor.GoBILDA.RPM_312);
+        backLeft = new Motor(hardwareMap,"backLeft", Motor.GoBILDA.RPM_312);
+        backRight = new Motor(hardwareMap,"backRight", Motor.GoBILDA.RPM_312);
         frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -86,8 +84,9 @@ public class ButtonOpMode extends CommandOpMode {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"));
         liftSubsystem = new LiftSubsystem(liftMotor);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
+        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
+
 
 
 //        follower = new Follower(hardwareMap);
@@ -108,9 +107,9 @@ public class ButtonOpMode extends CommandOpMode {
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
-        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX));
+        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX,driverOp::getLeftY,driverOp::getRightX));
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
-        pass.setDefaultCommand(new PassCommand(pass, operatorOp::getLeftY));
+        pass.setDefaultCommand(new PassCommand(pass,operatorOp::getLeftY));
 
 
         /*
@@ -120,7 +119,11 @@ public class ButtonOpMode extends CommandOpMode {
 
         //Swing Arm (X)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
+                .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
+
+        //Wrist (Y)
+        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+                .toggleWhenPressed(new LowerWrist(wrist), new RaiseWrist(wrist));
 
         //Extend (Bumpers)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
@@ -131,15 +134,23 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new RetractCommand(extend));
 
         //Intake (D-Pad & Start)
-        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.B)
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new ToggleAlliance(intake));
-        operatorOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new IntakeScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new IntakeScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.START)
-                .whenPressed(new RaiseWrist(wrist));
+                .whenPressed(new HandoffCommand(wrist));
+
+        //Lift (A & B & Right Stick Button)
+        operatorOp.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(new LiftTopBarCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                .whenPressed(new LiftBottomCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new LiftTopCommand(liftSubsystem));
     }
 }

@@ -50,6 +50,7 @@ public class CollectSample extends CommandBase {
             // check if sample is valid
             if ((subsystem.getRedAlliance() & subsystem.isColorSensorBlue()))  {
                 validSample = false;
+                subsystem.rejectMotor();
                 if (subsystem.isColorSensorBlue()){
                     subsystem.bluelight();
                 } else {
@@ -59,6 +60,7 @@ public class CollectSample extends CommandBase {
                 timer.start();
             } else if ((!subsystem.getRedAlliance() & subsystem.isColorSensorRed())) {
                 validSample = false;
+                subsystem.rejectMotor();
 
                 if (subsystem.isColorSensorRed()){
                     subsystem.redlight();
