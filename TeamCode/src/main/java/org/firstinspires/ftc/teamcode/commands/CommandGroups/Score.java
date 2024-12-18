@@ -19,6 +19,7 @@ public class Score extends SequentialCommandGroup {
                 new SwingArmUpCommand(swingArm),
                 new WaitCommand(1000),
                 new SwingArmDownCommand(swingArm),
+                new WaitCommand(1000),
                 new LiftBottomCommand(lift)
         );
     }
