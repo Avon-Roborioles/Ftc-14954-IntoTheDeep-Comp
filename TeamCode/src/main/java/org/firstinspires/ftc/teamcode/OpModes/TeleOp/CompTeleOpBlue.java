@@ -109,7 +109,6 @@ public class CompTeleOpBlue extends CommandOpMode {
         //Default Commands
         drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX,driverOp::getLeftY,driverOp::getRightX));
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
-        pass.setDefaultCommand(new PassCommand(pass,operatorOp::getLeftY));
 
 
         /*
@@ -117,41 +116,50 @@ public class CompTeleOpBlue extends CommandOpMode {
          */
 
 
-        //Swing Arm (X)
+        //Swing Arm (X & Y)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
-
-        //Wrist (Y)
+                .whenPressed(new SwingArmUpCommand(swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new LowerWrist(wrist), new RaiseWrist(wrist));
+                .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
 
-        //Extend (Bumpers)
+
+
+
+        //Extend (Left Bumper)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new HandoffCommand(wrist))
-                .whenPressed(new ExtendCommand(extend));
-        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new HandoffCommand(wrist))
-                .whenPressed(new RetractCommand(extend));
+                .toggleWhenPressed(new ExtendCommand(extend), new RetractCommand(extend));
 
-        //Intake (D-Pad & Start)
+        //Intake (D-Pad &  driver op D Down is alliance)
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new ToggleAlliance(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new IntakeScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.START)
-                .whenPressed(new HandoffCommand(wrist));
 
-        //Lift (A & B & Right Stick Button)
-        operatorOp.getGamepadButton(GamepadKeys.Button.B)
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new ToggleAlliance(intake));
+
+        //Lift ( B & Stick Buttons)
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whenPressed(new LiftTopBarCommand(liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+        operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new LiftTopCommand(liftSubsystem));
+
+        /* Open Buttons
+         * right bumper
+         * Start
+         * Back
+         * Dpad Left
+         * Right Stick Button
+         *
+         *   Open Triggers (Different Methods)
+         * Triggers
+         * Joysticks
+         */
     }
 
 }

@@ -11,6 +11,7 @@ public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private int topPosition = -3000;
     private int topBarPosition = -1000;
+    private int bottomBarPosition = -500;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
     private double power = 1;
@@ -23,7 +24,8 @@ public class LiftSubsystem extends SubsystemBase {
     public enum liftPosition {
         TOP,
         BOTTOM,
-        TOPBAR
+        TOPBAR,
+        BOTTOMBAR
 
     }
     public liftPosition liftPos;
@@ -40,21 +42,27 @@ public class LiftSubsystem extends SubsystemBase {
     }
     public void setTopPosition () {
         liftMotor.setTargetPosition(topPosition);
-//        liftTargetPosition= topPosition;
+        liftTargetPosition= topPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOP;
     }
     public void setBottomPosition () {
         liftMotor.setTargetPosition(0);
-//        liftTargetPosition = 0;
+        liftTargetPosition = 0;
         liftMotor.set(power);
         liftPos = liftPosition.BOTTOM;
     }
     public void setTopBarPosition () {
         liftMotor.setTargetPosition(topBarPosition);
-//        liftTargetPosition = topBarPosition;
+        liftTargetPosition = topBarPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOPBAR;
+    }
+    public void setBottomBarPosition () {
+        liftMotor.setTargetPosition(bottomBarPosition);
+        liftTargetPosition = bottomBarPosition;
+        liftMotor.set(power);
+        liftPos = liftPosition.BOTTOMBAR;
     }
     public boolean isBusy () {
         return !liftMotor.atTargetPosition();
@@ -78,6 +86,6 @@ public class LiftSubsystem extends SubsystemBase {
 //    @Override
 //    public void periodic(){
 //        liftMotor.setTargetPosition((int) liftTargetPosition);
-//        liftMotor.set(Math.abs(power));
+//        liftMotor.set(Math.abs(power/10));
 //    }
 }
