@@ -26,6 +26,7 @@ public class BoxxySubsystem extends SubsystemBase {
     public boolean haveSample() {
         return(distanceSensor.getDistance(DistanceUnit.INCH) < 2.0);
     }
+
     public boolean noSample(){
         return (distanceSensor.getDistance(DistanceUnit.INCH) > 2.5);
     }

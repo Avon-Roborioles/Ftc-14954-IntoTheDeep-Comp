@@ -15,6 +15,7 @@ public class SwingArmUpCommand extends CommandBase {
     }
     @Override
     public void initialize() { SwingArmSubsystem.up(); }
+
     @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return box.noSample(); }
 }

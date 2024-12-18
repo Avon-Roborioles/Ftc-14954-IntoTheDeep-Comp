@@ -142,7 +142,7 @@ public class ButtonOpMode extends CommandOpMode {
 
         //Intake (D-Pad & Start)
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intake, pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)

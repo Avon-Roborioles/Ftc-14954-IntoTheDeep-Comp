@@ -143,7 +143,7 @@ public class CompTeleOpRed extends CommandOpMode {
 
         //Intake (D-Pad &  driver op D Down is alliance)
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
