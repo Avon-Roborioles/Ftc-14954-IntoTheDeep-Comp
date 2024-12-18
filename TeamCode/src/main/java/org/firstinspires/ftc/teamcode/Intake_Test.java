@@ -22,7 +22,7 @@ public class Intake_Test extends CommandOpMode {
     private GamepadEx gamepad;
     @Override
     public void initialize() {
-        subsystem = new IntakeSubsystem(telemetry, hardwareMap.get(DcMotor.class, "Intake"),
+        subsystem = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"),
                 hardwareMap.get(ColorSensor.class, "intakeColor"),
                 hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"),
                 hardwareMap.get(DistanceSensor.class, "intakeDistance"),

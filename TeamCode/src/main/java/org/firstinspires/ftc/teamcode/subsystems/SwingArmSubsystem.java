@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class SwingArmSubsystem extends SubsystemBase {
     private Servo SwingArmServo;
     private double TopPos = 0.75;
@@ -18,5 +20,8 @@ public class SwingArmSubsystem extends SubsystemBase {
         SwingArmServo.setPosition(0.0);
     }
     public void mid() { SwingArmServo.setPosition(MidPos);}
+
+    public void getTelemetry(Telemetry telemetry) {
+    }
 
 }

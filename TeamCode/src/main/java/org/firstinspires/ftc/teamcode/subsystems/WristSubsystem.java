@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class WristSubsystem extends SubsystemBase {
     private Servo servo;
     public WristSubsystem(Servo servo) {
@@ -18,4 +20,8 @@ public class WristSubsystem extends SubsystemBase {
         servo.getPosition();
     }
     public void middle() { servo.setPosition(0.05);}
+
+    public void getTelemetry(Telemetry telemetry) {
+    }
+
 }

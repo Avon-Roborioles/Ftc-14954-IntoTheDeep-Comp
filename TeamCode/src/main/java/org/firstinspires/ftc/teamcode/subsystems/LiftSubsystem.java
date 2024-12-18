@@ -13,8 +13,12 @@ public class LiftSubsystem extends SubsystemBase {
     private int topBarPosition = -1000;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
-    private Telemetry telemetry;
     private double power = 1;
+
+    public void getTelemetry(Telemetry telemetry) {
+        telemetry.addData("liftEnum", liftPos);
+        telemetry.addData("rawpos", liftMotor.getCurrentPosition());
+    }
 
     public enum liftPosition {
         TOP,
@@ -24,9 +28,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
     public liftPosition liftPos;
 
-    public LiftSubsystem (Motor liftMotor, Telemetry telemetry) {
+    public LiftSubsystem (Motor liftMotor) {
         this.liftMotor = liftMotor;
-        this.telemetry = telemetry;
         this.liftMotor.setRunMode(Motor.RunMode.PositionControl);
         this.liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         this.liftMotor.setInverted(true);
@@ -54,7 +57,6 @@ public class LiftSubsystem extends SubsystemBase {
         liftPos = liftPosition.TOPBAR;
     }
     public boolean isBusy () {
-        getLiftTelemetry();
         return !liftMotor.atTargetPosition();
     }
 
@@ -71,14 +73,8 @@ public class LiftSubsystem extends SubsystemBase {
         }
         liftMotor.setTargetPosition((int) liftTargetPosition);
         liftMotor.set(Math.abs(power));
-        getLiftTelemetry();
     }
-    public void getLiftTelemetry () {
-        telemetry.addData("liftEnum", liftPos);
-        telemetry.addData("rawpos", liftMotor.getCurrentPosition());
-        telemetry.update();
 
-    }
 //    @Override
 //    public void periodic(){
 //        liftMotor.setTargetPosition((int) liftTargetPosition);

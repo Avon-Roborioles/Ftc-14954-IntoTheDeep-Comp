@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class PassSubsystem extends SubsystemBase {
     private DcMotorEx motor1;
 
@@ -18,4 +20,8 @@ public class PassSubsystem extends SubsystemBase {
     public void PassOff(){
         motor1.setPower(0);
     }
+
+    public void getTelemetry(Telemetry telemetry) {
+    }
 }
+

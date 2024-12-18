@@ -12,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeSubsystem extends SubsystemBase {
     private DcMotor motor;
-    private Telemetry telemetry;
     private ColorSensor colorSensor;
     private RevBlinkinLedDriver blinkin;
     private boolean RedAlliance = false;
@@ -20,9 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private ServoImplEx allianceColor;
     private BoxxySubsystem box;
 
-    public IntakeSubsystem(Telemetry telemetry, DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
+    public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor) {
-        this.telemetry = telemetry;
         this.motor = motor;
         this.colorSensor = colorSensor;
         this.blinkin = blinkin;
@@ -33,18 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
         // start as blue alliance
         this.allianceColor.setPosition(0.61);
     }
-
     @Override
-    public void periodic() {
-//        telemetry.addData("Motor running", motor.getPower());
-//        telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
-//        telemetry.addData("Red Sensor", colorSensor.red());
-//        telemetry.addData("Blue Sensor", colorSensor.blue());
-//        telemetry.addData("Green Sensor", colorSensor.green());
-//        telemetry.addData("Red Sample", isColorSensorRed());
-//        telemetry.addData("Blue Sample", isColorSensorBlue());
-//        telemetry.addData("Yellow Sample", isColorSensorYellow());
-//
+    public void periodic(){
 //        if (isColorSensorRed()) {
 //            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 //        } else if (isColorSensorBlue()) {
@@ -54,13 +42,9 @@ public class IntakeSubsystem extends SubsystemBase {
 //        } else {
 //            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
 //        }
-        if (RedAlliance) {
-            telemetry.addData("Alliance", "Red");
-        } else {
-            telemetry.addData("Alliance", "Blue");
-        }
-//        telemetry.update();
     }
+
+
     public void runMotor() {
         motor.setPower(-1);
     }
@@ -111,5 +95,23 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean getRedAlliance() {
         return RedAlliance;
+    }
+
+    public void getTelemetry(Telemetry telemetry) {
+        telemetry.addData("Motor running", motor.getPower());
+        telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
+        telemetry.addData("Red Sensor", colorSensor.red());
+        telemetry.addData("Blue Sensor", colorSensor.blue());
+        telemetry.addData("Green Sensor", colorSensor.green());
+        telemetry.addData("Red Sample", isColorSensorRed());
+        telemetry.addData("Blue Sample", isColorSensorBlue());
+        telemetry.addData("Yellow Sample", isColorSensorYellow());
+
+
+        if (RedAlliance) {
+            telemetry.addData("Alliance", "Red");
+        } else {
+            telemetry.addData("Alliance", "Blue");
+        }
     }
 }
