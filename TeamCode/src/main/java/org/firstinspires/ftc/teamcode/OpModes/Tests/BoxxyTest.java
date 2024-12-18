@@ -1,17 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.Tests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.commands.BoxxyCommands.CloseBoxxy;
-import org.firstinspires.ftc.teamcode.commands.BoxxyCommands.OpenBoxxy;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 
 @TeleOp
-
+@Disabled
 public class BoxxyTest extends CommandOpMode {
     private BoxxySubsystem subsystem;
     private GamepadEx gamepadEx;
