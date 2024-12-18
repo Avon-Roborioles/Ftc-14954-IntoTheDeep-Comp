@@ -26,7 +26,7 @@ public class TelemetrySubsystem extends SubsystemBase {
         this.pedroDriveSubsystem = pedroDriveSubsystem;
         this.swingArmSubsystem = swingArmSubsystem;
         this.wristSubsystem = wristSubsystem;
-        this.telemetry.setMsTransmissionInterval(20);
+
 
     }
     public void getTelemetry(){
@@ -36,7 +36,7 @@ public class TelemetrySubsystem extends SubsystemBase {
         intakeSubsystem.getTelemetry(telemetry);
         liftSubsystem.getTelemetry(telemetry);
         passSubsystem.getTelemetry(telemetry);
-        pedroDriveSubsystem.telemetryDebug(telemetry);
+//        pedroDriveSubsystem.telemetryDebug(telemetry);
         swingArmSubsystem.getTelemetry(telemetry);
         wristSubsystem.getTelemetry(telemetry);
         updateTelemetry();

@@ -31,7 +31,6 @@ public class BoxxySubsystem extends SubsystemBase {
     }
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("box distance", distanceSensor.getDistance(DistanceUnit.INCH));
-        telemetry.update();
     }
 
 }

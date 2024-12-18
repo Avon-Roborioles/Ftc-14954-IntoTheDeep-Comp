@@ -54,7 +54,7 @@ public class ButtonOpMode extends CommandOpMode {
     private PedroDriveSubsystem pedroDriveSubsystem;
     private DriveSubsystem drive;
 
-    private Telemetry telemetry;
+//    private Telemetry telemetry;
 
     private ExtendSubsystem extend;
     private LiftSubsystem liftSubsystem;
@@ -104,7 +104,7 @@ public class ButtonOpMode extends CommandOpMode {
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
@@ -117,7 +117,8 @@ public class ButtonOpMode extends CommandOpMode {
         Command Bindings
          */
 
-
+        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+                        .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
         //Swing Arm (X)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
