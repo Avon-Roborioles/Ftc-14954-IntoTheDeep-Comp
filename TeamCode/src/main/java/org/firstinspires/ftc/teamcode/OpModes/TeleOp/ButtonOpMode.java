@@ -45,8 +45,8 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-@TeleOp(name = "PracticeOpMode")
-public class PracticeOpMode extends CommandOpMode {
+@TeleOp(name = "ButtonOpMode")
+public class ButtonOpMode extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
 
