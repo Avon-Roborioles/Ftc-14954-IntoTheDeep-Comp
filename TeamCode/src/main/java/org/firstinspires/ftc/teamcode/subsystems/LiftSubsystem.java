@@ -12,7 +12,7 @@ public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private TouchSensor touch;
     private int topPosition = -3000;
-    private int topBarPosition = -1000;
+    private int topBarPosition = -2200;
     private int bottomBarPosition = -500;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;

@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.IntakeScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
@@ -159,13 +160,15 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new LiftTopCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                .whenPressed(new LiftBottomBarCommand(liftSubsystem));
 
         /* Open Buttons
         * right bumper
         * Start
         * Back
         * Dpad Left
-        * Right Stick Button
+
         *
         *   Open Triggers (Different Methods)
         * Triggers
