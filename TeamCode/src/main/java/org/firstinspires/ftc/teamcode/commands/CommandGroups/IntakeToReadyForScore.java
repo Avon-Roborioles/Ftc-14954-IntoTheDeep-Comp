@@ -34,9 +34,7 @@ public class IntakeToReadyForScore extends SequentialCommandGroup {
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
                 new PassAuto(pass, box, intake),
-                new LiftForSwingArmClearCommand(lift),
-                new SwingArmMidCommand(swingArm),
-                new LiftTopCommand(lift)
+                new TopBucketScoreReady(swingArm, lift)
         );
     }
 }
