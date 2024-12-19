@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -80,7 +81,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         extendservo = hardwareMap.get(Servo.class, "extension");
         extend = new ExtendSubsystem(extendservo, touch2 );
-        swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"));
+        swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1 );
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));

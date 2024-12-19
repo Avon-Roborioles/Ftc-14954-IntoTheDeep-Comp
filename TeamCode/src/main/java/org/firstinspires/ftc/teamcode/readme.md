@@ -24,11 +24,11 @@ M1: "climb"
 M2: "liftMotor"
 M3: "Pass"
 
-S0: "swingArm"
-S1: "boxOpen"
+S0: "swingArm" 0 with preloaded spring toward switch 
 
 I2C0: "boxDistance"
 
 D7:"liftDown"
-D5:"extensionIn"
+D5: "extensionIn"
+D3: "swingArmDown"
  

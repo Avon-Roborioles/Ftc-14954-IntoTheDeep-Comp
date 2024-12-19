@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -20,9 +21,11 @@ import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
@@ -87,7 +90,7 @@ public class CompTeleOpRed extends CommandOpMode {
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         extendservo = hardwareMap.get(Servo.class, "extension");
         extend = new ExtendSubsystem(extendservo, touch2 );
-        swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"));
+        swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
@@ -128,8 +131,6 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
 
 
-
-
         //Extend (Left Bumper)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new HandoffCommand(wrist))
@@ -155,13 +156,16 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new LiftTopCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomBarCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.START)
+                .whenPressed(new LiftForSwingArmClearCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new Reject(intake));
+
 
         /* Open Buttons
         * right bumper
         * Start
-        * Back
         * Dpad Left
-
         *
         *   Open Triggers (Different Methods)
         * Triggers

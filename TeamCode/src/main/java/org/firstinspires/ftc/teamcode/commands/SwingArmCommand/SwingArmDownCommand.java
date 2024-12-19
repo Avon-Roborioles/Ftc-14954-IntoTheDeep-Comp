@@ -13,5 +13,5 @@ public class SwingArmDownCommand extends CommandBase {
     @Override
     public void initialize() { SwingArmSubsystem.down(); }
     @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return SwingArmSubsystem.isDown(); }
 }
