@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
+package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-public class IntakeScore extends SequentialCommandGroup {
+public class IntakeToReadyForScore extends SequentialCommandGroup {
     private IntakeSubsystem intake;
     private WristSubsystem wrist;
     private PassSubsystem pass;
@@ -26,15 +27,16 @@ public class IntakeScore extends SequentialCommandGroup {
     private SwingArmSubsystem swingArm;
     private BoxxySubsystem box;
 
-    public IntakeScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
+    public IntakeToReadyForScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
         addCommands(
                 new LowerWrist(wrist),
                 new CollectSample(intake),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
                 new PassAuto(pass, box, intake),
-                new LiftTopCommand(lift),
-                new SwingArmMidCommand(swingArm)
+                new LiftForSwingArmClearCommand(lift),
+                new SwingArmMidCommand(swingArm),
+                new LiftTopCommand(lift)
         );
     }
 }

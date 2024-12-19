@@ -14,6 +14,7 @@ public class LiftSubsystem extends SubsystemBase {
     private int topPosition = -3000;
     private int topBarPosition = -2200;
     private int bottomBarPosition = -500;
+    private int swingarmClearPosition = -500;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
     private double power = 1;
@@ -28,7 +29,8 @@ public class LiftSubsystem extends SubsystemBase {
         TOP,
         BOTTOM,
         TOPBAR,
-        BOTTOMBAR
+        BOTTOMBAR,
+        SWINGARMCLEAR
 
     }
     public liftPosition liftPos;
@@ -69,6 +71,12 @@ public class LiftSubsystem extends SubsystemBase {
         liftMotor.set(power);
         liftPos = liftPosition.BOTTOMBAR;
     }
+    public void setSwingarmClearPosition() {
+        liftMotor.setTargetPosition(swingarmClearPosition);
+        liftTargetPosition = swingarmClearPosition;
+        liftMotor.set(power);
+        liftPos = liftPosition.SWINGARMCLEAR;
+    }
     public boolean isBusy () {
         return !liftMotor.atTargetPosition();
     }
@@ -76,16 +84,9 @@ public class LiftSubsystem extends SubsystemBase {
     public void stopLift () {
         liftMotor.stopMotor();
     }
-    public void runLiftJoystick(double input){
-//        power = input;
-//        liftTargetPosition = liftMotor.getCurrentPosition() + (-input * joystickSensitivity);
-//        if (liftTargetPosition < topPosition) {
-//            liftTargetPosition = topPosition;
-//        }else if(liftTargetPosition > 0) {
-//            liftTargetPosition = 0;
-//        }
-//        liftMotor.setTargetPosition((int) liftTargetPosition);
-//        liftMotor.set(Math.abs(power));
+
+    public boolean isBottom() {
+        return touch.isPressed();
     }
 
     @Override
