@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,8 +22,7 @@ import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBarCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -31,7 +30,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -127,45 +126,51 @@ public class CompTeleOpRed extends CommandOpMode {
 
         //Swing Arm (X & Y)
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new SwingArmUpCommand(swingArmSubsystem, box));
+                .whenPressed(new SwingArmUpCommand(swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new Reject(intake));
 
+        /*
+        extension
+        Intake
+        Score Positions
+        Score
 
+         */
         //Extend (Left Bumper)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new HandoffCommand(wrist))
+                .whenPressed(new WristClearBar(wrist))
                 .toggleWhenPressed(new ExtendCommand(extend), new RetractCommand(extend));
-
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(new WristClearBar(wrist));
         //Intake (D-Pad &  driver op D Down is alliance)
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new CancelCommand(intake, pass));
+                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
         //Lift ( B & Stick Buttons)
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new LiftBottomCommand(liftSubsystem))
-                .whenHeld(new LiftBottomResetCommand(liftSubsystem));
+                .whenPressed(new LiftBottomCommand(liftSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new LiftBottomResetCommand(liftSubsystem));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new LiftTopCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whenPressed(new LiftTopBarCommand(liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
-                .whenPressed(new LiftBottomBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.START)
                 .whenPressed(new LiftForSwingArmClearCommand(liftSubsystem));
-
+        //        Sample Trigger code
+        Trigger intakeTrigger = new Trigger(()-> operatorOp.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>.7);
+        intakeTrigger.whenActive(new LiftBottomBucketCommand(liftSubsystem));
 
         /* Open Buttons
-        * right bumper
-        * Start
-        *
+        *              *
         *   Open Triggers (Different Methods)
         * Triggers
         * Joysticks

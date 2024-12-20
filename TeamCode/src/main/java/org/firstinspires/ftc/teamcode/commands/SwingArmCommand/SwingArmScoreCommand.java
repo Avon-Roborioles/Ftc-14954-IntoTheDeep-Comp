@@ -5,15 +5,17 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
-public class SwingArmUpCommand extends CommandBase {
+public class SwingArmScoreCommand extends CommandBase {
     private SwingArmSubsystem SwingArmSubsystem;
-    public SwingArmUpCommand(SwingArmSubsystem SwingArmSubsystem) {
+    private BoxxySubsystem box;
+    public SwingArmScoreCommand(SwingArmSubsystem SwingArmSubsystem, BoxxySubsystem box) {
         this.SwingArmSubsystem = SwingArmSubsystem;
-        addRequirements(SwingArmSubsystem);
+        this.box = box;
+        addRequirements(SwingArmSubsystem, box);
     }
     @Override
     public void initialize() { SwingArmSubsystem.up(); }
 
     @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return box.noSample(); }
 }

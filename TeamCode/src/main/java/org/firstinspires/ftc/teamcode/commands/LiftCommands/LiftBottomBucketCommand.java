@@ -4,15 +4,15 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class LiftBottomBarCommand extends CommandBase {
+public class LiftBottomBucketCommand extends CommandBase {
     private LiftSubsystem liftSubsystem;
-    public LiftBottomBarCommand(LiftSubsystem liftSubsystem) {
+    public LiftBottomBucketCommand(LiftSubsystem liftSubsystem) {
         this.liftSubsystem = liftSubsystem;
         addRequirements(liftSubsystem);
     }
     @Override
     public void execute () {
-        liftSubsystem.setBottomBarPosition();
+        liftSubsystem.setBottomBucketPosition();
     }
     @Override
     public boolean isFinished () {

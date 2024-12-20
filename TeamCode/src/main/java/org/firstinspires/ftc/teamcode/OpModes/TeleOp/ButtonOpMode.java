@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -25,7 +24,6 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -39,7 +37,7 @@ import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOffCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOnCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
-import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmScoreCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
@@ -104,11 +102,7 @@ public class ButtonOpMode extends CommandOpMode {
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 
         drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
-
-
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
-
-
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
@@ -124,8 +118,6 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new LiftTopCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new LiftTopBarCommand(liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new LiftBottomBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.START)
                 .whenPressed(new LiftForSwingArmClearCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
@@ -146,13 +138,13 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new Reject(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new CancelCommand(intake, pass));
+                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new ToggleAlliance(intake));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));
+                .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whenPressed(new SwingArmMidCommand(swingArmSubsystem));
 
@@ -169,7 +161,7 @@ public class ButtonOpMode extends CommandOpMode {
                 .toggleWhenPressed(new PassOnCommand(pass, box, intake), new PassOffCommand(pass));
 
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem));
+                .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem, pass));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new BottomBucketScoreReady(swingArmSubsystem, liftSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
@@ -184,6 +176,8 @@ public class ButtonOpMode extends CommandOpMode {
         *        Open:
         *
         *      -Buttons:
+        *    -Operator Op:
+        *X
         *
         *    -Driver Op:
         *Right Bumper

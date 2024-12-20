@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase {
     }
     @Override
     public void execute() {
-        drive.drive(strafe.getAsDouble(), forward.getAsDouble(), turn.getAsDouble());
+        drive.drive(strafe.getAsDouble() * 0.5, forward.getAsDouble()*0.5, turn.getAsDouble()*0.5);
     }
     @Override
     public boolean isFinished(){return false;}

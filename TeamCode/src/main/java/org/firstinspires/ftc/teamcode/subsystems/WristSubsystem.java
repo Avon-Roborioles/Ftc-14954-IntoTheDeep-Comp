@@ -20,6 +20,7 @@ public class WristSubsystem extends SubsystemBase {
         servo.getPosition();
     }
     public void middle() { servo.setPosition(0.055);}
+    public void ClearCenter() { servo.setPosition(0.065);}
 
     public void getTelemetry(Telemetry telemetry) {
     }

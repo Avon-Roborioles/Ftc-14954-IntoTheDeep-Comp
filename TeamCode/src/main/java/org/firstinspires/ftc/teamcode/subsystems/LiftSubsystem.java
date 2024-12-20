@@ -13,7 +13,7 @@ public class LiftSubsystem extends SubsystemBase {
     private TouchSensor touch;
     private int topPosition = -3000;
     private int topBarPosition = -2200;
-    private int bottomBarPosition = -600;
+    private int bottomBucketPosition = -1000;
     private int swingarmClearPosition = -500;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
@@ -29,8 +29,8 @@ public class LiftSubsystem extends SubsystemBase {
         TOP,
         BOTTOM,
         TOPBAR,
-        BOTTOMBAR,
-        SWINGARMCLEAR
+        SWINGARMCLEAR,
+        BOTTOMBUCKET
 
     }
     public liftPosition liftPos;
@@ -65,17 +65,22 @@ public class LiftSubsystem extends SubsystemBase {
         liftMotor.set(power);
         liftPos = liftPosition.TOPBAR;
     }
-    public void setBottomBarPosition () {
-        liftMotor.setTargetPosition(bottomBarPosition);
-        liftTargetPosition = bottomBarPosition;
-        liftMotor.set(power);
-        liftPos = liftPosition.BOTTOMBAR;
-    }
+
     public void setSwingarmClearPosition() {
         liftMotor.setTargetPosition(swingarmClearPosition);
         liftTargetPosition = swingarmClearPosition;
         liftMotor.set(power);
         liftPos = liftPosition.SWINGARMCLEAR;
+    }
+    public void setBottomBucketPosition() {
+        liftMotor.setTargetPosition(bottomBucketPosition);
+        liftTargetPosition = bottomBucketPosition;
+        liftMotor.set(power);
+        liftPos = liftPosition.BOTTOMBUCKET;
+    }
+    public void setPower (double power) {
+        liftMotor.setRunMode(Motor.RunMode.RawPower);
+        liftMotor.set(power);
     }
     public boolean isBusy () {
         return !liftMotor.atTargetPosition();
@@ -92,6 +97,7 @@ public class LiftSubsystem extends SubsystemBase {
         if ( isBottom()){
             liftMotor.resetEncoder();
         }
+        liftMotor.setRunMode(Motor.RunMode.PositionControl);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -31,10 +32,11 @@ public class IntakeToReadyForScore extends SequentialCommandGroup {
         addCommands(
                 new LowerWrist(wrist),
                 new CollectSample(intake),
-                new HandoffCommand(wrist),
+                new WristClearBar(wrist),
                 new RetractCommand(extend),
+                new HandoffCommand(wrist),
                 new PassAuto(pass, box, intake),
-                new TopBucketScoreReady(swingArm, lift)
+                new TopBucketScoreReady(swingArm, lift, pass)
         );
     }
 }

@@ -12,7 +12,7 @@ public class LiftBottomResetCommand extends CommandBase {
     }
     @Override
     public void execute () {
-        liftSubsystem.setBottomPosition();
+        liftSubsystem.setPower(0.5);
     }
     @Override
     public boolean isFinished () {
