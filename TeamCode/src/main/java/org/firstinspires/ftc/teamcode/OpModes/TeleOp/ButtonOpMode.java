@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -176,8 +177,9 @@ public class ButtonOpMode extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
 
-
-
+//        Sample Trigger code
+//        Trigger intakeTrigger = new Trigger(()-> driverOp.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>.7);
+//        intakeTrigger.whenActive();
         /*
         *        Open:
         *
