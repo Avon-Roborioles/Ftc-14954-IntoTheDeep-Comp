@@ -13,7 +13,7 @@ public class LiftSubsystem extends SubsystemBase {
     private TouchSensor touch;
     private int topPosition = -3000;
     private int topBarPosition = -2200;
-    private int bottomBarPosition = -500;
+    private int bottomBarPosition = -600;
     private int swingarmClearPosition = -500;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;

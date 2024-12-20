@@ -21,14 +21,18 @@ import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -67,13 +71,14 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
+
+        liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
-        liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
-        frontLeft = new Motor(hardwareMap,"frontLeft", Motor.GoBILDA.RPM_312);
-        frontRight = new Motor(hardwareMap,"frontRight", Motor.GoBILDA.RPM_312);
-        backLeft = new Motor(hardwareMap,"backLeft", Motor.GoBILDA.RPM_312);
-        backRight = new Motor(hardwareMap,"backRight", Motor.GoBILDA.RPM_312);
+        frontLeft = new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_312);
+        frontRight = new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_312);
+        backLeft = new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_312);
+        backRight = new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_312);
         frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -82,11 +87,10 @@ public class CompTeleOpBlue extends CommandOpMode {
         extendservo = hardwareMap.get(Servo.class, "extension");
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
-        liftSubsystem = new LiftSubsystem(liftMotor, touch1 );
+        liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
-
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
+        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 
 
 //        follower = new Follower(hardwareMap);
@@ -107,59 +111,42 @@ public class CompTeleOpBlue extends CommandOpMode {
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
-        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX,driverOp::getLeftY,driverOp::getRightX));
+        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX));
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
+        pass.setDefaultCommand(new PassCommand(pass, operatorOp::getLeftY));
 
 
         /*
         Command Bindings
          */
 
-
-        //Swing Arm (X & Y)
-        operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new SwingArmUpCommand(swingArmSubsystem, box));
-        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
+        //Swing Arm (X)
+        operatorOp.getGamepadButton(GamepadKeys.Button.X)
+                .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new Reject(intake));
 
-
-
-
-        //Extend (Left Bumper)
+        //Extend (Bumpers)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new HandoffCommand(wrist))
-                .toggleWhenPressed(new ExtendCommand(extend), new RetractCommand(extend));
+                .whenPressed(new ExtendCommand(extend));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(new HandoffCommand(wrist))
+                .whenPressed(new RetractCommand(extend));
 
-        //Intake (D-Pad &  driver op D Down is alliance)
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new CancelCommand(intake, pass));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
-
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new ToggleAlliance(intake));
-
-        //Lift ( B & Stick Buttons)
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whenPressed(new LiftTopBarCommand(liftSubsystem));
+        //Intake (D-Pad & Start)
+        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new LiftBottomCommand(liftSubsystem));
+                .whenPressed(new CancelCommand(intake, pass));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new ToggleAlliance(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new LiftTopCommand(liftSubsystem));
-
-        /* Open Buttons
-         * right bumper
-         * Start
-         * Back
-         * Dpad Left
-         * Right Stick Button
-         *
-         *   Open Triggers (Different Methods)
-         * Triggers
-         * Joysticks
-         */
+                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.START)
+                .whenPressed(new RaiseWrist(wrist));
     }
 
 }
