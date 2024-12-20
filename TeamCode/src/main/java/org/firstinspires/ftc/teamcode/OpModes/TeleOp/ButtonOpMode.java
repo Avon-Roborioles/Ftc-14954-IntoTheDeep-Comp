@@ -189,7 +189,7 @@ public class ButtonOpMode extends CommandOpMode {
         *Left Stick Button
         *Start
         *
-        *      -Analogue:
+        *      -Analog:
         *
         *    -Operator Op:
         *Right Stick X
