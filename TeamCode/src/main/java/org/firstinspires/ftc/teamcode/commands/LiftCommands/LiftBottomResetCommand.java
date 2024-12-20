@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode.commands.LiftCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class LiftBottomCommand extends CommandBase {
+public class LiftBottomResetCommand extends CommandBase {
     private LiftSubsystem liftSubsystem;
-    public LiftBottomCommand (LiftSubsystem liftSubsystem) {
+    public LiftBottomResetCommand(LiftSubsystem liftSubsystem) {
         this.liftSubsystem = liftSubsystem;
         addRequirements(liftSubsystem);
     }
@@ -21,6 +20,7 @@ public class LiftBottomCommand extends CommandBase {
     }
     @Override
     public void end(boolean interrupted){
+        liftSubsystem.resetEncoder();
         liftSubsystem.stopLift();
     }
 }

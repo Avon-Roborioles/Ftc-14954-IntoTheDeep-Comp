@@ -88,6 +88,11 @@ public class LiftSubsystem extends SubsystemBase {
     public boolean isBottom() {
         return touch.isPressed();
     }
+    public void resetEncoder() {
+        if ( isBottom()){
+            liftMotor.resetEncoder();
+        }
+    }
 
     @Override
     public void periodic(){

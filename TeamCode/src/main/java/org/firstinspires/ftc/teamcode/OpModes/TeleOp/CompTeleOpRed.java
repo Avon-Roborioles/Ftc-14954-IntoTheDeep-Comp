@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
@@ -110,7 +111,7 @@ public class CompTeleOpRed extends CommandOpMode {
         drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
 
 
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
 
 //        telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
@@ -129,6 +130,8 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new SwingArmUpCommand(swingArmSubsystem, box));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new Reject(intake));
 
 
         //Extend (Left Bumper)
@@ -137,35 +140,31 @@ public class CompTeleOpRed extends CommandOpMode {
                 .toggleWhenPressed(new ExtendCommand(extend), new RetractCommand(extend));
 
         //Intake (D-Pad &  driver op D Down is alliance)
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
-
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new ToggleAlliance(intake));
 
         //Lift ( B & Stick Buttons)
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .whenPressed(new LiftTopBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new LiftBottomCommand(liftSubsystem));
+                .whenPressed(new LiftBottomCommand(liftSubsystem))
+                .whenHeld(new LiftBottomResetCommand(liftSubsystem));
+
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new LiftTopCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                .whenPressed(new LiftTopBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomBarCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.START)
                 .whenPressed(new LiftForSwingArmClearCommand(liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new Reject(intake));
 
 
         /* Open Buttons
         * right bumper
         * Start
-        * Dpad Left
         *
         *   Open Triggers (Different Methods)
         * Triggers
