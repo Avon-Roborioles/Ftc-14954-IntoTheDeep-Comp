@@ -38,14 +38,10 @@ public class FollowerConstants {
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.10625,
-            0.000025,
-            0.00775,
+            0.1,
+            0,
+            0,
             0);
-//            0.1,
-//            0,
-//            0,
-//            0);
 
     // Translational Integral
     public static CustomPIDFCoefficients translationalIntegral = new CustomPIDFCoefficients(
@@ -60,14 +56,10 @@ public class FollowerConstants {
 
     // Heading error PIDF coefficients
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
-            1.5,
-            0.05,
-            0.075,
+            1,
+            0,
+            0,
             0);
-//            1,
-//            0,
-//            0,
-//            0);
 
     // Feed forward constant added on to the heading PIDF
     public static double headingPIDFFeedForward = 0.01;
@@ -75,19 +67,14 @@ public class FollowerConstants {
 
     // Drive PIDF coefficients
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
-            0.0045,
+            0.025,
             0,
-            0.0001,
+            0.00001,
             0.6,
             0);
-//            0.025,
-//            0,
-//            0.00001,
-//            0.6,
-//            0);
 
     // Feed forward constant added on to the drive PIDF
-    public static double drivePIDFFeedForward = 0.0087;//0.01;
+    public static double drivePIDFFeedForward =0.01;
 
     // Kalman filter parameters for the drive error Kalman filter
     public static KalmanFilterParameters driveKalmanFilterParameters = new KalmanFilterParameters(
@@ -96,7 +83,7 @@ public class FollowerConstants {
 
 
     // Mass of robot in kilograms
-    public static double mass = 12.2;
+    public static double mass = 12.51915;
 
     // Centripetal force to power scaling
     public static double centripetalScaling = 0.0005;
