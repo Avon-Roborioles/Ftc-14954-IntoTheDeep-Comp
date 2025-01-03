@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;

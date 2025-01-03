@@ -13,19 +13,19 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoSetStartCommand;
 import org.firstinspires.ftc.teamcode.commands.VisionCommands.CameraAdjustCommand;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.localization.Pose;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.BezierCurve;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Path;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Point;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LimelightSubsystem;
 
 @Autonomous
 public class RedLeft extends  AutoBase {
     @Override
-    public void initialize() {
-//        old Code
+    public void makeAuto() {
+        //        old Code
         Pose scanPose = new Pose(-40.75, -50, 0);
         Pose startPose = new Pose(-40.75, -64.5, 0);
         Pose scorePose = new Pose(-55, -55, PI / 4);
@@ -119,5 +119,20 @@ public class RedLeft extends  AutoBase {
                 setPathToThird, autoDriveCommand,
                 setPathFromThird, autoDriveCommand
         ));
+    }
+
+    @Override
+    public void buildPaths() {
+
+    }
+
+    @Override
+    public void buildCommands() {
+
+    }
+
+    @Override
+    public void initialize() {
+
     }
 }

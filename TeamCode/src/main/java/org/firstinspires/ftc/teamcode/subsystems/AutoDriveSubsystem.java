@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierPoint;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.localization.Pose;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.BezierPoint;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Path;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.PathBuilder;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.PathChain;
+import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Point;
 
 public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
