@@ -13,11 +13,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoSetStartCommand;
 import org.firstinspires.ftc.teamcode.commands.VisionCommands.CameraAdjustCommand;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.localization.Pose;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.BezierCurve;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Path;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Point;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.Path;
+import com.pedropathing.pathgen.Point;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LimelightSubsystem;
 

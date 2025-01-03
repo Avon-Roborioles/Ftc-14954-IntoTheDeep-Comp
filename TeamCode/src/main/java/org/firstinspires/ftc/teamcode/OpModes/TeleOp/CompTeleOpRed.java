@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
+import com.pedropathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;

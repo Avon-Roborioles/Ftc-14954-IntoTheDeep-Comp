@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
+import com.pedropathing.follower.Follower;
 
 public class PedroDriveSubsystem extends SubsystemBase {
     private Follower follower;

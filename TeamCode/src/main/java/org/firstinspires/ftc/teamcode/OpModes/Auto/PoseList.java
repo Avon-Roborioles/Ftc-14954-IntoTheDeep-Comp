@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import static java.lang.Math.PI;
 
-import org.firstinspires.ftc.teamcode.oldPedroPathing.localization.Pose;
+import com.pedropathing.localization.Pose;
 
 public class PoseList {
 

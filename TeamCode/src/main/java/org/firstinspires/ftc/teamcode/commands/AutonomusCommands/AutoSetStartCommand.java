@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.oldPedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.localization.Pose;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 
 public class AutoSetStartCommand extends CommandBase {
     private Pose startPose;

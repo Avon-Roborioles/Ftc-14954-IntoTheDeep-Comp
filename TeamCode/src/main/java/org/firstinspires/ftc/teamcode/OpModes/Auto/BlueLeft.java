@@ -17,9 +17,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.VisionCommands.CameraAdjustCommand;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.BezierCurve;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Path;
-import org.firstinspires.ftc.teamcode.oldPedroPathing.pathGeneration.Point;
+import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.Path;
+import com.pedropathing.pathgen.Point;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 
 @Autonomous
