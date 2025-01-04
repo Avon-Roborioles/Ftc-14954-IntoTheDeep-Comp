@@ -28,20 +28,20 @@ public class FConstants {
         FollowerConstants.forwardZeroPowerAcceleration = -31.0466;
         FollowerConstants.lateralZeroPowerAcceleration = -66.0001;
 
-        FollowerConstants.translationalPIDFCoefficients = new CustomPIDFCoefficients(0.35,0,0.01,0);
+        FollowerConstants.translationalPIDFCoefficients = new CustomPIDFCoefficients(0.35/2,0,0.01/2,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients = new CustomPIDFCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
         FollowerConstants.translationalPIDFFeedForward = 0.01;
 
-        FollowerConstants.headingPIDFCoefficients = new CustomPIDFCoefficients(0.85,0.0001,0.003,0);
+        FollowerConstants.headingPIDFCoefficients = new CustomPIDFCoefficients(0.85/2,0.0001/2,0.003/2,0);
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients = new CustomPIDFCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
         FollowerConstants.headingPIDFFeedForward = 0.005;
 
-        FollowerConstants.drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.01,0,0.0009,0.6,0);
+        FollowerConstants.drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.01/2,0,0.0009/2,0.6,0);
         FollowerConstants.useSecondaryDrivePID = false;
         FollowerConstants.secondaryDrivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
-        FollowerConstants.drivePIDFFeedForward = 0.02;
+        FollowerConstants.drivePIDFFeedForward = 0.02/1;
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4;
         FollowerConstants.centripetalScaling = 0.0005;
@@ -51,5 +51,6 @@ public class FConstants {
         FollowerConstants.pathEndVelocityConstraint = 0.1;
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
+        FollowerConstants.maxPower = 1;
     }
 }
