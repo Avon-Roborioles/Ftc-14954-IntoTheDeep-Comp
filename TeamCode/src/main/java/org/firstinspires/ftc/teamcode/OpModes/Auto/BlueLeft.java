@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScan;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStart;
+
+import static java.lang.Math.PI;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -17,6 +12,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -53,23 +49,6 @@ import pedroPathing.constants.LConstants;
 @Autonomous
 public class BlueLeft extends AutoBase{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private Follower follower;
 
     private Telemetry mTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -95,10 +74,16 @@ public class BlueLeft extends AutoBase{
     private WristSubsystem wrist;
 
 
-
-
     Path toScan, toScorePreload, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark;
     Command setPathToScan, setPathToScorePreload, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, camera;
+
+    public static Pose BLStart = new Pose( 0,0, 3*PI/2);
+    public static Pose BLScan = new Pose( 112.5,24.1, 3*PI/2);
+    public static Pose BLScore = new Pose(14.9, 128.3, -3 * PI/4);
+    public static Pose BLGrab1 = new Pose(24.1, 121, -PI/2);
+    public static Pose BLGrab2 = new Pose(24.1, 131.7, -PI/2);
+    public static Pose BLGrab3 = new Pose(45.7, 133.9, 0);
+    public static Pose BLPark = new Pose(57.6, 96.3, PI);
 
 
     @Override
