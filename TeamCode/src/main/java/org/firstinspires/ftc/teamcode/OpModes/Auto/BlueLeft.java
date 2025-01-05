@@ -48,6 +48,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.VisionCommands.CameraAdjustCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
@@ -114,6 +115,7 @@ public class BlueLeft extends AutoBase{
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
+                new LiftBottomCommand(liftSubsystem),
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(

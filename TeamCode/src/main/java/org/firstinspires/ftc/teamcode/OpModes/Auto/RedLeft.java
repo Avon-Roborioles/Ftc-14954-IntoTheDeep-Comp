@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab2;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab3;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab3Mid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LPark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LParkMid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LScore;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LStart;
 
@@ -39,10 +40,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEnd;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
@@ -107,6 +110,7 @@ public class RedLeft extends AutoBase{
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
+                new LiftBottomCommand(liftSubsystem),
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
@@ -145,7 +149,10 @@ public class RedLeft extends AutoBase{
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                new AutoAfterScore(swingArmSubsystem, liftSubsystem)
+                setPathToPark,
+                new ParallelCommandGroup(
+                        new LiftBottomCommand(liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
 
 
@@ -201,8 +208,9 @@ public class RedLeft extends AutoBase{
         toScore3 = new Path(new BezierCurve(new Point(LGrab3), new Point(LScore)));
         toScore3.setLinearHeadingInterpolation(LGrab3.getHeading(), LScore.getHeading());
 
-        toPark = new Path(new BezierCurve(new Point(LScore), new Point(LPark)));
+        toPark = new Path(new BezierCurve(new Point(LScore),new Point(LParkMid), new Point(LPark)));
         toPark.setLinearHeadingInterpolation(LScore.getHeading(), LPark.getHeading());
+        toPark.setPathEndTimeoutConstraint(1000);
 
         forward1 = new Path(new BezierCurve(new Point(LGrab1), new Point(LForward1)));
         forward1.setConstantHeadingInterpolation(LGrab1.getHeading());
