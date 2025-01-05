@@ -39,7 +39,6 @@ import pedroPathing.constants.*;
  * @version 1.0, 5/6/2024
  */
 @Config
-@Disabled
 @TeleOp(group = "Teleop Test", name = "Localization Test")
 public class LocalizationTest extends OpMode {
     private PoseUpdater poseUpdater;
@@ -121,7 +120,7 @@ public class LocalizationTest extends OpMode {
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());
-        telemetryA.addData("heading", poseUpdater.getPose().getHeading());
+        telemetryA.addData("heading", poseUpdater.getPose().getHeading()/Math.PI);
         telemetryA.addData("total heading", poseUpdater.getTotalHeading());
         telemetryA.update();
 
