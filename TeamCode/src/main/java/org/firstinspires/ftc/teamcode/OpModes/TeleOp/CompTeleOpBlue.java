@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForSco
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
+import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -39,6 +41,9 @@ import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
+
+import pedroPathing.constants.FConstants;
+import pedroPathing.constants.LConstants;
 
 @TeleOp(name = "CompTeleOpBlue")
 public class CompTeleOpBlue extends CommandOpMode {
@@ -87,17 +92,17 @@ public class CompTeleOpBlue extends CommandOpMode {
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 
-
-//        follower = new Follower(hardwareMap);
-//        follower.startTeleopDrive();
-//        follower.setMaxPower(1);
-//
-//
-//        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
-//        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
+        follower.startTeleopDrive();
+        follower.setMaxPower(1);
 
 
-        drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
+        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
+        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+
+
+//        drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
 
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
@@ -106,7 +111,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
-        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX));
+//        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX));
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
         pass.setDefaultCommand(new PassCommand(pass, operatorOp::getLeftY));
 
