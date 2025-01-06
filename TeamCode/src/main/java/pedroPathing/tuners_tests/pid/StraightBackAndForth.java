@@ -9,10 +9,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -31,7 +36,6 @@ import pedroPathing.constants.LConstants;
  * @version 1.0, 3/12/2024
  */
 @Config
-@Disabled
 @Autonomous (name = "Straight Back And Forth", group = "PIDF Tuning")
 public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
@@ -44,6 +48,10 @@ public class StraightBackAndForth extends OpMode {
 
     private Path forwards;
     private Path backwards;
+    private ExtendSubsystem extend;
+    private Servo extendservo;
+    private TouchSensor touch2;
+    private WristSubsystem wrist;
 
     /**
      * This initializes the Follower and creates the forward and backward Paths. Additionally, this
@@ -53,7 +61,12 @@ public class StraightBackAndForth extends OpMode {
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-
+        extendservo = hardwareMap.get(Servo.class, "extension");
+        touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
+        extend = new ExtendSubsystem(extendservo, touch2 );
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
+        extend.retract();
+        wrist.middle();
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));

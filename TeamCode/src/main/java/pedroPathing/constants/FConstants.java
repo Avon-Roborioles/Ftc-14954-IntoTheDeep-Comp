@@ -28,20 +28,20 @@ public class FConstants {
         FollowerConstants.forwardZeroPowerAcceleration = -31.0466;
         FollowerConstants.lateralZeroPowerAcceleration = -66.0001;
 
-        FollowerConstants.translationalPIDFCoefficients = new CustomPIDFCoefficients(0.35/2,0,0.01/2,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.36,0,0.04,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
-        FollowerConstants.secondaryTranslationalPIDFCoefficients = new CustomPIDFCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
-        FollowerConstants.translationalPIDFFeedForward = 0.01;
+        FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
+        FollowerConstants.translationalPIDFFeedForward = 0.0125;
 
-        FollowerConstants.headingPIDFCoefficients = new CustomPIDFCoefficients(0.85/2,0.0001/2,0.003/2,0);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(0.85,0.0001,0.003,0);
         FollowerConstants.useSecondaryHeadingPID = false;
-        FollowerConstants.secondaryHeadingPIDFCoefficients = new CustomPIDFCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
+        FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
         FollowerConstants.headingPIDFFeedForward = 0.005;
 
-        FollowerConstants.drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.01/2,0,0.0009/2,0.6,0);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.01,0,0.00004,0.6,0);
         FollowerConstants.useSecondaryDrivePID = false;
-        FollowerConstants.secondaryDrivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
-        FollowerConstants.drivePIDFFeedForward = 0.02/1;
+        FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
+        FollowerConstants.drivePIDFFeedForward = 0.009;
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4;
         FollowerConstants.centripetalScaling = 0.0005;

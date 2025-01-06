@@ -9,10 +9,16 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -31,7 +37,6 @@ import pedroPathing.constants.LConstants;
  * @version 1.0, 3/13/2024
  */
 @Config
-@Disabled
 @Autonomous (name = "Curved Back And Forth", group = "PIDF Testing")
 public class CurvedBackAndForth extends OpMode {
     private Telemetry telemetryA;
@@ -44,6 +49,10 @@ public class CurvedBackAndForth extends OpMode {
 
     private Path forwards;
     private Path backwards;
+    private ExtendSubsystem extend;
+    private Servo extendservo;
+    private TouchSensor touch2;
+    private WristSubsystem wrist;
 
     /**
      * This initializes the Follower and creates the forward and backward Paths. Additionally, this
@@ -53,7 +62,12 @@ public class CurvedBackAndForth extends OpMode {
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-
+        extendservo = hardwareMap.get(Servo.class, "extension");
+        touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
+        extend = new ExtendSubsystem(extendservo, touch2 );
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
+        extend.retract();
+        wrist.middle();
         forwards = new Path(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN)));
         backwards = new Path(new BezierCurve(new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
 
