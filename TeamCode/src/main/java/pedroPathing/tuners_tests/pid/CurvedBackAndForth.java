@@ -70,7 +70,8 @@ public class CurvedBackAndForth extends OpMode {
         wrist.middle();
         forwards = new Path(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN)));
         backwards = new Path(new BezierCurve(new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
-
+        forwards.setPathEndTimeoutConstraint(1000);
+        backwards.setPathEndTimeoutConstraint(1000);
         backwards.setReversed(true);
 
         follower.followPath(forwards);

@@ -69,8 +69,10 @@ public class StraightBackAndForth extends OpMode {
         wrist.middle();
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
+        forwards.setPathEndTimeoutConstraint(1000);
         backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
+        backwards.setPathEndTimeoutConstraint(1000);
 
         follower.followPath(forwards);
 
