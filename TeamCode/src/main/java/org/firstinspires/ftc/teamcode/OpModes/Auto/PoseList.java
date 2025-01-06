@@ -6,8 +6,10 @@ import com.pedropathing.localization.Pose;
 
 public class PoseList {
 
-    public static Pose LStart = new Pose( 0,0, 0);
+    public static Pose LStartBucket = new Pose( 0,0, 0);
+    public static Pose LStartBar = new Pose( 0,-29.375, -PI);
     public static Pose LScore = new Pose(10, 17, -PI/4);
+    public static Pose LBar = new Pose(20, -29.375, -PI);
     public static Pose LGrab1 = new Pose(22, 3, PI/6);
     public static Pose LGrab2 = new Pose(22, 12, PI/6);
     public static Pose LGrab3 = new Pose(24, 19, PI/4);
