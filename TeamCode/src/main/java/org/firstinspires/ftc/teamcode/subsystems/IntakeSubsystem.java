@@ -82,7 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setPower(0);
     }
 
-    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.9);}
+    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3.25);}
 
     public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();}
 
