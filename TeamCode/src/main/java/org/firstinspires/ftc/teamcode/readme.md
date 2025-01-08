@@ -12,7 +12,7 @@ M3: "backLeft"
 S0: "extension"
 S1: "wrist"
 S2: "blinkin"
-S4: "allianceColor"
+
 
 I2C0: "odometry"
 I2C1: "intakeDistance"
@@ -24,7 +24,8 @@ M1: "climb"
 M2: "liftMotor"
 M3: "Pass"
 
-S0: "swingArm" 0 with preloaded spring toward switch 
+S0: "swingArm" 0 with preloaded spring toward switch
+S2: "allianceColor"
 
 I2C0: "boxDistance"
 

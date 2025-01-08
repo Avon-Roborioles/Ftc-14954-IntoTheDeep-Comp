@@ -105,7 +105,6 @@ public class CompTeleOpRed extends CommandOpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.startTeleopDrive();
-        follower.setMaxPower(1);
 
 
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
