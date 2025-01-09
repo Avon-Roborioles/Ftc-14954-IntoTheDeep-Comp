@@ -56,6 +56,11 @@ public class IntakeSubsystem extends SubsystemBase {
         } else if (isColorSensorYellow()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         } else {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
         }
+        if (RedAlliance) {
+            allianceColor.setPosition(0.28);
+        } else {
+            allianceColor.setPosition(0.61);
+        }
     }
 
     public void runMotor() {motor.setPower(-0.8);}
@@ -108,6 +113,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setRedAlliance() {
         RedAlliance = true;
     }
+    public void redAllianceLight(){allianceColor.setPosition(0.28);}
+    public void blueAllianceLight(){allianceColor.setPosition(0.61);}
 
     public void setBlueAlliance() {
         RedAlliance = false;
