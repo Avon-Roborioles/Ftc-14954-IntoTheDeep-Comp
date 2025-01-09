@@ -23,6 +23,9 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
@@ -31,6 +34,8 @@ import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import com.pedropathing.follower.Follower;
+
+import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -105,7 +110,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 //        drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
 
 
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
 
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
@@ -119,34 +124,45 @@ public class CompTeleOpBlue extends CommandOpMode {
         /*
         Command Bindings
          */
+        // Lift Commands
+        operatorOp.getGamepadButton(GamepadKeys.Button.START)
+                .whenPressed(new LiftBottomResetCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new LiftBottomCommand(liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                        .whenPressed(new LiftTopBarCommand(liftSubsystem));
 
-        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
-        //Swing Arm (X)
+        //Wrist Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new Reject(intake));
+
 
         //Extend (Bumpers)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new HandoffCommand(wrist))
+                .whenPressed(new WristClearBar(wrist))
                 .whenPressed(new ExtendCommand(extend));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new HandoffCommand(wrist))
+                .whenPressed(new WristClearBar(wrist))
                 .whenPressed(new RetractCommand(extend));
 
-        //Intake (D-Pad & Start)
-        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
+        //Other Commands
+
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new ToggleAlliance(intake));
+
+
+        // Score Command
+        operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
+        // Intake Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.START)
-                .whenPressed(new RaiseWrist(wrist));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new Reject(intake));
+
+
     }
 
 }

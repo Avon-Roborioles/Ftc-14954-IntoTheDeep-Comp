@@ -22,19 +22,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private BoxxySubsystem box;
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
-                           DistanceSensor distanceSensor, ServoImplEx allianceColor) {
-        this.telemetry = telemetry;
-        this.motor = motor;
-        this.colorSensor = colorSensor;
-        this.blinkin = blinkin;
-        this.distanceSensor = distanceSensor;
-        this.allianceColor = allianceColor;
-        this.box = box;
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
-        // start as blue alliance
-        this.allianceColor.setPosition(0.61);
-    }
-    public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance) {
         this.telemetry = telemetry;
         this.motor = motor;
@@ -101,14 +88,14 @@ public class IntakeSubsystem extends SubsystemBase {
         //red > 800 & green > 900 & blue < 400
     }
 
-    public void changeAlliance() {
-        this.RedAlliance = !getRedAlliance();
-        if (RedAlliance) {
-            allianceColor.setPosition(0.28);
-        } else {
-            allianceColor.setPosition(0.61);
-        }
-    }
+//    public void changeAlliance() {
+//        this.RedAlliance = !getRedAlliance();
+//        if (RedAlliance) {
+//            allianceColor.setPosition(0.28);
+//        } else {
+//            allianceColor.setPosition(0.61);
+//        }
+//    }
 
     public void setRedAlliance() {
         RedAlliance = true;
