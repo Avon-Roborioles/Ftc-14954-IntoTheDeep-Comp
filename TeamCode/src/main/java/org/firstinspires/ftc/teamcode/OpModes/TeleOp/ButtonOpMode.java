@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+//import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -102,7 +102,7 @@ public class ButtonOpMode extends CommandOpMode {
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 
         drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
         //Default Commands
@@ -140,8 +140,8 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new ToggleAlliance(intake));
+//        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+//                .whenPressed(new ToggleAlliance(intake));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));

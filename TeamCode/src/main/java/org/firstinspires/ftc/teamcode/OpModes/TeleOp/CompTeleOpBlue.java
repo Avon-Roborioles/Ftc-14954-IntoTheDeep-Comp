@@ -159,7 +159,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         // Intake Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new Reject(intake));
 
 

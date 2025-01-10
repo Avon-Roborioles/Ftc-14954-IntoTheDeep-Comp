@@ -28,7 +28,7 @@ public class Intake_Test extends CommandOpMode {
                 hardwareMap.get(ColorSensor.class, "intakeColor"),
                 hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"),
                 hardwareMap.get(DistanceSensor.class, "intakeDistance"),
-                hardwareMap.get(ServoImplEx.class, "allianceColor"));
+                hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         gamepad = new GamepadEx(gamepad1);
 
         gamepad.getGamepadButton(GamepadKeys.Button.Y)

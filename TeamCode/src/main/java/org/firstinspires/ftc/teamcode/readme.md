@@ -39,12 +39,13 @@ Driver:
 Operator (Prototype based off of CompTeleOpBlue):
 Left Bumper = Extend Extension 
 Right Bumper = Retract Extension
-A= Intake Command
-B= Cancel Motors command (Intake, Passthrough and Lift)
-X= Wrist toggle between low and handoff
-Y= Score Command
+A = Intake Command
+B = Cancel Motors command (Intake, Passthrough and Lift)
+X = Wrist toggle between low and handoff
+Y = Score Command
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
 DPAD RIGHT = Intake Reject Command
 DPAD LEFT = Toggle Alliance Command (Will Be Removed Soon)
+
  

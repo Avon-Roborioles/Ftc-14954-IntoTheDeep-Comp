@@ -88,14 +88,14 @@ public class IntakeSubsystem extends SubsystemBase {
         //red > 800 & green > 900 & blue < 400
     }
 
-//    public void changeAlliance() {
-//        this.RedAlliance = !getRedAlliance();
-//        if (RedAlliance) {
-//            allianceColor.setPosition(0.28);
-//        } else {
-//            allianceColor.setPosition(0.61);
-//        }
-//    }
+    public void changeAlliance() {
+        this.RedAlliance = !getRedAlliance();
+        if (RedAlliance) {
+            allianceColor.setPosition(0.28);
+        } else {
+            allianceColor.setPosition(0.61);
+        }
+    }
 
     public void setRedAlliance() {
         RedAlliance = true;
