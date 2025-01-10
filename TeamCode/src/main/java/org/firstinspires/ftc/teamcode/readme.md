@@ -45,7 +45,8 @@ X = Wrist toggle between low and handoff
 Y = Score Command
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
-DPAD RIGHT = Intake Reject Command
 DPAD LEFT = Toggle Alliance Command (Will Be Removed Soon)
+BACK = Intake Reject Command
+Start = Lift Reset Command
 
  
