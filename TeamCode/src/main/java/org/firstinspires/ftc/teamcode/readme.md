@@ -35,6 +35,7 @@ D3: "swingArmDown"
 
 TeleOp (Gamepad Driving)
 Driver:
+Right Bumper = Slow Drive
 
 Operator (Prototype based off of CompTeleOpBlue):
 Left Bumper = Extend Extension 

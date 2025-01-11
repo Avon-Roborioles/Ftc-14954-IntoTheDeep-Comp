@@ -7,6 +7,7 @@ import com.pedropathing.follower.Follower;
 
 public class PedroDriveSubsystem extends SubsystemBase {
     private Follower follower;
+    private double speed1 = 0;
     public PedroDriveSubsystem(Follower follower){
         this.follower = follower;
     }
@@ -16,6 +17,9 @@ public class PedroDriveSubsystem extends SubsystemBase {
     }
     public void setTeleOpMovementVectors(double forward, double strafe, double turn){
         follower.setTeleOpMovementVectors(forward, strafe, turn);
+    }
+    public void setMaxPower(double maxPower){
+        follower.setMaxPower(maxPower);
     }
     public void setTeleOpMovementVectors(double forward, double strafe, double turn, boolean fieldCentric){
         follower.setTeleOpMovementVectors(forward, strafe, turn, !fieldCentric);

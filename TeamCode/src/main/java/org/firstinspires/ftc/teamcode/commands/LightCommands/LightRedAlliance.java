@@ -11,6 +11,7 @@ public class LightRedAlliance extends CommandBase {
     }
     public void initialize() {
         intake.redAllianceLight();
+        intake.changeAlliance();
     }
     @Override
     public boolean isFinished() {

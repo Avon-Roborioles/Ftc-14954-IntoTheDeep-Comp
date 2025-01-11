@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class PedroDriveCommand extends CommandBase {
+public class PedroSlowDriveCommand extends CommandBase {
     private PedroDriveSubsystem pedroDriveSubsystem;
     private Telemetry telemetry;
-    private double speed1 = 0;
+    private double speed1 = 0.3;
     private DoubleSupplier strafe, forward, turn;
     private boolean fieldCentric;
 
-    public PedroDriveCommand(PedroDriveSubsystem pedroDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
+    public PedroSlowDriveCommand(PedroDriveSubsystem pedroDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
         this.pedroDriveSubsystem = pedroDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
@@ -26,8 +26,7 @@ public class PedroDriveCommand extends CommandBase {
     @Override
     public void execute(){
 
-        pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), fieldCentric);
+        pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble() * speed1, -strafe.getAsDouble() * speed1, -turn.getAsDouble() * speed1, fieldCentric);
         pedroDriveSubsystem.update();
     }
-
 }
