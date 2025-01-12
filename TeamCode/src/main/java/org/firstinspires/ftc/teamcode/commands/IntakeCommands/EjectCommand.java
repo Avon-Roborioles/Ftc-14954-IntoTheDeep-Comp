@@ -1,25 +1,21 @@
 package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.util.Timing;
 
+import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-
-import java.util.concurrent.TimeUnit;
 
 public class EjectCommand extends CommandBase {
     private IntakeSubsystem subsystem;
-    Timing.Timer timer = new Timing.Timer(2, TimeUnit.SECONDS);
+    private BoxxySubsystem box;
 
-    public EjectCommand(IntakeSubsystem subsystem) {
+    public EjectCommand(IntakeSubsystem subsystem, BoxxySubsystem box) {
         this.subsystem = subsystem;
+        this.box = box;
         addRequirements(subsystem);
     }
 
-    @Override
-    public void initialize() {
-        timer.start();
-    }
+
 
     @Override
     public void execute() {
@@ -34,7 +30,7 @@ public class EjectCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return timer.done();
+        return box.haveSample();
     }
 }
 

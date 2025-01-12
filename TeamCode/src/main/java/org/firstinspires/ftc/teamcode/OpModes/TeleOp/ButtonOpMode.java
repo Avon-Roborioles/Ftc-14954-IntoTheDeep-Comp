@@ -134,7 +134,7 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new CollectSample(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new EjectCommand(intake));
+                .whenPressed(new EjectCommand(intake, box));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new Reject(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)

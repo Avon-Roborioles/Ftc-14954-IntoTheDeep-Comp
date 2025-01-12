@@ -9,7 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SwingArmSubsystem extends SubsystemBase {
     private Servo SwingArmServo;
     private double TopPos = 0.79;
-    private double MidPos = 0.39;
+    private double MidPos = 0.49;
+    private double ParkPos = 0.7;
     private TouchSensor touch;
 
     public SwingArmSubsystem(Servo SwingArmServo, TouchSensor touch) {
@@ -22,9 +23,11 @@ public class SwingArmSubsystem extends SubsystemBase {
     }
     public boolean isDown(){return !touch.isPressed();}
     public void down() {
-        SwingArmServo.setPosition(0.04);
+        SwingArmServo.setPosition(0.03);
     }
     public void mid() { SwingArmServo.setPosition(MidPos);}
+    public void park() { SwingArmServo.setPosition(ParkPos);}
+
 
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Swing Arm Down", isDown());

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 public class PassAuto extends ParallelCommandGroup {
     public PassAuto(PassSubsystem pass, BoxxySubsystem box, IntakeSubsystem intake){
         addCommands(
-                new EjectCommand(intake),
+                new EjectCommand(intake, box),
                 new PassOnCommand(pass,box, intake)
         );
     }
