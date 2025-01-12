@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
@@ -161,7 +162,7 @@ public class RedLeft3_1 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new LiftBottomCommand(liftSubsystem),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
 

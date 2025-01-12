@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
@@ -118,11 +119,11 @@ public class BlueLeft3_1 extends AutoBase{
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                initSubsystems,
                 setPathToBar,
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        initSubsystems),
                 setPathToScorePreload,
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
@@ -160,7 +161,7 @@ public class BlueLeft3_1 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new LiftBottomCommand(liftSubsystem),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
 
