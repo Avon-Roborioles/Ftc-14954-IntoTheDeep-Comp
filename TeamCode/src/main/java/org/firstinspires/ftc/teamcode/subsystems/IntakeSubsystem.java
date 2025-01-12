@@ -81,7 +81,9 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3.25);}
-
+    //red r:41-420 b: 15-74 g: 37-198
+    //blue r:24-58 b:26-289 g:34-153
+    //yellow r:54-486 b:18-122 g:65-732
     public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();}
 
     public boolean isColorSensorBlue() {return colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green();}
