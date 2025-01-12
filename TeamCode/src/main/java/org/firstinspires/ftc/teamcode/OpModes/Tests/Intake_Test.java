@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
@@ -34,11 +33,11 @@ public class Intake_Test extends CommandOpMode {
 //                .whenPressed(new EjectCommand(subsystem, boxx));
 //        gamepad.getGamepadButton(GamepadKeys.Button.B)
 //                .whenPressed(new CancelCommand(subsystem));
-        gamepad.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new ToggleAlliance(subsystem));
-        gamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new CollectSample(subsystem));
-        subsystem.rainbowlight();
+//        gamepad.getGamepadButton(GamepadKeys.Button.X)
+//                .whenPressed(new ToggleAlliance(subsystem));
+//        gamepad.getGamepadButton(GamepadKeys.Button.A)
+//                .whenPressed(new CollectSample(subsystem, wrist));
+//        subsystem.rainbowlight();
 
 
     }

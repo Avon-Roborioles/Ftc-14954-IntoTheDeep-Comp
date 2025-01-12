@@ -4,21 +4,22 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
 public class CollectSample extends CommandBase {
     private IntakeSubsystem subsystem;
-
+    private WristSubsystem wrist;
     private boolean hasSample = false;
     private boolean validSample = false;
     boolean ejecting = false;
-    Timing.Timer timer = new Timing.Timer(2, TimeUnit.SECONDS);
+    Timing.Timer timer = new Timing.Timer(1, TimeUnit.SECONDS);
 
     // This command will acquire samples and either eject them or accept them based on color
-    public CollectSample(IntakeSubsystem subsystem) {
+    public CollectSample(IntakeSubsystem subsystem, WristSubsystem wrist) {
         this.subsystem = subsystem;
-
+        this.wrist = wrist;
 
         addRequirements(subsystem);
     }
@@ -43,6 +44,7 @@ public class CollectSample extends CommandBase {
             ejecting = false;
             subsystem.stopMotor();
             subsystem.rainbowlight();
+            wrist.down();
         }
 
         if (hasSample & !ejecting) {
@@ -59,7 +61,9 @@ public class CollectSample extends CommandBase {
                 timer.start();
             } else if ((!subsystem.getRedAlliance() & subsystem.isColorSensorRed())) {
                 validSample = false;
+                wrist.middle();
                 subsystem.rejectMotor();
+
 
                 if (subsystem.isColorSensorRed()){
                     subsystem.redlight();

@@ -4,10 +4,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
-import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
@@ -31,7 +28,7 @@ public class IntakeToReadyForScore extends SequentialCommandGroup {
     public IntakeToReadyForScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
         addCommands(
                 new LowerWrist(wrist),
-                new CollectSample(intake),
+                new CollectSample(intake, wrist),
                 new WristClearBar(wrist),
                 new RetractCommand(extend),
                 new HandoffCommand(wrist),
