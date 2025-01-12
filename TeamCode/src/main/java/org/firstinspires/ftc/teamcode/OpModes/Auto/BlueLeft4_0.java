@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LForward1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LForward2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LForward3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LGrab3Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LParkMid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LScore;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.LStartBucket;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBucket;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
+
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -36,6 +37,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
@@ -100,8 +102,12 @@ public class BlueLeft4_0 extends AutoBase{
         });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
+//                new InstantCommand(() -> {
+//                    wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
+//                }),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend)
+//                new LightRedAlliance(intake)
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
@@ -146,7 +152,7 @@ public class BlueLeft4_0 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new LiftBottomCommand(liftSubsystem),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
 
@@ -161,12 +167,11 @@ public class BlueLeft4_0 extends AutoBase{
         );
     }
 
-
     @Override
     public void makeAuto() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(LStartBucket);
+        follower.setStartingPose(BLStartBucket);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
@@ -175,48 +180,53 @@ public class BlueLeft4_0 extends AutoBase{
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, LStartBucket);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, BLStartBucket);
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
     }
 
     @Override
     public void buildPaths() {
-        toScorePreload = new Path(new BezierCurve(new Point(LStartBucket), new Point(LScore)));
-        toScorePreload.setLinearHeadingInterpolation(LStartBucket.getHeading(), LScore.getHeading());
+        toScorePreload = new Path(new BezierCurve(new Point(BLStartBucket), new Point(BLScore)));
+        toScorePreload.setLinearHeadingInterpolation(BLStartBucket.getHeading(), BLScore.getHeading());
+        toScorePreload.setPathEndTimeoutConstraint(1000);
 
-        toPickUp1 = new Path(new BezierCurve(new Point(LScore), new Point(LGrab1)));
-        toPickUp1.setLinearHeadingInterpolation(LScore.getHeading(), LGrab1.getHeading());
+        toPickUp1 = new Path(new BezierCurve(new Point(BLScore), new Point(BLGrab1)));
+        toPickUp1.setLinearHeadingInterpolation(BLScore.getHeading(), BLGrab1.getHeading());
+        toPickUp1.setPathEndTimeoutConstraint(1000);
 
-        toScore1 = new Path(new BezierCurve(new Point(LGrab1), new Point(LScore)));
-        toScore1.setLinearHeadingInterpolation(LGrab1.getHeading(), LScore.getHeading());
+        toScore1 = new Path(new BezierCurve(new Point(BLGrab1), new Point(BLScore)));
+        toScore1.setLinearHeadingInterpolation(BLGrab1.getHeading(), BLScore.getHeading());
+        toScore1.setPathEndTimeoutConstraint(2000);
 
-        toPickUp2 = new Path(new BezierCurve(new Point(LScore), new Point(LGrab2)));
-        toPickUp2.setLinearHeadingInterpolation(LScore.getHeading(), LGrab2.getHeading());
+        toPickUp2 = new Path(new BezierCurve(new Point(BLScore), new Point(BLGrab2)));
+        toPickUp2.setLinearHeadingInterpolation(BLScore.getHeading(), BLGrab2.getHeading());
+        toPickUp2.setPathEndTimeoutConstraint(1000);
 
-        toScore2 = new Path(new BezierCurve(new Point(LGrab2), new Point(LScore)));
-        toScore2.setLinearHeadingInterpolation(LGrab2.getHeading(), LScore.getHeading());
+        toScore2 = new Path(new BezierCurve(new Point(BLGrab2), new Point(BLScore)));
+        toScore2.setLinearHeadingInterpolation(BLGrab2.getHeading(), BLScore.getHeading());
+        toScore2.setPathEndTimeoutConstraint(1000);
 
-        toPickUp3 = new Path(new BezierCurve(new Point(LScore),new Point(LGrab3Mid), new Point(LGrab3)));
-        toPickUp3.setLinearHeadingInterpolation(LScore.getHeading(), LGrab3.getHeading());
+        toPickUp3 = new Path(new BezierCurve(new Point(BLScore), new Point(BLGrab3Mid), new Point(BLGrab3)));
+        toPickUp3.setLinearHeadingInterpolation(BLScore.getHeading(), BLGrab3.getHeading());
+        toPickUp3.setPathEndTimeoutConstraint(1000);
 
-        toScore3 = new Path(new BezierCurve(new Point(LGrab3), new Point(LScore)));
-        toScore3.setLinearHeadingInterpolation(LGrab3.getHeading(), LScore.getHeading());
+        toScore3 = new Path(new BezierCurve(new Point(BLGrab3), new Point(BLScore)));
+        toScore3.setLinearHeadingInterpolation(BLGrab3.getHeading(), BLScore.getHeading());
+        toScore3.setPathEndTimeoutConstraint(1000);
 
-        toPark = new Path(new BezierCurve(new Point(LScore),new Point(LParkMid), new Point(LPark)));
-        toPark.setLinearHeadingInterpolation(LScore.getHeading(), LPark.getHeading());
+        toPark = new Path(new BezierCurve(new Point(BLScore), new Point(BLParkMid), new Point(BLPark)));
+        toPark.setLinearHeadingInterpolation(BLScore.getHeading(), BLPark.getHeading());
         toPark.setPathEndTimeoutConstraint(1000);
 
-        forward1 = new Path(new BezierCurve(new Point(LGrab1), new Point(LForward1)));
-        forward1.setConstantHeadingInterpolation(LGrab1.getHeading());
+        forward1 = new Path(new BezierCurve(new Point(BLGrab1), new Point(BLForward1)));
+        forward1.setConstantHeadingInterpolation(BLGrab1.getHeading());
 
-        forward2 = new Path(new BezierCurve(new Point(LGrab2), new Point(LForward2)));
-        forward2.setConstantHeadingInterpolation(LGrab2.getHeading());
+        forward2 = new Path(new BezierCurve(new Point(BLGrab2), new Point(BLForward2)));
+        forward2.setConstantHeadingInterpolation(BLGrab2.getHeading());
 
-        forward3 = new Path(new BezierCurve(new Point(LGrab3), new Point(LForward3)));
-        forward3.setConstantHeadingInterpolation(LGrab3.getHeading());
+        forward3 = new Path(new BezierCurve(new Point(BLGrab3), new Point(BLForward3)));
+        forward3.setConstantHeadingInterpolation(BLGrab3.getHeading());
     }
-
-
 }

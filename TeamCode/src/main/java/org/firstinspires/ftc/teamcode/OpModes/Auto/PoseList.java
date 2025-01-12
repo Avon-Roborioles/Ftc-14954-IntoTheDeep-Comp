@@ -40,6 +40,22 @@ public class PoseList {
     public static Pose RLPark = new Pose(-13 - HalfChassisLength, -3.5 - HalfChassisWidth, PI);
     public static Pose RLParkMid = new Pose(-60, -12, PI/2);
 
+    public static Pose BLStartBar = new Pose(0 ,0, 0);
+    public static Pose BLBar = new Pose(0, 36, 0);
+    public static Pose BLStartBucket = new Pose( 46 - HalfChassisWidth,70.125 - HalfChassisLength, -PI/2);
+    public static Pose BLScore = new Pose(61 - 5.75,61 - 5.75 , -3*PI/4 );
+    public static Pose BLGrab1 = new Pose(49, 42, -PI/2);
+    public static Pose BLForward1 = new Pose(49, 40, -PI/2);
+    public static Pose BLGrab2 = new Pose(59, 42, -PI/2);
+    public static Pose BLForward2 = new Pose(59, 40, -PI/2);
+    public static Pose BLGrab3 = new Pose(50, 26, 0);
+    public static Pose BLGrab3Mid = new Pose(40, 30, 0);
+    public static Pose BLForward3 = new Pose(54, 26, 0);
+    public static Pose BLPark = new Pose(13 + HalfChassisLength, 3.5 + HalfChassisWidth, 0);
+    public static Pose BLParkMid = new Pose(60, 12, -PI/2);
+
+
+
 
 
 }

@@ -214,7 +214,7 @@ public class RedLeft4_0 extends AutoBase{
 
         toScore3 = new Path(new BezierCurve(new Point(RLGrab3), new Point(RLScore)));
         toScore3.setLinearHeadingInterpolation(RLGrab3.getHeading(), RLScore.getHeading());
-        toScore3.setPathEndTimeoutConstraint(2000);
+        toScore3.setPathEndTimeoutConstraint(1000);
 
         toPark = new Path(new BezierCurve(new Point(RLScore),new Point(RLParkMid), new Point(RLPark)));
         toPark.setLinearHeadingInterpolation(RLScore.getHeading(), RLPark.getHeading());
