@@ -115,7 +115,7 @@ public class CompTeleOpRed extends CommandOpMode {
         Command Bindings
          */
         // Lift Commands
-        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomResetCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
