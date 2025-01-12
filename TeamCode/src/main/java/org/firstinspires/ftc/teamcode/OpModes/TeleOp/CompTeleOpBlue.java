@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,7 +17,6 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
@@ -26,15 +26,13 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.LightCommands.LightBlueAlliance;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
+
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
@@ -82,14 +80,15 @@ public class CompTeleOpBlue extends CommandOpMode {
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
-        frontLeft = new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_312);
-        frontRight = new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_312);
-        backLeft = new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_312);
-        backRight = new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_312);
-        frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        frontLeft = new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_312);
+//        frontRight = new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_312);
+//        backLeft = new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_312);
+//        backRight = new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_312);
+//        frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+//        frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
 
         extendservo = hardwareMap.get(Servo.class, "extension");
         extend = new ExtendSubsystem(extendservo, touch2 );
@@ -101,18 +100,19 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
+        follower.setStartingPose(new Pose(0, 0, 0));
         follower.startTeleopDrive();
-        follower.setMaxPower(1);
+
 
 
 
 
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
 
-//        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new PedroSlowDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
-                .whenReleased(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+                .whenInactive(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
 
 
 //        drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
@@ -163,7 +163,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         // Score Command
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
         // Intake Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));

@@ -35,18 +35,20 @@ public class IntakeSubsystem extends SubsystemBase {
         // start as blue alliance
         if(!RedAlliance){
             this.allianceColor.setPosition(0.61);
+            this.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }else {
             this.allianceColor.setPosition(0.28);
+            this.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
     }
 
     @Override
     public void periodic() {
-        if (isColorSensorRed()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-        } else if (isColorSensorBlue()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-        } else if (isColorSensorYellow()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-        } else {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
-        }
+//        if (isColorSensorRed()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+//        } else if (isColorSensorBlue()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+//        } else if (isColorSensorYellow()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+//        } else {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
+//        }
         if (RedAlliance) {
             allianceColor.setPosition(0.28);
         } else {

@@ -16,9 +16,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
@@ -155,7 +153,7 @@ public class CompTeleOpRed extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass,extend,swingArmSubsystem,box,liftSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem,box, intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 

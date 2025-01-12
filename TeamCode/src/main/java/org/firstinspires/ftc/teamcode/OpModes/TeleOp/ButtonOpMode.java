@@ -165,7 +165,7 @@ public class ButtonOpMode extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new BottomBucketScoreReady(swingArmSubsystem, liftSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box));
+                .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
 

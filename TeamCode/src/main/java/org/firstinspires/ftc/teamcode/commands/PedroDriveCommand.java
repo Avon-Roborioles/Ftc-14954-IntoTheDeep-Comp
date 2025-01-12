@@ -25,7 +25,6 @@ public class PedroDriveCommand extends CommandBase {
     }
     @Override
     public void execute(){
-
         pedroDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), fieldCentric);
         pedroDriveSubsystem.update();
     }

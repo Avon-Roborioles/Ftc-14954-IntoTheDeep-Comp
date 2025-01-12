@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ColorResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
@@ -28,8 +29,8 @@ public class AutoToScore extends SequentialCommandGroup {
                 new LiftBottomCommand(lift),
                 new PassAuto(pass, box, intake),
                 new TopBucketScoreReady(swingArm, lift, pass),
-                new SwingArmScoreCommand(swingArm, box)
-
+                new SwingArmScoreCommand(swingArm, box),
+                new ColorResetCommand(intake)
         );
     }
 }
