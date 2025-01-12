@@ -34,8 +34,8 @@ public abstract class AutoBase extends CommandOpMode {
     protected IntakeSubsystem intake;
     protected BoxxySubsystem box;
     protected WristSubsystem wrist;
-    protected Command setPathToScorePreload, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPathToForward1, setPathToForward2, setPathToForward3;
-    protected Path toScorePreload, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, forward1, forward2, forward3;
+    protected Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPathToForward1, setPathToForward2, setPathToForward3;
+    protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, forward1, forward2, forward3;
 
     public abstract void makeAuto();
     public abstract void buildPaths();
