@@ -17,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLStartBucket
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.util.Constants;
@@ -102,11 +103,9 @@ public class RedLeft4_0 extends AutoBase{
         });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
-//                new InstantCommand(() -> {
-//                    wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
-//                }),
-                new HandoffCommand(wrist),
-                new RetractCommand(extend)
+                new WaitCommand(10),
+                new RetractCommand(extend),
+                new HandoffCommand(wrist)
 //                new LightRedAlliance(intake)
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(

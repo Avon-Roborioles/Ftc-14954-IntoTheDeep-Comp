@@ -33,7 +33,11 @@ public class IntakeSubsystem extends SubsystemBase {
         this.motor.setDirection(DcMotor.Direction.REVERSE);
         this.RedAlliance = RedAlliance;
         // start as blue alliance
-        this.allianceColor.setPosition(0.61);
+        if(!RedAlliance){
+            this.allianceColor.setPosition(0.61);
+        }else {
+            this.allianceColor.setPosition(0.28);
+        }
     }
 
     @Override
