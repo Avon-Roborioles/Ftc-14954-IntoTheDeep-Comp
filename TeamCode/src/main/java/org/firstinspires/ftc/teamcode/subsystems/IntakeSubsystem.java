@@ -73,13 +73,13 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setPower(0);
     }
 
-    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);}
+    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);}
 
     public double getRed() {return colorSensor1.red()+ colorSensor2.red();}
     public double getBlue() {return colorSensor1.blue()+ colorSensor2.blue();}
     public double getGreen() {return colorSensor1.green()+ colorSensor2.green();}
 
-    public boolean isColorSensorRed() {return getRed() > getBlue() && !(getGreen() /getBlue() >2);}
+    public boolean isColorSensorRed() {return getRed() > getBlue() && getRed() > getGreen();}
 
     public boolean isColorSensorBlue() {return getBlue() > getRed();}
 
@@ -109,12 +109,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Motor running", motor.getPower());
         telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
-        telemetry.addData("Red Sensor 1", colorSensor1.red());
-        telemetry.addData("Blue Sensor 1", colorSensor1.blue());
-        telemetry.addData("Green Sensor 1", colorSensor1.green());
-        telemetry.addData("Red Sensor 2", colorSensor2.red());
-        telemetry.addData("Blue Sensor 2", colorSensor2.blue());
-        telemetry.addData("Green Sensor 2", colorSensor2.green());
+        telemetry.addData("Red Sensor", getRed());
+        telemetry.addData("Blue Sensor", getBlue());
+        telemetry.addData("Green Sensor", getGreen());
         telemetry.addData("Red Sample", isColorSensorRed());
         telemetry.addData("Blue Sample", isColorSensorBlue());
         telemetry.addData("Yellow Sample", isColorSensorYellow());
