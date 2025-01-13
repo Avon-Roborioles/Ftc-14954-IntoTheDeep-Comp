@@ -38,7 +38,7 @@ TeleOp (Gamepad Driving)
 Driver:
 Right Bumper = Slow Drive
 
-Operator (Prototype based off of CompTeleOpBlue):
+Operator: 
 Left Bumper = Extend Extension 
 Right Bumper = Retract Extension
 A = Intake Command
@@ -47,8 +47,9 @@ X = Wrist toggle between low and handoff
 Y = Score Command
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
+DPAD RIGHT = Bottom Bucket Command
 DPAD LEFT = Toggle Alliance Command (Will Be Removed Soon)
 BACK = Intake Reject Command
-Start = Lift Reset Command
+RIGHT STICK BUTTON = Lift Reset Command
 
  
