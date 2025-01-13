@@ -180,7 +180,7 @@ public class RedLeft4_0 extends AutoBase{
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, RLStartBucket);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
     }

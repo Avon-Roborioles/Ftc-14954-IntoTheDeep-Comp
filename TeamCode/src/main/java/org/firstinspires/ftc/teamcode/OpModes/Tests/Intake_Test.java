@@ -23,7 +23,8 @@ public class Intake_Test extends CommandOpMode {
     @Override
     public void initialize() {
         subsystem = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"),
-                hardwareMap.get(ColorSensor.class, "intakeColor"),
+                hardwareMap.get(ColorSensor.class, "intakeColor1"),
+                hardwareMap.get(ColorSensor.class, "intakeColor2"),
                 hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"),
                 hardwareMap.get(DistanceSensor.class, "intakeDistance"),
                 hardwareMap.get(ServoImplEx.class, "allianceColor"), true);

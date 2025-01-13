@@ -16,7 +16,8 @@ S2: "blinkin"
 
 I2C0: "odometry"
 I2C1: "intakeDistance"
-I2C2: "intakeColor"
+I2C2: "intakeColor1"
+I2C3: "intakeColor2"
 
 Expansion Hub:
 M0: "Intake"

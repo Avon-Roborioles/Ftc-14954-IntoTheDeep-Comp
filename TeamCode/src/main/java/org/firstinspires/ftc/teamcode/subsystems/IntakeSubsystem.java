@@ -14,18 +14,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class IntakeSubsystem extends SubsystemBase {
     private DcMotor motor;
     private Telemetry telemetry;
-    private ColorSensor colorSensor;
+    private ColorSensor colorSensor1, colorSensor2;
     private RevBlinkinLedDriver blinkin;
     private boolean RedAlliance = false;
     private DistanceSensor distanceSensor;
     private ServoImplEx allianceColor;
     private BoxxySubsystem box;
 
-    public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor, RevBlinkinLedDriver blinkin,
+    public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor1, ColorSensor colorSensor2, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance) {
         this.telemetry = telemetry;
         this.motor = motor;
-        this.colorSensor = colorSensor;
+        this.colorSensor1 = colorSensor1;
+        this.colorSensor2 = colorSensor2;
         this.blinkin = blinkin;
         this.distanceSensor = distanceSensor;
         this.allianceColor = allianceColor;
@@ -84,14 +85,18 @@ public class IntakeSubsystem extends SubsystemBase {
     //red r:41-420 b: 15-74 g: 37-198
     //blue r:24-58 b:26-289 g:34-153
     //yellow r:54-486 b:18-122 g:65-732
-    public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && !(colorSensor.green()/colorSensor.blue() >2);}
+    public double getRed() {return colorSensor1.red()+ colorSensor2.red();}
+    public double getBlue() {return colorSensor1.blue()+ colorSensor2.blue();}
+    public double getGreen() {return colorSensor1.green()+ colorSensor2.green();}
 
-    public boolean isColorSensorBlue() {return colorSensor.blue() > colorSensor.red();}
+    public boolean isColorSensorRed() {return getRed() > getBlue() && !(getGreen() /getBlue() >2);}
+
+    public boolean isColorSensorBlue() {return getBlue() > getRed();}
 
     // Update or remove method as yellow detection isn't used in the intake, only periodic color update
     public boolean isColorSensorYellow() {
         // return colorSensor.red() > colorSensor.blue() && colorSensor.green() > colorSensor.blue();
-        return !isColorSensorBlue() && !isColorSensorRed();
+        return !isColorSensorBlue() && !isColorSensorRed() && getGreen() > 200;
         // disable for now, as values need adjusting
         //red > 800 & green > 900 & blue < 400
     }
@@ -118,9 +123,12 @@ public class IntakeSubsystem extends SubsystemBase {
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Motor running", motor.getPower());
         telemetry.addData("Distance Sensor", distanceSensor.getDistance(DistanceUnit.INCH));
-        telemetry.addData("Red Sensor", colorSensor.red());
-        telemetry.addData("Blue Sensor", colorSensor.blue());
-        telemetry.addData("Green Sensor", colorSensor.green());
+        telemetry.addData("Red Sensor 1", colorSensor1.red());
+        telemetry.addData("Blue Sensor 1", colorSensor1.blue());
+        telemetry.addData("Green Sensor 1", colorSensor1.green());
+        telemetry.addData("Red Sensor 2", colorSensor2.red());
+        telemetry.addData("Blue Sensor 2", colorSensor2.blue());
+        telemetry.addData("Green Sensor 2", colorSensor2.green());
         telemetry.addData("Red Sample", isColorSensorRed());
         telemetry.addData("Blue Sample", isColorSensorBlue());
         telemetry.addData("Yellow Sample", isColorSensorYellow());
