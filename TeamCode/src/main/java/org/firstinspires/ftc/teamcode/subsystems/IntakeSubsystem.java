@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -13,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeSubsystem extends SubsystemBase {
     private DcMotor motor;
-    private Telemetry telemetry;
     private ColorSensor colorSensor1, colorSensor2;
     private RevBlinkinLedDriver blinkin;
     private boolean RedAlliance = false;
@@ -23,7 +21,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor1, ColorSensor colorSensor2, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance) {
-        this.telemetry = telemetry;
         this.motor = motor;
         this.colorSensor1 = colorSensor1;
         this.colorSensor2 = colorSensor2;
@@ -45,11 +42,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        if (isColorSensorRed()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-//        } else if (isColorSensorBlue()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-//        } else if (isColorSensorYellow()) {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-//        } else {blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
-//        }
         if (RedAlliance) {
             allianceColor.setPosition(0.28);
         } else {
@@ -82,9 +74,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);}
-    //red r:41-420 b: 15-74 g: 37-198
-    //blue r:24-58 b:26-289 g:34-153
-    //yellow r:54-486 b:18-122 g:65-732
+
     public double getRed() {return colorSensor1.red()+ colorSensor2.red();}
     public double getBlue() {return colorSensor1.blue()+ colorSensor2.blue();}
     public double getGreen() {return colorSensor1.green()+ colorSensor2.green();}
@@ -93,12 +83,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean isColorSensorBlue() {return getBlue() > getRed();}
 
-    // Update or remove method as yellow detection isn't used in the intake, only periodic color update
     public boolean isColorSensorYellow() {
-        // return colorSensor.red() > colorSensor.blue() && colorSensor.green() > colorSensor.blue();
         return !isColorSensorBlue() && !isColorSensorRed() && getGreen() > 200;
-        // disable for now, as values need adjusting
-        //red > 800 & green > 900 & blue < 400
     }
 
     public void changeAlliance() {
