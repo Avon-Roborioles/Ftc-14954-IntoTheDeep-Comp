@@ -52,6 +52,7 @@ public class CollectSample extends CommandBase {
             if ((subsystem.getRedAlliance() & subsystem.isColorSensorBlue()))  {
                 validSample = false;
                 subsystem.rejectMotor();
+                wrist.middle();
                 if (subsystem.isColorSensorBlue()){
                     subsystem.bluelight();
                 } else {

@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 //import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -134,14 +135,14 @@ public class ButtonOpMode extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new CollectSample(intake, wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new EjectCommand(intake, box));
+                .whenPressed(new ToggleAlliance(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new Reject(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
-//        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-//                .whenPressed(new ToggleAlliance(intake));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new EjectCommand(intake, box));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));

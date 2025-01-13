@@ -80,18 +80,18 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setPower(0);
     }
 
-    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3.25);}
+    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);}
     //red r:41-420 b: 15-74 g: 37-198
     //blue r:24-58 b:26-289 g:34-153
     //yellow r:54-486 b:18-122 g:65-732
-    public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();}
+    public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && !(colorSensor.green()/colorSensor.blue() >2);}
 
-    public boolean isColorSensorBlue() {return colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green();}
+    public boolean isColorSensorBlue() {return colorSensor.blue() > colorSensor.red();}
 
     // Update or remove method as yellow detection isn't used in the intake, only periodic color update
     public boolean isColorSensorYellow() {
         // return colorSensor.red() > colorSensor.blue() && colorSensor.green() > colorSensor.blue();
-        return colorSensor.red() > 150 && colorSensor.blue() < 100 && colorSensor.green() > 150;
+        return !isColorSensorBlue() && !isColorSensorRed();
         // disable for now, as values need adjusting
         //red > 800 & green > 900 & blue < 400
     }
