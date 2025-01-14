@@ -27,6 +27,7 @@ import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -42,7 +43,6 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveComman
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -189,7 +189,7 @@ public class RedLeft3_1 extends AutoBase{
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);

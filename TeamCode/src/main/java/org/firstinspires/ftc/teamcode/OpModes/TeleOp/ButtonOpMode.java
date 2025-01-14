@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -98,7 +99,7 @@ public class ButtonOpMode extends CommandOpMode {
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 

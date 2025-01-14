@@ -21,6 +21,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.util.Constants;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -178,7 +179,7 @@ public class RedLeft4_0 extends AutoBase{
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, RLStartBucket);

@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -27,10 +28,8 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketComm
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 
@@ -38,7 +37,6 @@ import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
@@ -81,7 +79,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"));
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 

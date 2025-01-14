@@ -29,6 +29,7 @@ S0: "swingArm" 0 with preloaded spring toward switch
 S1: "allianceColor"
 
 I2C0: "boxDistance"
+I2C1: "passDistance"
 
 D7:"liftDown"
 D5: "extensionIn"
