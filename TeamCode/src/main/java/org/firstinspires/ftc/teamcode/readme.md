@@ -38,6 +38,7 @@ D3: "swingArmDown"
 TeleOp (Gamepad Driving)
 Driver:
 Right Bumper = Slow Drive
+Y = Score
 
 Operator: 
 Left Bumper = Extend Extension 
@@ -45,11 +46,11 @@ Right Bumper = Retract Extension
 A = Intake Command
 B = Cancel Motors command (Intake, Passthrough and Lift)
 X = Wrist toggle between low and handoff
-Y = Score Command
+Y = Intake Top Bucket
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
-DPAD RIGHT = Bottom Bucket Command
-DPAD LEFT = Toggle Alliance Command (Will Be Removed Soon)
+DPAD RIGHT = Prepare to Pass Sample
+DPAD LEFT = Intake Bottom Bucket 
 BACK = Intake Reject Command
 RIGHT STICK BUTTON = Lift Reset Command
 
