@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.BottomBucketScoreReady;
-import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
@@ -31,12 +31,12 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetComma
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToBox;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOffCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOnCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOnToBoxCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmScoreCommand;
@@ -143,7 +143,7 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new EjectCommand(intake, box));
+                .whenPressed(new EjectCommand(intake, pass));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));
@@ -158,18 +158,18 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new RaiseWrist(wrist));
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new PassAuto(pass, box, intake));
+                .whenPressed(new PassToBox(pass, box, intake));
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new PassOnCommand(pass, box, intake), new PassOffCommand(pass));
+                .toggleWhenPressed(new PassOnToBoxCommand(pass, box, intake), new PassOffCommand(pass));
 
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem, pass));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new BottomBucketScoreReady(swingArmSubsystem, liftSubsystem));
+                .whenPressed(new BottomBucketScoreReady(swingArmSubsystem, liftSubsystem, pass));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
+                .whenPressed(new IntakeToReadyForTopScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
 
 //        Sample Trigger code
 //        Trigger intakeTrigger = new Trigger(()-> driverOp.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>.7);

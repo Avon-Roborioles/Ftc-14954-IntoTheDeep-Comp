@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
-import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForScore;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
@@ -144,7 +144,7 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
         // Intake Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new IntakeToReadyForScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
+                .whenPressed(new IntakeToReadyForTopScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new Reject(intake));
 

@@ -6,16 +6,14 @@ import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 
-public class PassOnCommand extends SequentialCommandGroup {
+public class PassOnToEndCommand extends SequentialCommandGroup {
     private PassSubsystem pass;
-    private BoxxySubsystem box;
     private IntakeSubsystem intake;
 
-    public PassOnCommand(PassSubsystem pass, BoxxySubsystem box, IntakeSubsystem intake){
+    public PassOnToEndCommand(PassSubsystem pass, IntakeSubsystem intake){
         this.pass = pass;
-        this.box = box;
         this.intake = intake;
-        addRequirements(pass, this.box);
+        addRequirements(pass);
     }
 
     @Override
@@ -24,7 +22,7 @@ public class PassOnCommand extends SequentialCommandGroup {
     public void end(){pass.PassOff();
     }
     @Override
-    public boolean isFinished(){return box.haveSample();}
+    public boolean isFinished(){return pass.PassDistanceTrue();}
 
 
 }

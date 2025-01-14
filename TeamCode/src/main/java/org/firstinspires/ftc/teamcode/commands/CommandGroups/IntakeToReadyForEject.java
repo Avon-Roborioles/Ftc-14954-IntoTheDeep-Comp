@@ -4,7 +4,9 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassAuto;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToBox;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToEnd;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
@@ -16,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-public class IntakeToReadyForScore extends SequentialCommandGroup {
+public class IntakeToReadyForEject extends SequentialCommandGroup {
     private IntakeSubsystem intake;
     private WristSubsystem wrist;
     private PassSubsystem pass;
@@ -25,15 +27,15 @@ public class IntakeToReadyForScore extends SequentialCommandGroup {
     private SwingArmSubsystem swingArm;
     private BoxxySubsystem box;
 
-    public IntakeToReadyForScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
+    public IntakeToReadyForEject(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, LiftSubsystem lift){
         addCommands(
                 new LowerWrist(wrist),
                 new CollectSample(intake, wrist),
                 new WristClearBar(wrist),
                 new RetractCommand(extend),
                 new HandoffCommand(wrist),
-                new PassAuto(pass, box, intake),
-                new TopBucketScoreReady(swingArm, lift, pass)
+                new PassToEnd(pass, intake),
+                new LiftForSwingArmClearCommand(lift)
         );
     }
 }

@@ -4,14 +4,15 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 
 public class EjectCommand extends CommandBase {
     private IntakeSubsystem subsystem;
-    private BoxxySubsystem box;
+    private PassSubsystem pass;
 
-    public EjectCommand(IntakeSubsystem subsystem, BoxxySubsystem box) {
+    public EjectCommand(IntakeSubsystem subsystem, PassSubsystem pass) {
         this.subsystem = subsystem;
-        this.box = box;
+        this.pass = pass;
         addRequirements(subsystem);
     }
 
@@ -29,7 +30,7 @@ public class EjectCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return box.haveSample();
+        return pass.PassDistanceTrue();
     }
 }
 
