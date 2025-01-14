@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketComm
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassEject;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -119,13 +120,9 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                         .whenPressed(new LiftTopBarCommand(liftSubsystem));
-
-
         //Wrist Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
-
-
         //Extend (Bumpers)
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new WristClearBar(wrist))
@@ -133,14 +130,9 @@ public class CompTeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new WristClearBar(wrist))
                 .whenPressed(new RetractCommand(extend));
-
         //Other Commands
-
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
-
-
-
         // Score Command
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
@@ -149,10 +141,12 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForTopScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new Reject(intake));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForBottomScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new PassEject(pass));
 
     }
 

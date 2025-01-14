@@ -43,14 +43,14 @@ Y = Score
 Operator: 
 Left Bumper = Extend Extension 
 Right Bumper = Retract Extension
-A = Intake Command
+A = Intake Bottom Bucket
 B = Cancel Motors command (Intake, Passthrough and Lift)
 X = Wrist toggle between low and handoff
 Y = Intake Top Bucket
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
-DPAD RIGHT = Prepare to Pass Sample
-DPAD LEFT = Intake Bottom Bucket 
+DPAD RIGHT = Eject PassThrough
+DPAD LEFT = Prepare to Pass Sample
 BACK = Intake Reject Command
 RIGHT STICK BUTTON = Lift Reset Command
 
