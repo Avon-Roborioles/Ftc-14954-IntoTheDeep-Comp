@@ -13,22 +13,24 @@ public class PassSubsystem extends SubsystemBase {
 
     public PassSubsystem(DcMotorEx motor1, Rev2mDistanceSensor distanceSensor) {
         this.motor1 = motor1;
+        this.motor1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         this.distanceSensor = distanceSensor;
     }
     public void PassMotorControl(double motorPower){
         motor1.setPower(motorPower);
     }
     public void PassOn(){
-        motor1.setPower(0.75);
+        motor1.setPower(1);
     }
     public void PassOff(){
         motor1.setPower(0);
     }
     public boolean PassDistanceTrue(){
-        return distanceSensor.getDistance(DistanceUnit.INCH) < 0.75 ;
+        return distanceSensor.getDistance(DistanceUnit.INCH) < 2 ;
     }
 
     public void getTelemetry(Telemetry telemetry) {
+        telemetry.addData("pass distance", distanceSensor.getDistance(DistanceUnit.INCH));
     }
 }
 

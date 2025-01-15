@@ -17,9 +17,9 @@ public class PassOnToEndCommand extends SequentialCommandGroup {
     }
 
     @Override
-    public void initialize(){pass.PassOn();}
-
-    public void end(){pass.PassOff();
+    public void initialize(){pass.PassMotorControl(0.5);}
+    @Override
+    public void end(boolean interrupted){pass.PassOff();
     }
     @Override
     public boolean isFinished(){return pass.PassDistanceTrue();}

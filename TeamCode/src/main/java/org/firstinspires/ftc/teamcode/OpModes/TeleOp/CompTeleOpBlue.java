@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.SpitOutCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
@@ -146,7 +147,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new PassEject(pass));
+                .whenPressed(new SpitOutCommand(pass, liftSubsystem));
 
     }
 

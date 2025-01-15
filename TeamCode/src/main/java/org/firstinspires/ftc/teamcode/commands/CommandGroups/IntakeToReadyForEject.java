@@ -34,8 +34,8 @@ public class IntakeToReadyForEject extends SequentialCommandGroup {
                 new WristClearBar(wrist),
                 new RetractCommand(extend),
                 new HandoffCommand(wrist),
-                new PassToEnd(pass, intake),
-                new LiftForSwingArmClearCommand(lift)
+                new LiftForSwingArmClearCommand(lift),
+                new PassToEnd(pass, intake)
         );
     }
 }

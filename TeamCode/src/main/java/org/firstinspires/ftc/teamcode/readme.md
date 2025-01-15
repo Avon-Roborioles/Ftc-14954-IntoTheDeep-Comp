@@ -50,7 +50,7 @@ Y = Intake Top Bucket
 DPAD UP = Specimen Bar Command
 DPAD DOWN = Lift Down Command
 DPAD RIGHT = Eject PassThrough
-DPAD LEFT = Prepare to Pass Sample
+DPAD LEFT = Intake to Pass End 
 BACK = Intake Reject Command
 RIGHT STICK BUTTON = Lift Reset Command
 
