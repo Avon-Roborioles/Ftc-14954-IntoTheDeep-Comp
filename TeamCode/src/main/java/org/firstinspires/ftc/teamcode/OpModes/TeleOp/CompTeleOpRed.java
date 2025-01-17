@@ -133,7 +133,7 @@ public class CompTeleOpRed extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
         // Score Command
-        driverOp.getGamepadButton(GamepadKeys.Button.Y)
+        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));
         // Intake Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)

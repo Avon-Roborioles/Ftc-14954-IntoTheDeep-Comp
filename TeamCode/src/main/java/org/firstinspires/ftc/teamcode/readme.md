@@ -38,7 +38,7 @@ D3: "swingArmDown"
 TeleOp (Gamepad Driving)
 Driver:
 Right Bumper = Slow Drive
-Y = Score
+Left Bumper= Score
 
 Operator: 
 Left Bumper = Extend Extension 
