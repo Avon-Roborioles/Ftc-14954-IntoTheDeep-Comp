@@ -13,7 +13,7 @@ public class PoseList {
     public static double HalfChassisLength = 8.1875;
     public static double HalfTilePuzzle = 0.75/2;
 
-    public static Pose RLStartBar = new Pose(- HalfChassisWidth + 0.75 ,-70 + HalfChassisLength, -PI/2);
+    public static Pose RLStartBar = new Pose(- HalfChassisWidth + 0.75 ,-68 + HalfChassisLength, -PI/2);
     public static Pose RLBar = new Pose(1 - HalfChassisWidth , -32, -PI/2);
     public static Pose RLBarMid = new Pose(1 - HalfChassisWidth , -38, -PI/2);
     public static Pose RLStartBucket = new Pose( -29.625 - HalfChassisWidth,-70.125 + HalfChassisLength, PI/2);
@@ -27,7 +27,7 @@ public class PoseList {
     public static Pose RLGrab3 = new Pose(-53, -35, 5* PI/6);
     public static Pose RLGrab3Mid = new Pose(-40, -36, 5* PI/6);
     public static Pose RLForward3 = new Pose(-56, -34, 5* PI/6);
-    public static Pose RLPark = new Pose(-14 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
+    public static Pose RLPark = new Pose(-16 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
     public static Pose RLPrePark = new Pose(-25 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
     public static Pose RLParkMid = new Pose(-60, -11, PI/2);
 
