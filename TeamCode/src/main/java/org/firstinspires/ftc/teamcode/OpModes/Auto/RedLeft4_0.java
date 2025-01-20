@@ -11,7 +11,9 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3Mid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPark;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLParkMid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPrePark;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLScore;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLScorePreload;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLStartBucket;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -46,6 +48,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -102,11 +105,15 @@ public class RedLeft4_0 extends AutoBase{
         setPathToForward3 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(forward3, true);
         });
+        setPark = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(park, false);
+        });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(10),
-                new RetractCommand(extend),
-                new HandoffCommand(wrist)
+                new HandoffCommand(wrist),
+                new WaitCommand(10),
+                new RetractCommand(extend)
 //                new LightRedAlliance(intake)
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
@@ -152,6 +159,11 @@ public class RedLeft4_0 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
+                        new RaiseWrist(wrist),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                setPark,
+                new ParallelCommandGroup(
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
@@ -188,12 +200,12 @@ public class RedLeft4_0 extends AutoBase{
 
     @Override
     public void buildPaths() {
-        toScorePreload = new Path(new BezierCurve(new Point(RLStartBucket), new Point(RLScore)));
-        toScorePreload.setLinearHeadingInterpolation(RLStartBucket.getHeading(), RLScore.getHeading());
+        toScorePreload = new Path(new BezierCurve(new Point(RLStartBucket), new Point(RLScorePreload)));
+        toScorePreload.setLinearHeadingInterpolation(RLStartBucket.getHeading(), RLScorePreload.getHeading());
         toScorePreload.setPathEndTimeoutConstraint(1000);
 
-        toPickUp1 = new Path(new BezierCurve(new Point(RLScore), new Point(RLGrab1)));
-        toPickUp1.setLinearHeadingInterpolation(RLScore.getHeading(), RLGrab1.getHeading());
+        toPickUp1 = new Path(new BezierCurve(new Point(RLScorePreload), new Point(RLGrab1)));
+        toPickUp1.setLinearHeadingInterpolation(RLScorePreload.getHeading(), RLGrab1.getHeading());
         toPickUp1.setPathEndTimeoutConstraint(1000);
 
         toScore1 = new Path(new BezierCurve(new Point(RLGrab1), new Point(RLScore)));
@@ -216,9 +228,13 @@ public class RedLeft4_0 extends AutoBase{
         toScore3.setLinearHeadingInterpolation(RLGrab3.getHeading(), RLScore.getHeading());
         toScore3.setPathEndTimeoutConstraint(1000);
 
-        toPark = new Path(new BezierCurve(new Point(RLScore),new Point(RLParkMid), new Point(RLPark)));
-        toPark.setLinearHeadingInterpolation(RLScore.getHeading(), RLPark.getHeading());
+        toPark = new Path(new BezierCurve(new Point(RLScore),new Point(RLParkMid), new Point(RLPrePark)));
+        toPark.setLinearHeadingInterpolation(RLScore.getHeading(), RLPrePark.getHeading());
         toPark.setPathEndTimeoutConstraint(1000);
+
+        park= new Path(new BezierCurve(new Point(RLPrePark), new Point(RLPark)));
+        park.setLinearHeadingInterpolation(RLPrePark.getHeading(), RLPark.getHeading());
+        park.setPathEndTimeoutConstraint(250);
 
         forward1 = new Path(new BezierCurve(new Point(RLGrab1), new Point(RLForward1)));
         forward1.setConstantHeadingInterpolation(RLGrab1.getHeading());

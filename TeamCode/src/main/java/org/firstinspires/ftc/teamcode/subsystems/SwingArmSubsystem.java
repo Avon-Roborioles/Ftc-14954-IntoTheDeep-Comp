@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SwingArmSubsystem extends SubsystemBase {
     private Servo SwingArmServo;
     private double TopPos = 0.79;
-    private double MidPos = 0.55;
+    private double MidPos = 0.5;
     private double ParkPos = 0.7;
     private TouchSensor touch;
 

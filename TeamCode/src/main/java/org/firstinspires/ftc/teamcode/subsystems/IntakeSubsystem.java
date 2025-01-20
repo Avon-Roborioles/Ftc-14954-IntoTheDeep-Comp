@@ -81,7 +81,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean isColorSensorRed() {return getRed() > getBlue() && getRed() > getGreen();}
 
-    public boolean isColorSensorBlue() {return getBlue() > getRed();}
+    public boolean isColorSensorBlue() {return getBlue() > getRed()&& getBlue()>200;}
 
     public boolean isColorSensorYellow() {
         return !isColorSensorBlue() && !isColorSensorRed() && getGreen() > 200;

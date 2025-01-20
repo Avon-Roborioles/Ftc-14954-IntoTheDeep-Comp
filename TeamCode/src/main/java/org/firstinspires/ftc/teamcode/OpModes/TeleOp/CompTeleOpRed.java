@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import static java.lang.Math.PI;
+
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -17,6 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -87,7 +91,7 @@ public class CompTeleOpRed extends CommandOpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, 0));
+        follower.setStartingPose(new Pose(0, 0, PI/2));
         follower.startTeleopDrive();
 
 
@@ -146,6 +150,6 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-
+        CommandScheduler.getInstance().schedule(new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
     }
 }
