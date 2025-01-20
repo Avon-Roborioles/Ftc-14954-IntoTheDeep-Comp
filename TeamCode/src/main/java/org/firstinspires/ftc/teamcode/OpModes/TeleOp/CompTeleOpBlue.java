@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import static java.lang.Math.PI;
+
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -17,6 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -27,6 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
@@ -43,6 +48,7 @@ import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
@@ -69,6 +75,7 @@ public class CompTeleOpBlue extends CommandOpMode {
     private BoxxySubsystem box;
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
+    private LeverSubsystem lever;
     @Override
     public void initialize() {
 
@@ -89,13 +96,13 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, 0));
+        follower.setStartingPose(new Pose(0, 0, -PI/2));
         follower.startTeleopDrive();
 
 
 
 
-
+        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
 
         pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
@@ -148,7 +155,7 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-
+        CommandScheduler.getInstance().schedule(new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
     }
 
 }

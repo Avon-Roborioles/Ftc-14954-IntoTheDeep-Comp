@@ -31,6 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
+import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
@@ -45,6 +46,7 @@ import com.pedropathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
@@ -71,6 +73,7 @@ public class CompTeleOpRed extends CommandOpMode {
     private BoxxySubsystem box;
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
+    private LeverSubsystem lever;
     @Override
     public void initialize() {
 
@@ -96,7 +99,7 @@ public class CompTeleOpRed extends CommandOpMode {
 
 
 
-
+        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
 
         pedroDriveSubsystem = new PedroDriveSubsystem( follower);
 
@@ -150,6 +153,6 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-        CommandScheduler.getInstance().schedule(new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
+        CommandScheduler.getInstance().schedule(new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
     }
 }

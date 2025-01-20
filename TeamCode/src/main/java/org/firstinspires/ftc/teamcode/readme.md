@@ -27,6 +27,7 @@ M3: "Pass"
 
 S0: "swingArm" 0 with preloaded spring toward switch
 S1: "allianceColor"
+S2: "lever"
 
 I2C0: "boxDistance"
 I2C1: "passDistance"
