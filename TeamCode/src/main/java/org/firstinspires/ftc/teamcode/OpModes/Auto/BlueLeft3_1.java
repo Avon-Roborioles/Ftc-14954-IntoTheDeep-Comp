@@ -59,6 +59,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
@@ -69,6 +70,7 @@ import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
@@ -129,10 +131,11 @@ public class BlueLeft3_1 extends AutoBase{
         });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
-                new WaitCommand(10),
+                new LeverClearCommand(lever),
+                new WaitCommand(100),
                 new HandoffCommand(wrist),
-                new RetractCommand(extend),
-                new SwingArmDownCommand(swingArmSubsystem)
+                new WaitCommand(10),
+                new RetractCommand(extend)
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
@@ -219,6 +222,7 @@ public class BlueLeft3_1 extends AutoBase{
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, BLStartBar);
+        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
     }
 
     @Override
