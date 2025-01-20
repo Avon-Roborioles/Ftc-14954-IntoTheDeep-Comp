@@ -12,6 +12,19 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPrePark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScorePreload;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBucket;
 
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -46,6 +59,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -59,7 +73,7 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-public class BlueLeft4_0 extends AutoBase{
+public class BlueLeft4_0 extends AutoBase {
 
 
     @Override
@@ -102,14 +116,18 @@ public class BlueLeft4_0 extends AutoBase{
         setPathToForward3 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(forward3, true);
         });
+        setPark = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(park, false);
+        });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(10),
-                new RetractCommand(extend),
-                new HandoffCommand(wrist)
+                new HandoffCommand(wrist),
+                new WaitCommand(10),
+                new RetractCommand(extend)
 //                new LightRedAlliance(intake)
         );
-        ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
+        ParallelCommandGroup IntakeAndDrive = new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
                 new LiftBottomCommand(liftSubsystem),
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
@@ -152,6 +170,11 @@ public class BlueLeft4_0 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
+                        new RaiseWrist(wrist),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                setPark,
+                new ParallelCommandGroup(
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
@@ -176,24 +199,24 @@ public class BlueLeft4_0 extends AutoBase{
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         extendservo = hardwareMap.get(Servo.class, "extension");
-        extend = new ExtendSubsystem(extendservo, touch2 );
+        extend = new ExtendSubsystem(extendservo, touch2);
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
-        liftSubsystem = new LiftSubsystem(liftMotor,touch1);
+        liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
+        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"), hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, BLStartBucket);
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
     }
 
     @Override
     public void buildPaths() {
-        toScorePreload = new Path(new BezierCurve(new Point(BLStartBucket), new Point(BLScore)));
-        toScorePreload.setLinearHeadingInterpolation(BLStartBucket.getHeading(), BLScore.getHeading());
+        toScorePreload = new Path(new BezierCurve(new Point(BLStartBucket), new Point(BLScorePreload)));
+        toScorePreload.setLinearHeadingInterpolation(BLStartBucket.getHeading(), BLScorePreload.getHeading());
         toScorePreload.setPathEndTimeoutConstraint(1000);
 
-        toPickUp1 = new Path(new BezierCurve(new Point(BLScore), new Point(BLGrab1)));
-        toPickUp1.setLinearHeadingInterpolation(BLScore.getHeading(), BLGrab1.getHeading());
+        toPickUp1 = new Path(new BezierCurve(new Point(BLScorePreload), new Point(BLGrab1)));
+        toPickUp1.setLinearHeadingInterpolation(BLScorePreload.getHeading(), BLGrab1.getHeading());
         toPickUp1.setPathEndTimeoutConstraint(1000);
 
         toScore1 = new Path(new BezierCurve(new Point(BLGrab1), new Point(BLScore)));
@@ -216,9 +239,13 @@ public class BlueLeft4_0 extends AutoBase{
         toScore3.setLinearHeadingInterpolation(BLGrab3.getHeading(), BLScore.getHeading());
         toScore3.setPathEndTimeoutConstraint(1000);
 
-        toPark = new Path(new BezierCurve(new Point(BLScore), new Point(BLParkMid), new Point(BLPark)));
-        toPark.setLinearHeadingInterpolation(BLScore.getHeading(), BLPark.getHeading());
+        toPark = new Path(new BezierCurve(new Point(BLScore), new Point(BLParkMid), new Point(BLPrePark)));
+        toPark.setLinearHeadingInterpolation(BLScore.getHeading(), BLPrePark.getHeading());
         toPark.setPathEndTimeoutConstraint(1000);
+
+        park = new Path(new BezierCurve(new Point(BLPrePark), new Point(BLPark)));
+        park.setLinearHeadingInterpolation(BLPrePark.getHeading(), BLPark.getHeading());
+        park.setPathEndTimeoutConstraint(250);
 
         forward1 = new Path(new BezierCurve(new Point(BLGrab1), new Point(BLForward1)));
         forward1.setConstantHeadingInterpolation(BLGrab1.getHeading());

@@ -16,6 +16,21 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBar;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLBar;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLBarMid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1Mid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPrePark;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
+import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBar;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -49,6 +64,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClear
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -63,6 +79,7 @@ import pedroPathing.constants.LConstants;
 
 @Autonomous
 public class BlueLeft3_1 extends AutoBase{
+
 
 
     @Override
@@ -107,6 +124,9 @@ public class BlueLeft3_1 extends AutoBase{
         setPathToForward3 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(forward3, true);
         });
+        setPark = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(park, false);
+        });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(10),
@@ -123,8 +143,8 @@ public class BlueLeft3_1 extends AutoBase{
                 setPathToBar,
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        initSubsystems),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                initSubsystems,
                 setPathToScorePreload,
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
@@ -148,8 +168,8 @@ public class BlueLeft3_1 extends AutoBase{
                 IntakeAndDrive,
                 setPathToScore2,
                 new ParallelCommandGroup(
-                    new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
-                    new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem),
@@ -161,6 +181,11 @@ public class BlueLeft3_1 extends AutoBase{
                         new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
+                new ParallelCommandGroup(
+                        new RaiseWrist(wrist),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                setPark,
                 new ParallelCommandGroup(
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
@@ -230,9 +255,13 @@ public class BlueLeft3_1 extends AutoBase{
         toScore3.setLinearHeadingInterpolation(BLGrab3.getHeading(), BLScore.getHeading());
         toScore3.setPathEndTimeoutConstraint(1000);
 
-        toPark = new Path(new BezierCurve(new Point(BLScore),new Point(BLParkMid), new Point(BLPark)));
-        toPark.setLinearHeadingInterpolation(BLScore.getHeading(), BLPark.getHeading());
+        toPark = new Path(new BezierCurve(new Point(BLScore),new Point(BLParkMid), new Point(BLPrePark)));
+        toPark.setLinearHeadingInterpolation(BLScore.getHeading(), BLPrePark.getHeading());
         toPark.setPathEndTimeoutConstraint(1000);
+
+        park= new Path(new BezierCurve(new Point(BLPrePark), new Point(BLPark)));
+        park.setLinearHeadingInterpolation(BLPrePark.getHeading(), BLPark.getHeading());
+        park.setPathEndTimeoutConstraint(250);
 
         forward1 = new Path(new BezierCurve(new Point(BLGrab1), new Point(BLForward1)));
         forward1.setConstantHeadingInterpolation(BLGrab1.getHeading());
