@@ -11,10 +11,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private TouchSensor touch;
-    private int topPosition = -3000;
-    private int topBarPosition = -2200;
-    private int bottomBucketPosition = -1000;
-    private int swingarmClearPosition = -975;
+    private int topPosition = 2200;
+    private int topBarPosition = 1550;
+    private int bottomBucketPosition = 840;
+    private int swingarmClearPosition = 730;
     private double joystickSensitivity = 10;
     private double liftTargetPosition = 0;
     private double power = 1;
@@ -40,7 +40,7 @@ public class LiftSubsystem extends SubsystemBase {
         this.touch = touch;
         this.liftMotor.setRunMode(Motor.RunMode.PositionControl);
         this.liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        this.liftMotor.setInverted(true);
+        this.liftMotor.setInverted(false);
         this.liftMotor.setPositionTolerance(50);
         this.liftMotor.setPositionCoefficient(0.05);
         this.liftMotor.resetEncoder();

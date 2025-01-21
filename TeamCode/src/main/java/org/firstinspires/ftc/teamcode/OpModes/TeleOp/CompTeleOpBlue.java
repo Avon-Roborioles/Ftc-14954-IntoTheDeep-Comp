@@ -96,7 +96,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, -PI/2));
+        follower.setStartingPose(new Pose(0, 0, PI/2));
         follower.startTeleopDrive();
 
 
