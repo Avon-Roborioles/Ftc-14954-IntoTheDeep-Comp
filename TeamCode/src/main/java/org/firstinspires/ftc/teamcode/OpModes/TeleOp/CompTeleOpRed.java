@@ -4,6 +4,8 @@ import static java.lang.Math.PI;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -153,6 +155,6 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-        CommandScheduler.getInstance().schedule(new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 }

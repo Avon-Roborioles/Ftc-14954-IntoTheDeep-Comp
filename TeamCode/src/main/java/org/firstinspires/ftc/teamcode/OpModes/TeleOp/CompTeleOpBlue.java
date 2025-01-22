@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -27,6 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.SpitOutCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.HeadingReset;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
@@ -76,6 +81,7 @@ public class CompTeleOpBlue extends CommandOpMode {
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
     private LeverSubsystem lever;
+    private Command ResetHeading;
     @Override
     public void initialize() {
 
@@ -115,13 +121,19 @@ public class CompTeleOpBlue extends CommandOpMode {
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
 //        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
-
-
-
+        ResetHeading = new InstantCommand(() -> {
+            follower.setPose(new Pose(0, 0, 0));
+        });
         /*
         Command Bindings
          */
         // Lift Commands
+//        driverOp.getGamepadButton(GamepadKeys.Button.A)
+//                        .whenPressed(new HeadingReset());
+        driverOp.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new InstantCommand(() -> {
+                                follower.setPose(new Pose(0, 0, 0));
+                                }));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomResetCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
@@ -155,7 +167,7 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-        CommandScheduler.getInstance().schedule(new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 
 }
