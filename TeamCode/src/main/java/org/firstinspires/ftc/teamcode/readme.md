@@ -40,6 +40,7 @@ TeleOp (Gamepad Driving)
 Driver:
 Right Bumper = Slow Drive
 Left Bumper= Score
+Y = Heading Reset
 
 Operator: 
 Left Bumper = Extend Extension 

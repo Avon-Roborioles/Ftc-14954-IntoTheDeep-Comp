@@ -122,7 +122,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
 //        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
         ResetHeading = new InstantCommand(() -> {
-            follower.setPose(new Pose(0, 0, 0));
+            follower.setPose(new Pose(0, 0, PI/2));
         });
         /*
         Command Bindings
@@ -132,7 +132,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 //                        .whenPressed(new HeadingReset());
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
-                                follower.setPose(new Pose(0, 0, 0));
+                                follower.setPose(new Pose(0, 0, PI/2));
                                 }));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomResetCommand(liftSubsystem));
