@@ -31,6 +31,15 @@ public class PoseList {
     public static Pose RLPrePark = new Pose(-25 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
     public static Pose RLParkMid = new Pose(-60, -11, PI/2);
 
+    public static Pose RRStartBar = new Pose( HalfChassisWidth -0.75 ,-68 + HalfChassisLength, -PI/2);
+    public static Pose RRBar = new Pose( HalfChassisWidth -0.75 , -32, -PI/2);
+    public static Pose RRBarMid = new Pose( HalfChassisWidth -0.75 , -38, -PI/2);
+    public static Pose RRPark = new Pose(60, -60, PI);
+    public static Pose RRParkMid = new Pose(40, -40, PI);
+
+
+
+
     public static Pose BLStartBar = new Pose( HalfChassisWidth -0.75 ,68 - HalfChassisLength, PI/2);
     public static Pose BLBar = new Pose( HalfChassisWidth -0.75 , 31, PI/2);
     public static Pose BLBarMid = new Pose( HalfChassisWidth -0.75  , 38, PI/2);
