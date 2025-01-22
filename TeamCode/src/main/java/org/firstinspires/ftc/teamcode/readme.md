@@ -41,6 +41,7 @@ Driver:
 Right Bumper = Slow Drive
 Left Bumper= Score
 Y = Heading Reset
+UP DPAD = Hang Level 1
 
 Operator: 
 Left Bumper = Extend Extension 

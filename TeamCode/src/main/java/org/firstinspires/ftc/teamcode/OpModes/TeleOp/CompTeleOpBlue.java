@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.Hang1;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -134,6 +135,8 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new InstantCommand(() -> {
                                 follower.setPose(new Pose(0, 0, PI/2));
                                 }));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new Hang1(liftSubsystem, swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomResetCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
