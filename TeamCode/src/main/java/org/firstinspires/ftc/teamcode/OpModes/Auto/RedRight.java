@@ -51,9 +51,11 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
@@ -95,7 +97,8 @@ public class RedRight extends AutoBase{
                 new WaitCommand(100),
                 new HandoffCommand(wrist),
                 new WaitCommand(10),
-                new RetractCommand(extend)
+                new RetractCommand(extend),
+                new SwingArmDownCommand(swingArmSubsystem)
         );
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
@@ -108,11 +111,13 @@ public class RedRight extends AutoBase{
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                new LiftForSwingArmClearCommand(liftSubsystem),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new LiftBottomCommand(liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry))
+                        new ClipTopSpecimen(liftSubsystem, 1000),
+                        new SequentialCommandGroup(
+                                new WaitCommand(250),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)))
+
         );
 
 

@@ -11,8 +11,6 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
 public class AutoEndCommand extends SequentialCommandGroup {
-    private SwingArmSubsystem swingArm;
-    private LiftSubsystem lift;
     public AutoEndCommand(SwingArmSubsystem swingArm, LiftSubsystem lift){
         addCommands(
                 new SwingArmParkCommand(swingArm),
