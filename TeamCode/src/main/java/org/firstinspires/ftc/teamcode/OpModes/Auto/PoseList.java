@@ -19,10 +19,10 @@ public class PoseList {
     public static Pose RLStartBucket = new Pose( -29.625 - HalfChassisWidth,-70.125 + HalfChassisLength, PI/2);
     public static Pose RLScore = new Pose(-57 ,-54 , PI/4 );
     public static Pose RLScorePreload = new Pose(-55 ,-55 , PI/4 );
-    public static Pose RLGrab1 = new Pose(-49.5, -42, PI/2);
+    public static Pose RLGrab1 = new Pose(-49.5, -41, PI/2);
     public static Pose RLGrab1Mid = new Pose(-40, -50, PI/2);
-    public static Pose RLForward1 = new Pose(-49.5, -39, PI/2);
-    public static Pose RLGrab2 = new Pose(-59, -42, PI/2);
+    public static Pose RLForward1 = new Pose(-49.5, -38, PI/2);
+    public static Pose RLGrab2 = new Pose(-59, -41, PI/2);
     public static Pose RLForward2 = new Pose(-59, -38, PI/2);
     public static Pose RLGrab3 = new Pose(-53, -35, 5* PI/6);
     public static Pose RLGrab3Mid = new Pose(-40, -36, 5* PI/6);
