@@ -15,7 +15,7 @@ S2: "blinkin"
 
 
 I2C0: "odometry"
-I2C1: "inop"
+I2C1: inop
 I2C2: "intakeColor1"
 I2C3: "intakeColor2"
 
@@ -44,6 +44,7 @@ Left Bumper= Score
 Y = Heading Reset
 UP DPAD = Hang Level 1
 Down DPAD = Specimen score
+Left DPAD = In Bucket recover
 
 Operator: 
 Left Bumper = Extend Extension 

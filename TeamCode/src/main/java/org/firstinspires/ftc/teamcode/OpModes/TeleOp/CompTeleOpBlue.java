@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBot
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.SpitOutCommand;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.HeadingReset;
@@ -138,6 +139,8 @@ public class CompTeleOpBlue extends CommandOpMode {
                                 }));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                         .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                        .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new Hang1(liftSubsystem, swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
