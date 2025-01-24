@@ -46,6 +46,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
@@ -140,8 +141,10 @@ public class RedLeft3_1 extends AutoBase{
                 new LiftForSwingArmClearCommand(liftSubsystem),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new LiftBottomCommand(liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                        new ClipTopSpecimen(liftSubsystem, 1000),
+                        new SequentialCommandGroup(
+                                new WaitCommand(250),
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry))),
                 setPathToForward1,
                 IntakeAndDrive,
                 setPathToScore1,

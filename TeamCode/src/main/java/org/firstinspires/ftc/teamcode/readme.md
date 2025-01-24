@@ -15,7 +15,7 @@ S2: "blinkin"
 
 
 I2C0: "odometry"
-I2C1: "intakeDistance"
+I2C1: "inop"
 I2C2: "intakeColor1"
 I2C3: "intakeColor2"
 
@@ -31,6 +31,7 @@ S2: "lever"
 
 I2C0: "boxDistance"
 I2C1: "passDistance"
+I2C3: "intakeDistance"
 
 D7:"liftDown"
 D5: "extensionIn"
@@ -42,6 +43,7 @@ Right Bumper = Slow Drive
 Left Bumper= Score
 Y = Heading Reset
 UP DPAD = Hang Level 1
+Down DPAD = Specimen score
 
 Operator: 
 Left Bumper = Extend Extension 

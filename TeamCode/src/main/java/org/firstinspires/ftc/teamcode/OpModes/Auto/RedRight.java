@@ -103,6 +103,7 @@ public class RedRight extends AutoBase{
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 setPathToBar,
+                new SwingArmDownCommand(swingArmSubsystem),
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),

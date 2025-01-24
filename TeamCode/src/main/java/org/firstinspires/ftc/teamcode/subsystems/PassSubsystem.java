@@ -26,7 +26,7 @@ public class PassSubsystem extends SubsystemBase {
         motor1.setPower(0);
     }
     public boolean PassDistanceTrue(){
-        return distanceSensor.getDistance(DistanceUnit.INCH) < 2 ;
+        return distanceSensor.getDistance(DistanceUnit.INCH) < 2.25 ;
     }
 
     public void getTelemetry(Telemetry telemetry) {

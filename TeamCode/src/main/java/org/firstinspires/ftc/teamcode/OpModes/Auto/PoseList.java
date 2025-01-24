@@ -13,7 +13,7 @@ public class PoseList {
     public static double HalfChassisLength = 8.1875;
     public static double HalfTilePuzzle = 0.75/2;
 
-    public static Pose RLStartBar = new Pose(- HalfChassisWidth + 0.75 ,-68 + HalfChassisLength, -PI/2);
+    public static Pose RLStartBar = new Pose(- HalfChassisWidth + 0.75 ,-69 + HalfChassisLength, -PI/2);
     public static Pose RLBar = new Pose(1 - HalfChassisWidth , -32, -PI/2);
     public static Pose RLBarMid = new Pose(1 - HalfChassisWidth , -38, -PI/2);
     public static Pose RLStartBucket = new Pose( -29.625 - HalfChassisWidth,-70.125 + HalfChassisLength, PI/2);
@@ -48,7 +48,7 @@ public class PoseList {
     public static Pose BLScorePreload = new Pose(55,55 , -3*PI/4 );
     public static Pose BLGrab1 = new Pose(49.5, 42, -PI/2);
     public static Pose BLGrab1Mid = new Pose(40, 50, -PI/2);
-    public static Pose BLForward1 = new Pose(51, 39, -PI/2);
+    public static Pose BLForward1 = new Pose(49.5, 39, -PI/2);
     public static Pose BLGrab2 = new Pose(59, 42, -PI/2);
     public static Pose BLForward2 = new Pose(59, 38, -PI/2);
     public static Pose BLGrab3 = new Pose(53, 35, -PI/6);

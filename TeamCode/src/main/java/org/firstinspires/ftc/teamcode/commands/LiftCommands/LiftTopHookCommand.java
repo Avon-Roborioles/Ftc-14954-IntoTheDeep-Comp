@@ -14,7 +14,7 @@ public class LiftTopHookCommand extends CommandBase {
 
     @Override
     public void execute() {
-        liftSubsystem.setTopBarPosition();
+        liftSubsystem.setTopHookPosition();
     }
 
     @Override

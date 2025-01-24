@@ -36,6 +36,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTop
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
@@ -128,6 +129,8 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new InstantCommand(() -> {
                     follower.setPose(new Pose(0, 0, PI/2));
                 }));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                         .whenPressed(new Hang1(liftSubsystem, swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
@@ -163,6 +166,6 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 }
