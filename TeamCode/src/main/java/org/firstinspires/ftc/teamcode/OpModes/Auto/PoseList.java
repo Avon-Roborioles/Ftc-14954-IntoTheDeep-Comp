@@ -22,11 +22,11 @@ public class PoseList {
     public static Pose RLGrab1 = new Pose(-49.5, -41, PI/2);
     public static Pose RLGrab1Mid = new Pose(-40, -50, PI/2);
     public static Pose RLForward1 = new Pose(-49.5, -38, PI/2);
-    public static Pose RLGrab2 = new Pose(-59, -41, PI/2);
-    public static Pose RLForward2 = new Pose(-59, -38, PI/2);
-    public static Pose RLGrab3 = new Pose(-53, -35, 5* PI/6);
+    public static Pose RLGrab2 = new Pose(-60, -41, PI/2);
+    public static Pose RLForward2 = new Pose(-60, -38, PI/2);
+    public static Pose RLGrab3 = new Pose(-53, -34, 5* PI/6);
     public static Pose RLGrab3Mid = new Pose(-40, -36, 5* PI/6);
-    public static Pose RLForward3 = new Pose(-56, -34, 5* PI/6);
+    public static Pose RLForward3 = new Pose(-56, -33, 5* PI/6);
     public static Pose RLPark = new Pose(-16.5 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
     public static Pose RLPrePark = new Pose(-25 - HalfChassisLength, -2.5 - HalfChassisWidth, PI);
     public static Pose RLParkMid = new Pose(-60, -11, PI/2);
