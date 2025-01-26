@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassEject;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
@@ -169,6 +170,8 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                        .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 }

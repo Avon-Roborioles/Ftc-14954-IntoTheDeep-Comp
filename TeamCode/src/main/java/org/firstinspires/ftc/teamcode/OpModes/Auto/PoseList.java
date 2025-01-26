@@ -49,11 +49,11 @@ public class PoseList {
     public static Pose BLGrab1 = new Pose(49.5, 41, -PI/2);
     public static Pose BLGrab1Mid = new Pose(40, 50, -PI/2);
     public static Pose BLForward1 = new Pose(49.5, 38, -PI/2);
-    public static Pose BLGrab2 = new Pose(59.5, 42, -PI/2);
+    public static Pose BLGrab2 = new Pose(59.5, 41, -PI/2);
     public static Pose BLForward2 = new Pose(59.5, 38, -PI/2);
-    public static Pose BLGrab3 = new Pose(53, 35, -PI/6);
+    public static Pose BLGrab3 = new Pose(53, 34, -PI/6);
     public static Pose BLGrab3Mid = new Pose(40, 36, -PI/6);
-    public static Pose BLForward3 = new Pose(56, 34, -PI/6);
+    public static Pose BLForward3 = new Pose(56, 33, -PI/6);
     public static Pose BLPark = new Pose(16.5 + HalfChassisLength, 2.5 + HalfChassisWidth, 0);
     public static Pose BLPrePark = new Pose(25 + HalfChassisLength, 2.5 + HalfChassisWidth, 0);
     public static Pose BLParkMid = new Pose(60, 11, -PI/2);
