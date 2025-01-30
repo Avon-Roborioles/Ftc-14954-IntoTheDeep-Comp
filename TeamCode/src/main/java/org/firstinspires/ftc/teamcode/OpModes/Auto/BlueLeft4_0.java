@@ -12,19 +12,8 @@ import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPrePark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScorePreload;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBucket;
 
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -44,6 +33,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveComman
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -58,7 +48,6 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverUpCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
@@ -209,7 +198,7 @@ public class BlueLeft4_0 extends AutoBase {
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"), hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"), hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, BLStartBucket);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));

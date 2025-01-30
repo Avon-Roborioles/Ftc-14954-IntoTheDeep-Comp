@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.BottomBucketScoreReady;
@@ -28,18 +29,14 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverDownCommand;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverUpCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToBox;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOffCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassOnToBoxCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmScoreCommand;
@@ -82,6 +79,7 @@ public class ButtonOpMode extends CommandOpMode {
     private LeverSubsystem lever;
 
 
+
     @Override
     public void initialize() {
 
@@ -109,7 +107,7 @@ public class ButtonOpMode extends CommandOpMode {
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
 
         drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
         //Default Commands

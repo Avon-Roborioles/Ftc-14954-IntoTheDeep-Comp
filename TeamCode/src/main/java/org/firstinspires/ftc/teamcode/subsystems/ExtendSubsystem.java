@@ -12,9 +12,9 @@ public class ExtendSubsystem extends SubsystemBase {
 
     public ExtendSubsystem(Servo servo, TouchSensor touch) {  this.servo = servo; this.touch = touch; }
 
-    public void extend() { servo.setPosition(0.55);}
+    public void extend() { servo.setPosition(0.45);}
 
-    public void retract() { servo.setPosition(1.0);}
+    public void retract() { servo.setPosition(0.95);}
     public boolean retracted(){return touch.isPressed();}
 
     public void getTelemetry(Telemetry telemetry) {

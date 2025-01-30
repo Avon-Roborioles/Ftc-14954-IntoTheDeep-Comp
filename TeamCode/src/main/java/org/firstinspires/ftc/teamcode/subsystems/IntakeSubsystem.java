@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
@@ -18,9 +20,10 @@ public class IntakeSubsystem extends SubsystemBase {
     private DistanceSensor distanceSensor;
     private ServoImplEx allianceColor;
     private BoxxySubsystem box;
+    private CRServo intakeRoller;
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor1, ColorSensor colorSensor2, RevBlinkinLedDriver blinkin,
-                           DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance) {
+                           DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance, CRServo intakeRoller) {
         this.motor = motor;
         this.colorSensor1 = colorSensor1;
         this.colorSensor2 = colorSensor2;
@@ -30,6 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
         this.box = box;
         this.motor.setDirection(DcMotor.Direction.REVERSE);
         this.RedAlliance = RedAlliance;
+        this.intakeRoller = intakeRoller;
+        this.intakeRoller.setDirection(DcMotorSimple.Direction.FORWARD);
         // start as blue alliance
         if(!RedAlliance){
             this.allianceColor.setPosition(0.61);
@@ -49,9 +54,11 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    public void runMotor() {motor.setPower(-0.8);}
+    public void runMotor() {motor.setPower(-1);
+    intakeRoller.setPower(1);}
 
-    public void rejectMotor() {motor.setPower(0.8);}
+    public void rejectMotor() {motor.setPower(1);
+    intakeRoller.setPower(-1);}
 
     public void redlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
@@ -71,6 +78,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void stopMotor() {
         motor.setPower(0);
+        intakeRoller.setPower(0);
     }
 
     public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);}

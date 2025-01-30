@@ -2,20 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLBar;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLBarMid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab1Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLParkMid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPrePark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLScore;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLStartBar;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RRBar;
 import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RRBarMid;
@@ -43,21 +29,15 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -146,7 +126,7 @@ public class RedRight extends AutoBase{
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"));
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
+        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, RRStartBar);
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
     }

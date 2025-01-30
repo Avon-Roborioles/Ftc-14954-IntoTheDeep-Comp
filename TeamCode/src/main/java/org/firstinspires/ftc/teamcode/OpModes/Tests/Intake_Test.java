@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Tests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,9 +9,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 @TeleOp
@@ -27,7 +25,7 @@ public class Intake_Test extends CommandOpMode {
                 hardwareMap.get(ColorSensor.class, "intakeColor2"),
                 hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"),
                 hardwareMap.get(DistanceSensor.class, "intakeDistance"),
-                hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
+                hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         gamepad = new GamepadEx(gamepad1);
 
 //        gamepad.getGamepadButton(GamepadKeys.Button.Y)

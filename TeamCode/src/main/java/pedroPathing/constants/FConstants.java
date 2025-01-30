@@ -53,5 +53,6 @@ public class FConstants {
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
         FollowerConstants.maxPower = 0.9;
+        FollowerConstants.motorCachingThreshold = 0.05;
     }
 }
