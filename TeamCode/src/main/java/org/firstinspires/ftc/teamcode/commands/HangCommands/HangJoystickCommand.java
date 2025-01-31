@@ -16,8 +16,7 @@ public class HangJoystickCommand extends CommandBase {
     }
     @Override
     public void execute() {
-        hangSubsystem.setHangPower(power.getAsDouble());
-    }
+        hangSubsystem.setHangPower(power.getAsDouble());}
     @Override
     public boolean isFinished(){return false;}
 

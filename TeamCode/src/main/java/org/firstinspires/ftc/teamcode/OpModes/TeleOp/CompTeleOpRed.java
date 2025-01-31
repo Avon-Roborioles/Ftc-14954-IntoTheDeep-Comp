@@ -24,7 +24,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
-import org.firstinspires.ftc.teamcode.commands.CommandGroups.Hang1;
+import org.firstinspires.ftc.teamcode.commands.HangCommands.HangLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -134,7 +134,7 @@ public class CompTeleOpRed extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .whenPressed(new Hang1(liftSubsystem, swingArmSubsystem));
+                        .whenPressed(new HangLevel1Command(liftSubsystem, swingArmSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
