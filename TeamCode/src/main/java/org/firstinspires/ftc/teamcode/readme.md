@@ -60,5 +60,6 @@ DPAD RIGHT = Eject PassThrough
 DPAD LEFT = Intake to Pass End 
 BACK = Intake Reject Command
 RIGHT STICK BUTTON = Lift Reset Command
+Left Joystick = Hang
 
  

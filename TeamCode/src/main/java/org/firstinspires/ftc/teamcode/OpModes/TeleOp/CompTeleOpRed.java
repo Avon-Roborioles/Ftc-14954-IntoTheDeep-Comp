@@ -32,6 +32,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.SpitOutCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
@@ -49,6 +50,7 @@ import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import com.pedropathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
@@ -78,6 +80,7 @@ public class CompTeleOpRed extends CommandOpMode {
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
     private LeverSubsystem lever;
+    private HangSubsystem hang;
     @Override
     public void initialize() {
 
@@ -95,7 +98,7 @@ public class CompTeleOpRed extends CommandOpMode {
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"), intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"), intake);
-
+        hang = new HangSubsystem(hardwareMap.get(Motor.class, "climb"));
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(new Pose(0, 0, PI/2));
@@ -115,7 +118,7 @@ public class CompTeleOpRed extends CommandOpMode {
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
 
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
-
+        hang.setDefaultCommand(new HangJoystickCommand(hang, operatorOp::getLeftY));
 //        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
 
 

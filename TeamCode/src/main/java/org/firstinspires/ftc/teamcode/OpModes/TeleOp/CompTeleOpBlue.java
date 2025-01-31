@@ -34,6 +34,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.SpitOutCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
+import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
@@ -52,6 +53,7 @@ import com.pedropathing.follower.Follower;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
@@ -81,6 +83,7 @@ public class CompTeleOpBlue extends CommandOpMode {
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
     private LeverSubsystem lever;
+    private HangSubsystem hang;
     private Command ResetHeading;
     @Override
     public void initialize() {
@@ -99,6 +102,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"),intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"),intake);
+        hang = new HangSubsystem(hardwareMap.get(Motor.class, "climb"));
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
@@ -124,6 +128,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         ResetHeading = new InstantCommand(() -> {
             follower.setPose(new Pose(0, 0, PI/2));
         });
+        hang.setDefaultCommand(new HangJoystickCommand(hang, operatorOp::getLeftY));
         /*
         Command Bindings
          */
