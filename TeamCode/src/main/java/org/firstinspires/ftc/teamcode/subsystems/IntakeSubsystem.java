@@ -21,6 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private ServoImplEx allianceColor;
     private BoxxySubsystem box;
     private CRServo intakeRoller;
+    private boolean DistanceSensorCooked = false;
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor1, ColorSensor colorSensor2, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance, CRServo intakeRoller) {
@@ -43,6 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
             this.allianceColor.setPosition(0.28);
             this.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
+        DistanceSensorCooked = false;
     }
 
     @Override
@@ -59,6 +61,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void rejectMotor() {motor.setPower(1);
     intakeRoller.setPower(-1);}
+
+    public boolean IsIntakeDistanceSensorCooked() {
+        return DistanceSensorCooked;
+    }
 
     public void redlight() {
         blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
@@ -80,12 +86,34 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setPower(0);
         intakeRoller.setPower(0);
     }
+    public void IntakeFailLight() {
+        allianceColor.setPosition(0.722); // Violet
+    }
+    public void PassFailLight() {
+        allianceColor.setPosition(0.388); // Yellow
+    }
+    public void BoxFailLight() {
+        allianceColor.setPosition(0.5); // Green
+    }
 
-    public boolean hasSample() {return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);}
+    public boolean hasSample() {
+        if (distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
+            DistanceSensorCooked = true;
+            IntakeFailLight();
+        }
+        if(DistanceSensorCooked){
+            return (getBlue()+getRed()+getGreen()>1000);
+        }else {
+            return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);
+        }
+    }
 
-    public double getRed() {return colorSensor1.red()+ colorSensor2.red();}
-    public double getBlue() {return colorSensor1.blue()+ colorSensor2.blue();}
-    public double getGreen() {return colorSensor1.green()+ colorSensor2.green();}
+    public double getRed() {
+        return colorSensor1.red()+ colorSensor2.red();}
+    public double getBlue() {
+        return colorSensor1.blue()+ colorSensor2.blue();}
+    public double getGreen() {
+        return colorSensor1.green()+ colorSensor2.green();}
 
     public boolean isColorSensorRed() {return getRed() > getBlue() && getRed() > getGreen();}
 

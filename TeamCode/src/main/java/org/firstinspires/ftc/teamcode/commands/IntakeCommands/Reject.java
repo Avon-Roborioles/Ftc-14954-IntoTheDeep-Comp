@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Reject extends CommandBase {
     private IntakeSubsystem intake;
-    Timing.Timer timer = new Timing.Timer(2, TimeUnit.SECONDS);
+    Timing.Timer timer = new Timing.Timer(1, TimeUnit.SECONDS);
     public Reject(IntakeSubsystem intake){
         this.intake = intake;
         addRequirements(intake);

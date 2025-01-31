@@ -96,9 +96,9 @@ public class CompTeleOpBlue extends CommandOpMode {
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"));
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"),intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"));
+        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"),intake);
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);

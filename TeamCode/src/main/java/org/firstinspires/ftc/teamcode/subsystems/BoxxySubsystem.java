@@ -12,22 +12,31 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class BoxxySubsystem extends SubsystemBase {
 
     private DistanceSensor distanceSensor;
-    public BoxxySubsystem( DistanceSensor distanceSensor) {
-//        this.servo = servo;
+    private IntakeSubsystem intake;
+    private boolean DistanceSensorCooked = false;
+    public BoxxySubsystem( DistanceSensor distanceSensor, IntakeSubsystem intake) {
         this.distanceSensor = distanceSensor;
+        this.intake = intake;
+        DistanceSensorCooked = false;
     }
-//    public void open() {
-//        servo.setPosition(1.0);
-//
-//    }
-//    public void close() {
-//        servo.setPosition(0.5);
-//    }
+    public boolean IsBoxDistanceSensorCooked() {
+        return DistanceSensorCooked;
+    }
     public boolean haveSample() {
+        if (distanceSensor.getDistance(DistanceUnit.INCH ) >10){
+            DistanceSensorCooked = true;
+            intake.BoxFailLight();
+
+        }
         return(distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);
     }
 
     public boolean noSample(){
+        if (distanceSensor.getDistance(DistanceUnit.INCH ) >10){
+            DistanceSensorCooked = true;
+            intake.BoxFailLight();
+
+        }
         return (distanceSensor.getDistance(DistanceUnit.INCH) > 2.5);
     }
     public void getTelemetry(Telemetry telemetry) {
