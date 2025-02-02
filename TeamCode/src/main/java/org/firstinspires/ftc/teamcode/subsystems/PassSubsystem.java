@@ -35,7 +35,7 @@ public class PassSubsystem extends SubsystemBase {
     public boolean PassDistanceTrue(){
         if (distanceSensor.getDistance(DistanceUnit.INCH ) >10){
             DistanceSensorCooked = true;
-            intake.PassFailLight();
+//            intake.PassFailLight();
 
         }
         return distanceSensor.getDistance(DistanceUnit.INCH) < 2 ;

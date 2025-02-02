@@ -98,7 +98,7 @@ public class CompTeleOpRed extends CommandOpMode {
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"), intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"), intake);
-        hang = new HangSubsystem(hardwareMap.get(Motor.class, "climb"));
+        hang = new HangSubsystem(new Motor(hardwareMap, "climb"));
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(new Pose(0, 0, PI/2));

@@ -25,7 +25,7 @@ public class BoxxySubsystem extends SubsystemBase {
     public boolean haveSample() {
         if (distanceSensor.getDistance(DistanceUnit.INCH ) >10){
             DistanceSensorCooked = true;
-            intake.BoxFailLight();
+//            intake.BoxFailLight();
 
         }
         return(distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);
@@ -34,7 +34,7 @@ public class BoxxySubsystem extends SubsystemBase {
     public boolean noSample(){
         if (distanceSensor.getDistance(DistanceUnit.INCH ) >10){
             DistanceSensorCooked = true;
-            intake.BoxFailLight();
+//            intake.BoxFailLight();
 
         }
         return (distanceSensor.getDistance(DistanceUnit.INCH) > 2.5);

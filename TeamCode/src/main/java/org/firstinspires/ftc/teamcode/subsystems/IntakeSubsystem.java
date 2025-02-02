@@ -102,7 +102,7 @@ public class IntakeSubsystem extends SubsystemBase {
             IntakeFailLight();
         }
         if(DistanceSensorCooked){
-            return (getBlue()+getRed()+getGreen()>1000);
+            return (getBlue()+getRed()+getGreen()>10000);
         }else {
             return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);
         }

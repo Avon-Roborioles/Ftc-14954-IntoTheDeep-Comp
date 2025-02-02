@@ -31,7 +31,7 @@ public class SwingArmScoreCommand extends CommandBase {
         if (box.IsBoxDistanceSensorCooked()) {
             return timer.done();
         } else {
-            return box.haveSample();
+            return !box.haveSample();
         }
 
 
