@@ -47,14 +47,14 @@ public class IntakeSubsystem extends SubsystemBase {
         DistanceSensorCooked = false;
     }
 
-    @Override
-    public void periodic() {
-        if (RedAlliance) {
-            allianceColor.setPosition(0.28);
-        } else {
-            allianceColor.setPosition(0.61);
-        }
-    }
+//    @Override
+//    public void periodic() {
+//        if (RedAlliance) {
+//            allianceColor.setPosition(0.28);
+//        } else {
+//            allianceColor.setPosition(0.61);
+//        }
+//    }
 
     public void runMotor() {motor.setPower(-1);
     intakeRoller.setPower(1);}
