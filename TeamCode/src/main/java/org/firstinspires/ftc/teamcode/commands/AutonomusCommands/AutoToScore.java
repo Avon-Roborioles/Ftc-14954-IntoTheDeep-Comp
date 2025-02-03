@@ -28,7 +28,7 @@ public class AutoToScore extends SequentialCommandGroup {
                 new LiftBottomCommand(lift),
                 new PassToBox(pass, box, intake),
                 new TopBucketScoreReady(swingArm, lift, pass),
-                new SwingArmScoreCommand(swingArm, box),
+                new SwingArmScoreCommand(swingArm, box, intake),
                 new ColorResetCommand(intake)
         );
     }

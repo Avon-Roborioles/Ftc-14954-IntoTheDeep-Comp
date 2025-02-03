@@ -21,7 +21,11 @@ public class PassOnToEndCommand extends SequentialCommandGroup {
 
     @Override
     public void initialize(){pass.PassMotorControl(0.5);
-        timer.start();}
+        timer.start();
+        if(pass.IsPassDistanceSensorCooked()){
+        intake.PassFailLight();
+        }
+    }
     @Override
     public void end(boolean interrupted){pass.PassOff();
     }

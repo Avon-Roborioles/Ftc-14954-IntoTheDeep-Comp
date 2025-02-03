@@ -15,9 +15,11 @@ public class Score extends SequentialCommandGroup {
     private SwingArmSubsystem swingArm;
     private LiftSubsystem lift;
     private BoxxySubsystem box;
+    private IntakeSubsystem intake;
+
     public Score(SwingArmSubsystem swingArm, LiftSubsystem lift, BoxxySubsystem box, IntakeSubsystem intake){
         addCommands(
-                new SwingArmScoreCommand(swingArm, box),
+                new SwingArmScoreCommand(swingArm, box, intake),
                 new ColorResetCommand(intake),
                 new SwingArmDownCommand(swingArm),
                 new LiftBottomCommand(lift)

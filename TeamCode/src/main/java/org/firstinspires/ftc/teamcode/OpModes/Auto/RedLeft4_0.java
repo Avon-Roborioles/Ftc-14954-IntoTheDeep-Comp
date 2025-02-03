@@ -129,7 +129,7 @@ public class RedLeft4_0 extends AutoBase{
                 initSubsystems,
                 setPathToScorePreload,
                 new ParallelCommandGroup(
-                        new PreloadToScore(swingArmSubsystem, box, liftSubsystem),
+                        new PreloadToScore(swingArmSubsystem, box, liftSubsystem, intake),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp1,
                 new ParallelCommandGroup(

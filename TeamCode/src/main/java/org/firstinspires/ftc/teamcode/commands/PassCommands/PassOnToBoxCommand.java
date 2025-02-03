@@ -23,7 +23,11 @@ public class PassOnToBoxCommand extends SequentialCommandGroup {
 
     @Override
     public void initialize(){pass.PassOn();
-        timer.start();}
+        timer.start();
+        if(box.IsBoxDistanceSensorCooked()){
+            intake.BoxFailLight();
+        }
+    }
 
     public void end(){pass.PassOff();
     }

@@ -149,7 +149,7 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new EjectCommand(intake, pass));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box), new SwingArmDownCommand(swingArmSubsystem));
+                .toggleWhenPressed(new SwingArmScoreCommand(swingArmSubsystem, box, intake), new SwingArmDownCommand(swingArmSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .whenPressed(new SwingArmMidCommand(swingArmSubsystem));
 
