@@ -90,10 +90,10 @@ public class IntakeSubsystem extends SubsystemBase {
         allianceColor.setPosition(0.722); // Violet
     }
     public void PassFailLight() {
-        allianceColor.setPosition(0.388); // Yellow
+        allianceColor.setPosition(1); // White
     }
     public void BoxFailLight() {
-        allianceColor.setPosition(0.5); // Green
+        allianceColor.setPosition(0.333); // Orange
     }
 
     public boolean hasSample() {
