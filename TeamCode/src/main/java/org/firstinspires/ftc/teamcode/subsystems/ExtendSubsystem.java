@@ -16,6 +16,8 @@ public class ExtendSubsystem extends SubsystemBase {
 
     public void retract() { servo.setPosition(0.95);}
     public boolean retracted(){return touch.isPressed();}
+    public void setPosition(double position){servo.setPosition(position);}
+
 
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Extend Retracted", touch.isPressed());
