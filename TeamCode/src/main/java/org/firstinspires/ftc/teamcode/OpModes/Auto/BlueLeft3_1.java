@@ -50,6 +50,7 @@ import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
@@ -129,6 +130,7 @@ public class BlueLeft3_1 extends AutoBase{
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
+                new SwingArmDownCommand(swingArmSubsystem),
                 setPathToBar,
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),

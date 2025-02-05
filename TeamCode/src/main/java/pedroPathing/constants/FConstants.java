@@ -31,7 +31,7 @@ public class FConstants {
 
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.25,0.001,0.04,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
-        FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
+        FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.005,0,0.000025,0); // Not being used, @see useSecondaryTranslationalPID
         FollowerConstants.translationalPIDFFeedForward = 0.015;
 
         FollowerConstants.headingPIDFCoefficients.setCoefficients(0.725,0.001,0.00075,0);
@@ -39,10 +39,11 @@ public class FConstants {
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
         FollowerConstants.headingPIDFFeedForward = 0.025;
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.0075,0,0.00005,0.6,0);
-        FollowerConstants.useSecondaryDrivePID = false;
-        FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.01,0,0.00002,0.6,0);
+        FollowerConstants.useSecondaryDrivePID = true;
+        FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.02,0.0000001,0.00015,0.6,0); // Not being used, @see useSecondaryDrivePID
         FollowerConstants.drivePIDFFeedForward = 0.009;
+        FollowerConstants.drivePIDFSwitch = 20;
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4;
         FollowerConstants.centripetalScaling = 0.0005;
@@ -53,6 +54,6 @@ public class FConstants {
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
         FollowerConstants.maxPower = 0.9;
-        FollowerConstants.motorCachingThreshold = 0.05;
+        FollowerConstants.motorCachingThreshold = 0.005;
     }
 }

@@ -56,10 +56,12 @@ public class IntakeSubsystem extends SubsystemBase {
 //        }
 //    }
 
-    public void runMotor() {motor.setPower(-1);
+
+    //1 is too fast
+    public void runMotor() {motor.setPower(-0.9);
     intakeRoller.setPower(1);}
 
-    public void rejectMotor() {motor.setPower(1);
+    public void rejectMotor() {motor.setPower(0.9);
     intakeRoller.setPower(-1);}
 
     public boolean IsIntakeDistanceSensorCooked() {
@@ -102,9 +104,9 @@ public class IntakeSubsystem extends SubsystemBase {
             allianceColor.setPosition(0.722);
         }
         if(DistanceSensorCooked){
-            return (getBlue()+getRed()+getGreen()>10000);
+            return (getBlue()+getRed()+getGreen()>4000);
         }else {
-            return (distanceSensor.getDistance(DistanceUnit.INCH) < 3);
+            return (distanceSensor.getDistance(DistanceUnit.INCH) < 4.5);
         }
     }
 

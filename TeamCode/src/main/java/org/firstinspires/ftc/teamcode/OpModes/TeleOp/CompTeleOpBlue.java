@@ -102,7 +102,7 @@ public class CompTeleOpBlue extends CommandOpMode {
         pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"),intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"),intake);
-        hang = new HangSubsystem(hardwareMap.get(Motor.class, "climb"));
+        hang = new HangSubsystem(new Motor(hardwareMap, "climb"));
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
@@ -178,7 +178,7 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
+//        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LeverClearCommand(lever),new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 
 }
