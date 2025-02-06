@@ -99,7 +99,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean hasSample() {
-        if (distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
+        if (distanceSensor.getDistance(DistanceUnit.INCH) > 100) {
             DistanceSensorCooked = true;
             allianceColor.setPosition(0.722);
         }

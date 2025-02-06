@@ -65,7 +65,7 @@ public class RedRight extends AutoBase{
     public Pose BarMid = new Pose( HalfChassisWidth -0.75 , -38, -PI/2);
     public Pose BackAwayFromBar = new Pose( HalfChassisWidth -0.75 , -34, -PI/2);
     public Pose Grab1 = new Pose(44, -48, PI/2);
-    public Pose Grab2 = new Pose(54, -48, PI/2);
+    public Pose Grab2 = new Pose(54.5, -48, PI/2);
     public Pose ForSpecimen = new Pose(30.5, -58, PI/2);
     public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-0.5, PI/2);
 
@@ -177,9 +177,9 @@ public class RedRight extends AutoBase{
                 new LiftTopBarCommand(liftSubsystem),
                 setPathToScore1,
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                setPathToScorePreload,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 setPathToForward1,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
                         new AutoClipSpecimen(liftSubsystem, 500),
                         new SequentialCommandGroup(
@@ -250,12 +250,12 @@ public class RedRight extends AutoBase{
         toGrabSpecimen.setLinearHeadingInterpolation(ForSpecimen.getHeading(), GrabSpecimen.getHeading());
         toGrabSpecimen.setPathEndTimeoutConstraint(500);
 
-        toScore1 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(BarMid)));
+        toScore1 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(BarMid.getX()+2, BarMid.getY(), BarMid.getHeading()))));
         toScore1.setLinearHeadingInterpolation(GrabSpecimen.getHeading(), BarMid.getHeading());
-        toScore1.setPathEndTimeoutConstraint(500);
+        toScore1.setPathEndTimeoutConstraint(750);
 
-        forward1 = new Path(new BezierCurve(new Point(BarMid), new Point(new Pose(Bar.getX()+1, Bar.getY(), Bar.getHeading()))));
-        forward1.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()+1, Bar.getY(), Bar.getHeading()).getHeading());
+        forward1 = new Path(new BezierCurve(new Point(BarMid), new Point(new Pose(Bar.getX()+2, Bar.getY(), Bar.getHeading()))));
+        forward1.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()+2, Bar.getY(), Bar.getHeading()).getHeading());
         forward1.setPathEndTimeoutConstraint(500);
 
 
