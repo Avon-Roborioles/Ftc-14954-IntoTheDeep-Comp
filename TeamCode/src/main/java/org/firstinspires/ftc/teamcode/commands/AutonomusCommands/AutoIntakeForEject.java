@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
@@ -31,10 +32,11 @@ public class AutoIntakeForEject extends SequentialCommandGroup {
         addCommands(
                 new LowerWrist(wrist),
                 new ExtensionCommand(extend, 0.5),
-                new CollectSample(intake, wrist),
-                new WristClearBar(wrist),
-                new RetractCommand(extend),
-                new HandoffCommand(wrist),
+                new AutoCollectNoColorSample(intake, wrist),
+                new ParallelCommandGroup(
+                        new RetractCommand(extend),
+                        new HandoffCommand(wrist)
+                        ),
                 new PassToEnd(pass, intake)
         );
     }

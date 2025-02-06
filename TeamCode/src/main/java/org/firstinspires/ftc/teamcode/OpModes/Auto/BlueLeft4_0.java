@@ -117,9 +117,7 @@ public class BlueLeft4_0 extends AutoBase {
                 new LeverClearCommand(lever),
                 new WaitCommand(100),
                 new HandoffCommand(wrist),
-                new WaitCommand(10),
                 new RetractCommand(extend)
-//                new LightRedAlliance(intake)
         );
         ParallelCommandGroup IntakeAndDrive = new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),

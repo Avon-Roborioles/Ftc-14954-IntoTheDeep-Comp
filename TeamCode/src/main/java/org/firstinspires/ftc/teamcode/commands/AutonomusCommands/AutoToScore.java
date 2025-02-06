@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady;
@@ -22,9 +23,10 @@ public class AutoToScore extends SequentialCommandGroup {
 
     public AutoToScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
         addCommands(
-                new WristClearBar(wrist),
-                new RetractCommand(extend),
-                new HandoffCommand(wrist),
+                new ParallelCommandGroup(
+                        new RetractCommand(extend),
+                        new HandoffCommand(wrist)
+                ),
                 new LiftBottomCommand(lift),
                 new PassToBox(pass, box, intake),
                 new TopBucketScoreReady(swingArm, lift, pass),

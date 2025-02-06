@@ -125,7 +125,6 @@ public class RedRight extends AutoBase{
                 new LeverClearCommand(lever),
                 new WaitCommand(100),
                 new HandoffCommand(wrist),
-                new WaitCommand(10),
                 new RetractCommand(extend),
                 new SwingArmDownCommand(swingArmSubsystem)
         );

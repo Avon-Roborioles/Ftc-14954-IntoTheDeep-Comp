@@ -117,7 +117,6 @@ public class RedLeft4_0 extends AutoBase{
                 new LeverClearCommand(lever),
                 new WaitCommand(100),
                 new HandoffCommand(wrist),
-                new WaitCommand(10),
                 new RetractCommand(extend)
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
