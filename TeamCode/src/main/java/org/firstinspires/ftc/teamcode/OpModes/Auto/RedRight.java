@@ -38,6 +38,7 @@ import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -221,7 +222,7 @@ public class RedRight extends AutoBase{
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
-                        new AutoClipSpecimen(liftSubsystem, 250),
+                        new AutoLastClipSpecimen(liftSubsystem, 250),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
