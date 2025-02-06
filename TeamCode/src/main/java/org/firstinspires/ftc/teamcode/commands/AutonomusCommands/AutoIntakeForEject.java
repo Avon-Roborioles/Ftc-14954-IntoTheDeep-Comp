@@ -21,10 +21,10 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class AutoIntakeForEject extends SequentialCommandGroup {
 
-    public AutoIntakeForEject(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, LiftSubsystem lift){
+    public AutoIntakeForEject(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, double extendPos){
         addCommands(
                 new LowerWrist(wrist),
-                new ExtensionCommand(extend, 0.5),
+                new ExtensionCommand(extend, extendPos),
                 new AutoCollectNoColorSample(intake, wrist),
                 new ParallelCommandGroup(
                         new RetractCommand(extend),
