@@ -226,7 +226,8 @@ public class RedRight extends AutoBase{
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         )
-                )
+                ),
+                new LiftBottomCommand(liftSubsystem)
         );
 
 
