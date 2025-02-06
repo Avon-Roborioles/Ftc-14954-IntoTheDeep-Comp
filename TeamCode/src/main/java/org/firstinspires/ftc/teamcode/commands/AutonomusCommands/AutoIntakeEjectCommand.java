@@ -12,18 +12,32 @@ public class AutoIntakeEjectCommand extends CommandBase {
     private IntakeSubsystem subsystem;
     private PassSubsystem pass;
     Timing.Timer timer = new Timing.Timer(4, TimeUnit.SECONDS);
+    Timing.Timer eject = new Timing.Timer(1, TimeUnit.SECONDS);
     public AutoIntakeEjectCommand(IntakeSubsystem subsystem, PassSubsystem pass) {
         this.subsystem = subsystem;
         this.pass = pass;
         addRequirements(subsystem);
+    }
+    @Override
+    public void initialize() {
+        if (subsystem.getSkipLastSample()){
+            eject.start();
+            subsystem.rejectMotor();
+        }else {
+            subsystem.runMotor();
+            timer.start();
+        }
     }
 
 
 
     @Override
     public void execute() {
-        subsystem.runMotor();
-        timer.start();
+        if (subsystem.getSkipLastSample()){
+            subsystem.rejectMotor();
+        }else {
+            subsystem.runMotor();
+        }
     }
 
     @Override
@@ -34,7 +48,7 @@ public class AutoIntakeEjectCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         if(subsystem.getSkipLastSample()){
-            return true;
+            return eject.done();
         }else {
             if (pass.IsPassDistanceSensorCooked()) {
                 return timer.done();

@@ -11,7 +11,7 @@ public class AutoPassToEnd extends ParallelCommandGroup {
     public AutoPassToEnd(PassSubsystem pass, IntakeSubsystem intake){
         addCommands(
                 new AutoIntakeEjectCommand(intake, pass),
-                new PassOnToEndCommand(pass, intake)
+                new AutoPassOnToEndCommand(pass, intake)
         );
     }
 }
