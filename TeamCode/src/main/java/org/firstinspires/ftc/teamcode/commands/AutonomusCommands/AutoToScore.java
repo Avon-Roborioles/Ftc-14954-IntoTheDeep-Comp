@@ -28,10 +28,11 @@ public class AutoToScore extends SequentialCommandGroup {
                         new HandoffCommand(wrist)
                 ),
                 new LiftBottomCommand(lift),
-                new PassToBox(pass, box, intake),
+                new AutoPassToBox(pass, box, intake),
                 new TopBucketScoreReady(swingArm, lift, pass),
                 new SwingArmScoreCommand(swingArm, box, intake),
                 new ColorResetCommand(intake)
         );
     }
+
 }

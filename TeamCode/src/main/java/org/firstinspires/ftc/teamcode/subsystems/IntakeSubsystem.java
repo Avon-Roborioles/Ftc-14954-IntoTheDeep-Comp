@@ -22,6 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private BoxxySubsystem box;
     private CRServo intakeRoller;
     private boolean DistanceSensorCooked = false;
+    private boolean SkippedLastSample = false;
 
     public IntakeSubsystem(DcMotor motor, ColorSensor colorSensor1, ColorSensor colorSensor2, RevBlinkinLedDriver blinkin,
                            DistanceSensor distanceSensor, ServoImplEx allianceColor, boolean RedAlliance, CRServo intakeRoller) {
@@ -45,6 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
             this.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
         DistanceSensorCooked = false;
+        SkippedLastSample = false;
     }
 
 //    @Override
@@ -132,6 +134,12 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             allianceColor.setPosition(0.61);
         }
+    }
+    public void setSkipLastSample(boolean skippedLastSample) {
+        SkippedLastSample = skippedLastSample;
+    }
+    public boolean getSkipLastSample() {
+        return SkippedLastSample;
     }
 
     public void setRedAlliance() {

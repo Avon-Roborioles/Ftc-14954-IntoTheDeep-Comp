@@ -14,7 +14,7 @@ public class AutoCollectNoColorSample extends CommandBase {
     private boolean hasSample = false;
     private boolean validSample = false;
     boolean ejecting = false;
-    Timing.Timer timer = new Timing.Timer(1, TimeUnit.SECONDS);
+    Timing.Timer timer = new Timing.Timer(4, TimeUnit.SECONDS);
 
     // This command will acquire samples and either eject them or accept them based on color
     public AutoCollectNoColorSample(IntakeSubsystem subsystem, WristSubsystem wrist) {
@@ -29,22 +29,29 @@ public class AutoCollectNoColorSample extends CommandBase {
         hasSample = false;
         validSample = false;
         ejecting = false;
+        subsystem.setSkipLastSample(false);
+        timer.start();
     }
 
     @Override
     public void execute() {
         hasSample = subsystem.hasSample();
-        if (!hasSample) {
-            subsystem.runMotor();
+        if (!timer.done()) {
+            if (!hasSample) {
+                subsystem.runMotor();
+            } else {
+                validSample = true;
+                if (subsystem.getRedAlliance() & subsystem.isColorSensorRed()) {
+                    subsystem.redlight();
+                } else if (!subsystem.getRedAlliance() & subsystem.isColorSensorBlue()) {
+                    subsystem.bluelight();
+                } else {
+                    subsystem.yellowlight();
+                }
+            }
         }else{
             validSample = true;
-            if (subsystem.getRedAlliance() & subsystem.isColorSensorRed()) {
-                subsystem.redlight();
-            } else if (!subsystem.getRedAlliance()& subsystem.isColorSensorBlue()) {
-                subsystem.bluelight();
-            } else {
-                subsystem.yellowlight();
-            }
+            subsystem.setSkipLastSample(true);
         }
     }
 

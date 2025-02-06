@@ -20,13 +20,6 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class AutoIntakeForEject extends SequentialCommandGroup {
-    private IntakeSubsystem intake;
-    private WristSubsystem wrist;
-    private PassSubsystem pass;
-    private LiftSubsystem lift;
-    private ExtendSubsystem extend;
-    private SwingArmSubsystem swingArm;
-    private BoxxySubsystem box;
 
     public AutoIntakeForEject(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, LiftSubsystem lift){
         addCommands(
@@ -37,7 +30,7 @@ public class AutoIntakeForEject extends SequentialCommandGroup {
                         new RetractCommand(extend),
                         new HandoffCommand(wrist)
                         ),
-                new PassToEnd(pass, intake)
+                new AutoPassToEnd(pass, intake)
         );
     }
 }
