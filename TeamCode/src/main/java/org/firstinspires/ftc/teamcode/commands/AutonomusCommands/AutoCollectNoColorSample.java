@@ -20,7 +20,7 @@ public class AutoCollectNoColorSample extends CommandBase {
     public AutoCollectNoColorSample(IntakeSubsystem subsystem, WristSubsystem wrist) {
         this.subsystem = subsystem;
         this.wrist = wrist;
-
+        subsystem.setSkipLastSample(false);
         addRequirements(subsystem);
     }
 
