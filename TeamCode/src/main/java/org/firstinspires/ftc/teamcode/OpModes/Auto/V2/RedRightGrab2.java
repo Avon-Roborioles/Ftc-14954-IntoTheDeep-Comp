@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto;
+package org.firstinspires.ftc.teamcode.OpModes.Auto.V2;
 
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.HalfChassisLength;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.HalfChassisWidth;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLStartBar;
+
 import static java.lang.Math.PI;
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -31,17 +28,15 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoBase;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntakeForEject;
-import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassEject;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
@@ -60,11 +55,11 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-public class RedRight extends AutoBase{
-    public Pose Start = new Pose( HalfChassisWidth -0.75 ,-68.5 + HalfChassisLength, -PI/2);
-    public Pose Bar = new Pose( HalfChassisWidth -0.75 , -31.5, -PI/2);
-    public Pose BarMid = new Pose( HalfChassisWidth -0.75 , -38, -PI/2);
-    public Pose BackAwayFromBar = new Pose( HalfChassisWidth -0.75 , -34, -PI/2);
+public class RedRightGrab2 extends AutoBase {
+    public Pose Start = new Pose( 8.5625 -0.75 ,-68.5 + 8.1875, -PI/2);
+    public Pose Bar = new Pose( 8.5625 -0.75 , -31.5, -PI/2);
+    public Pose BarMid = new Pose( 8.5625 -0.75 , -38, -PI/2);
+    public Pose BackAwayFromBar = new Pose( 8.5625 -0.75 , -34, -PI/2);
     public Pose Grab1 = new Pose(42, -44, PI/2);
     public Pose Spit1 = new Pose(54.5, -48, PI/2);
     public Pose Grab2 = new Pose(54.5, -44, PI/2);
@@ -245,7 +240,7 @@ public class RedRight extends AutoBase{
     public void makeAuto() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(RLStartBar);
+        follower.setStartingPose(Start);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");

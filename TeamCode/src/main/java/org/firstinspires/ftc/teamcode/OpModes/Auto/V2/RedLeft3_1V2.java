@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto;
+package org.firstinspires.ftc.teamcode.OpModes.Auto.V2;
 
 
 
@@ -28,16 +28,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoBase;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -56,22 +57,19 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-public class RedLeft3_1 extends AutoBase{
-    Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3;
-    Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3;
+public class RedLeft3_1V2 extends AutoBase {
+    Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToBackAwayFromBar;
+    Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
     Pose Start = new Pose(- 7.8125 ,-60.8125, -PI/2);
     Pose Bar = new Pose(-7.5625, -32, -PI/2);
+    Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -41.5, PI/2);
-    Pose Grab1Mid = new Pose(-40, -50, PI/2);
-    Pose Forward1 = new Pose(-49.5, -38, PI/2);
     Pose Grab2 = new Pose(-60, -41.5, PI/2);
-    Pose Forward2 = new Pose(-60, -38, PI/2);
     Pose Grab3 = new Pose(-53, -34, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
-    Pose Forward3 = new Pose(-56, -33, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
     Pose ParkMid = new Pose(-60, -11, PI/2);
@@ -88,6 +86,9 @@ public class RedLeft3_1 extends AutoBase{
         });
         setPathToScorePreload = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScorePreload, true);
+        });
+        setPathToBackAwayFromBar = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(backAwayFromBar, true);
         });
         setPathToPickUp1 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toPickUp1, true);
@@ -110,15 +111,6 @@ public class RedLeft3_1 extends AutoBase{
         setPathToPark = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toPark, false);
         });
-        setPathToForward1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward1, true);
-        });
-        setPathToForward2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward2, true);
-        });
-        setPathToForward3 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward3, true);
-        });
         setPark = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(park, false);
         });
@@ -129,14 +121,14 @@ public class RedLeft3_1 extends AutoBase{
                 new HandoffCommand(wrist),
                 new RetractCommand(extend)
         );
-        ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
+        ParallelCommandGroup IntakeAndExtend =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
                 new LiftBottomCommand(liftSubsystem),
-                new AutoDriveCommand(autoDriveSubsystem, telemetry));
+                new ExtensionCommand(extend, 0.50));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                new SwingArmDownCommand(swingArmSubsystem),
                 setPathToBar,
+                new SwingArmDownCommand(swingArmSubsystem),
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
@@ -145,15 +137,20 @@ public class RedLeft3_1 extends AutoBase{
                 new ParallelCommandGroup(
                         new LiftTopBarCommand(liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                new LiftForSwingArmClearCommand(liftSubsystem),
+                setPathToBackAwayFromBar,
+                new ParallelCommandGroup(
+                        new AutoClipSpecimen(liftSubsystem, 250),
+                        new SequentialCommandGroup(
+                                new WaitCommand(100),
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        )
+                ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ClipTopSpecimen(liftSubsystem, 1000),
-                        new SequentialCommandGroup(
-                                new WaitCommand(250),
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry))),
-                setPathToForward1,
-                IntakeAndDrive,
+                        new ExtensionCommand(extend, 0.64),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                ),
+                IntakeAndExtend,
                 setPathToScore1,
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
@@ -161,9 +158,9 @@ public class RedLeft3_1 extends AutoBase{
                 setPathToPickUp2,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem),
+                        new ExtensionCommand(extend, 0.64),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPathToForward2,
-                IntakeAndDrive,
+                IntakeAndExtend,
                 setPathToScore2,
                 new ParallelCommandGroup(
                     new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
@@ -171,9 +168,9 @@ public class RedLeft3_1 extends AutoBase{
                 setPathToPickUp3,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem),
+                        new ExtensionCommand(extend, 0.64),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPathToForward3,
-                IntakeAndDrive,
+                IntakeAndExtend,
                 setPathToScore3,
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
@@ -188,8 +185,6 @@ public class RedLeft3_1 extends AutoBase{
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
-
-
         schedule(new SequentialCommandGroup(
                         number5IsAlive,
                         new InstantCommand(() -> {
@@ -228,10 +223,14 @@ public class RedLeft3_1 extends AutoBase{
 
         toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
         toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
+        toScorePreload.setPathEndTimeoutConstraint(500);
 
+        backAwayFromBar = new Path(new BezierCurve(new Point(Bar), new Point(BackAwayFromBar)));
+        backAwayFromBar.setLinearHeadingInterpolation(Bar.getHeading(), BackAwayFromBar.getHeading());
+        backAwayFromBar.setPathEndTimeoutConstraint(250);
 
-        toPickUp1 = new Path(new BezierCurve(new Point(Score),new Point(Grab1Mid), new Point(Grab1)));
-        toPickUp1.setLinearHeadingInterpolation(Score.getHeading(), Grab1.getHeading());
+        toPickUp1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Grab1)));
+        toPickUp1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Grab1.getHeading());
         toPickUp1.setPathEndTimeoutConstraint(500);
 
         toScore1 = new Path(new BezierCurve(new Point(Grab1), new Point(Score)));
@@ -261,16 +260,5 @@ public class RedLeft3_1 extends AutoBase{
         park= new Path(new BezierCurve(new Point(PrePark), new Point(Park)));
         park.setLinearHeadingInterpolation(PrePark.getHeading(), Park.getHeading());
         park.setPathEndTimeoutConstraint(250);
-
-        forward1 = new Path(new BezierCurve(new Point(Grab1), new Point(Forward1)));
-        forward1.setConstantHeadingInterpolation(Grab1.getHeading());
-
-        forward2 = new Path(new BezierCurve(new Point(Grab2), new Point(Forward2)));
-        forward2.setConstantHeadingInterpolation(Grab2.getHeading());
-
-        forward3 = new Path(new BezierCurve(new Point(Grab3), new Point(Forward3)));
-        forward3.setConstantHeadingInterpolation(Grab3.getHeading());
     }
-
-
 }

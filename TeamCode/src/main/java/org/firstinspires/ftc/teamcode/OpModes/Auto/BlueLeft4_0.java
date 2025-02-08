@@ -1,20 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLStartBucket;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLForward3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLGrab3Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLParkMid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScore;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLPrePark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.BLScorePreload;
 
+
+import static java.lang.Math.PI;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -22,6 +11,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -66,6 +56,24 @@ import pedroPathing.constants.LConstants;
 
 @Autonomous
 public class BlueLeft4_0 extends AutoBase {
+
+    Pose BLStartBucket = new Pose( 29.625 + 8.5625,70.125 - 8.1875, -PI/2);
+    Pose BLScore = new Pose(57,54 , -3*PI/4 );
+    Pose BLScorePreload = new Pose(55,55 , -3*PI/4 );
+    Pose BLGrab1 = new Pose(49.5, 41, -PI/2);
+    Pose BLForward1 = new Pose(49.5, 38, -PI/2);
+    Pose BLGrab2 = new Pose(59.5, 41, -PI/2);
+    Pose BLForward2 = new Pose(59.5, 38, -PI/2);
+    Pose BLGrab3 = new Pose(53, 34, -PI/6);
+    Pose BLGrab3Mid = new Pose(40, 36, -PI/6);
+    Pose BLForward3 = new Pose(56, 33, -PI/6);
+    Pose BLPark = new Pose(16.5 + 8.1875, 2.5 + 8.5625, 0);
+    Pose BLPrePark = new Pose(25 + 8.1875, 2.5 + 8.5625, 0);
+    Pose BLParkMid = new Pose(60, 11, -PI/2);
+
+
+
+
 
 
     @Override

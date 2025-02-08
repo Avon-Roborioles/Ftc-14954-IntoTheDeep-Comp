@@ -2,19 +2,10 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
 
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLForward3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab1;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab2;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLGrab3Mid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLParkMid;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLPrePark;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLScore;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLScorePreload;
-import static org.firstinspires.ftc.teamcode.OpModes.Auto.PoseList.RLStartBucket;
+
+import static java.lang.Math.PI;
+
+import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -66,6 +57,19 @@ import pedroPathing.constants.LConstants;
 
 @Autonomous
 public class RedLeft4_0 extends AutoBase{
+    Pose RLStartBucket = new Pose( -29.625 - 8.5625,-70.125 + 8.1875, PI/2);
+    Pose RLScore = new Pose(-57 ,-54 , PI/4 );
+    Pose RLScorePreload = new Pose(-55 ,-55 , PI/4 );
+    Pose RLGrab1 = new Pose(-49.5, -41.5, PI/2);
+    Pose RLForward1 = new Pose(-49.5, -38, PI/2);
+    Pose RLGrab2 = new Pose(-60, -41.5, PI/2);
+    Pose RLForward2 = new Pose(-60, -38, PI/2);
+    Pose RLGrab3 = new Pose(-53, -34, 5* PI/6);
+    Pose RLGrab3Mid = new Pose(-40, -36, 5* PI/6);
+    Pose RLForward3 = new Pose(-56, -33, 5* PI/6);
+    Pose RLPark = new Pose(-16.5 - 8.1875, -2.5 - 8.5625, PI);
+    Pose RLPrePark = new Pose(-25 - 8.1875, -2.5 - 8.5625, PI);
+    Pose RLParkMid = new Pose(-60, -11, PI/2);
 
 
     @Override
