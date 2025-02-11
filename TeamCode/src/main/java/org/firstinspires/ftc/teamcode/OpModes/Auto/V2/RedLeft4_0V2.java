@@ -230,6 +230,4 @@ public class RedLeft4_0V2 extends AutoBase {
         park.setLinearHeadingInterpolation(PrePark.getHeading(), Park.getHeading());
         park.setPathEndTimeoutConstraint(250);
     }
-
-
 }

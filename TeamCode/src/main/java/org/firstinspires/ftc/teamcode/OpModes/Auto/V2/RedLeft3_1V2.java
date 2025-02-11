@@ -66,9 +66,9 @@ public class RedLeft3_1V2 extends AutoBase {
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
-    Pose Grab1 = new Pose(-49.5, -41.5, PI/2);
-    Pose Grab2 = new Pose(-60, -41.5, PI/2);
-    Pose Grab3 = new Pose(-53, -34, 5* PI/6);
+    Pose Grab1 = new Pose(-49.5, -50, PI/2);
+    Pose Grab2 = new Pose(-60, -50, PI/2);
+    Pose Grab3 = new Pose(-50, -42, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
