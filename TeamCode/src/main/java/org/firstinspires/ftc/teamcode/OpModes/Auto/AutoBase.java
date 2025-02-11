@@ -7,7 +7,9 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.Path;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -26,7 +28,8 @@ public abstract class AutoBase extends CommandOpMode {
     protected Telemetry mTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     protected AutoDriveSubsystem autoDriveSubsystem;
     protected TouchSensor touch1, touch2;
-    protected Servo extendservo;
+    protected ServoImplEx extendservo;
+    protected PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     protected Motor liftMotor;
     protected ExtendSubsystem extend;
     protected LiftSubsystem liftSubsystem;

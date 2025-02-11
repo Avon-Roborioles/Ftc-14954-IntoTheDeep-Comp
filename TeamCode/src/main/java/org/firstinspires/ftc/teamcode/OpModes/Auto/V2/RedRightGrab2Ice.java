@@ -248,7 +248,8 @@ public class RedRightGrab2Ice extends AutoBase {
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
-        extendservo = hardwareMap.get(Servo.class, "extension");
+        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
+        extendservo.setPwmRange(servoRange);
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);

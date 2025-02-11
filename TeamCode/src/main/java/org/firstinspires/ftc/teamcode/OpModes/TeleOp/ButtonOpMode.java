@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -64,7 +65,8 @@ public class ButtonOpMode extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
     private TouchSensor touch1, touch2;
-    private Servo extendservo;
+    private ServoImplEx extendservo;
+    PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
 
     private DriveSubsystem drive;
     private PedroDriveSubsystem pedroDriveSubsystem;
@@ -98,7 +100,8 @@ public class ButtonOpMode extends CommandOpMode {
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        extendservo = hardwareMap.get(Servo.class, "extension");
+        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
+        extendservo.setPwmRange(servoRange);
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
