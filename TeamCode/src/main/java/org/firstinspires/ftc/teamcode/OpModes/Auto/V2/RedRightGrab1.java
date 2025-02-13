@@ -66,7 +66,7 @@ public class RedRightGrab1 extends AutoBase {
     public Pose Grab2 = new Pose(38, -41, PI/4);
 
     public Pose ForSpecimen = new Pose(30.5, -56, PI/2);
-    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-1, PI/2);
+    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-1.25, PI/2);
 
 
 
@@ -209,7 +209,13 @@ public class RedRightGrab1 extends AutoBase {
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         )
                 ),
-                new LiftBottomCommand(liftSubsystem)
+                setPathToPark,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new LiftBottomCommand(liftSubsystem)
+                )
+
+
         );
 
 
@@ -230,7 +236,8 @@ public class RedRightGrab1 extends AutoBase {
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
-        extendservo = hardwareMap.get(Servo.class, "extension");
+        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
+        extendservo.setPwmRange(servoRange);
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
@@ -292,6 +299,10 @@ public class RedRightGrab1 extends AutoBase {
         forward2 = new Path(new BezierCurve(new Point(new Pose(BarMid.getX()-2, BarMid.getY(), BarMid.getHeading())), new Point(new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()))));
         forward2.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()).getHeading());
         forward2.setPathEndTimeoutConstraint(500);
+
+        toPark = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Park)));
+        toPark.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Park.getHeading());
+        toPark.setPathEndTimeoutConstraint(500);
 
 
 
