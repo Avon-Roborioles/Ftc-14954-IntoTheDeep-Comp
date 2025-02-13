@@ -158,6 +158,7 @@ public class RedRightGrab2 extends AutoBase {
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
                         new AutoClipSpecimen(liftSubsystem, 250),
+                        new ExtensionCommand(extend, 0.64),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -173,8 +174,9 @@ public class RedRightGrab2 extends AutoBase {
                 new ParallelCommandGroup(new AutoCollectNoColorSample(intake, wrist),
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit1,
-                new SequentialCommandGroup(
+                new ParallelCommandGroup(
                         new HandoffCommand(wrist),
+                        new ExtensionCommand(extend, 0.64),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToPickUp2,
@@ -186,9 +188,10 @@ public class RedRightGrab2 extends AutoBase {
                 new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist),
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit2,
-                new SequentialCommandGroup(
+                new ParallelCommandGroup(
                         new HandoffCommand(wrist),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new ExtensionCommand(extend, 0.7)
                 ),
                 new Reject(intake),
                 setPathToToSpecimen1,
@@ -281,7 +284,7 @@ public class RedRightGrab2 extends AutoBase {
 
         toPickUp1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Grab1)));
         toPickUp1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Grab1.getHeading());
-        toPickUp1.setPathEndTimeoutConstraint(500);
+        toPickUp1.setPathEndTimeoutConstraint(750);
 
         toSpit1 = new Path(new BezierCurve(new Point(Grab1), new Point(Spit1)));
         toSpit1.setLinearHeadingInterpolation(Grab1.getHeading(), Spit1.getHeading());
@@ -290,11 +293,11 @@ public class RedRightGrab2 extends AutoBase {
 
         toPickUp2 = new Path(new BezierCurve(new Point(Spit1), new Point(Grab2)));
         toPickUp2.setLinearHeadingInterpolation(Spit1.getHeading(), Grab2.getHeading());
-        toPickUp2.setPathEndTimeoutConstraint(1000);
+        toPickUp2.setPathEndTimeoutConstraint(750);
 
         toSpit2 = new Path(new BezierCurve(new Point(Grab2), new Point(Spit1)));
         toSpit2.setLinearHeadingInterpolation(Grab2.getHeading(), Spit1.getHeading());
-        toSpit2.setPathEndTimeoutConstraint(500);
+        toSpit2.setPathEndTimeoutConstraint(250);
 
 
         toSpecimen1 = new Path(new BezierCurve(new Point(Grab2), new Point(ForSpecimen)));
