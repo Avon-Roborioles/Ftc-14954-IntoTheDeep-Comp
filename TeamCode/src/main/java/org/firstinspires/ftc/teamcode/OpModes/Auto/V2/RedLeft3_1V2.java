@@ -19,6 +19,7 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -57,6 +58,7 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
+//@Disabled
 public class RedLeft3_1V2 extends AutoBase {
     Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToBackAwayFromBar;
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
@@ -66,10 +68,10 @@ public class RedLeft3_1V2 extends AutoBase {
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
-    Pose Grab1 = new Pose(-49.5, -50, PI/2);
-    Pose Grab2 = new Pose(-60, -50, PI/2);
-    Pose Grab3 = new Pose(-50, -42, 5* PI/6);
-    Pose Grab3Mid = new Pose(-35, -36, 5* PI/6);
+    Pose Grab1 = new Pose(-49.5, -42, PI/2);
+    Pose Grab2 = new Pose(-60, -44, PI/2);
+    Pose Grab3 = new Pose(-52, -36, 5* PI/6);
+    Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
     Pose ParkMid = new Pose(-60, -11, PI/2);
@@ -124,7 +126,7 @@ public class RedLeft3_1V2 extends AutoBase {
         ParallelCommandGroup IntakeAndExtend =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
                 new LiftBottomCommand(liftSubsystem),
-                new ExtensionCommand(extend, 0.50));
+                new ExtensionCommand(extend, 0.74));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 setPathToBar,
@@ -147,7 +149,7 @@ public class RedLeft3_1V2 extends AutoBase {
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.9),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 IntakeAndExtend,
@@ -158,7 +160,7 @@ public class RedLeft3_1V2 extends AutoBase {
                 setPathToPickUp2,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem),
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.9),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
                 setPathToScore2,
@@ -170,20 +172,20 @@ public class RedLeft3_1V2 extends AutoBase {
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem),
 //                        new ExtensionCommand(extend, 0.64),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                IntakeAndExtend//,
-//                setPathToScore3,
-//                new ParallelCommandGroup(
-//                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-//                setPathToPark,
-//                new ParallelCommandGroup(
-//                        new RaiseWrist(wrist),
-//                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-//                setPark,
-//                new ParallelCommandGroup(
-//                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry))
+                IntakeAndExtend,
+                setPathToScore3,
+                new ParallelCommandGroup(
+                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                setPathToPark,
+                new ParallelCommandGroup(
+                        new RaiseWrist(wrist),
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                setPark,
+                new ParallelCommandGroup(
+                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry))
         );
         schedule(new SequentialCommandGroup(
                         number5IsAlive,

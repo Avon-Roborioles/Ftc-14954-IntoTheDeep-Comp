@@ -44,6 +44,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
+import org.firstinspires.ftc.teamcode.commands.PassCommands.PassBack;
 import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
@@ -174,7 +175,8 @@ public class CompTeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new IntakeToReadyForTopScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new Reject(intake));
+                .whenPressed(new Reject(intake))
+                .whenPressed(new PassBack(pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForBottomScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)

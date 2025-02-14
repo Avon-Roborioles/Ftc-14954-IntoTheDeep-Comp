@@ -16,6 +16,7 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -52,6 +53,7 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
+@Disabled
 public class RedLeft4_0V2 extends AutoBase {
     Pose Start = new Pose( -29.625 - 8.5625,-70.125 + 8.1875, PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );

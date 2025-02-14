@@ -8,7 +8,7 @@ public class HangSubsystem extends SubsystemBase {
     public HangSubsystem(Motor motor){
         this.motor = motor;
         this.motor.setInverted(false);
-        this.motor.setRunMode(Motor.RunMode.PositionControl);
+        this.motor.setRunMode(Motor.RunMode.VelocityControl);
         this.motor.setVeloCoefficients(0, 1.25, 0);
         this.motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
