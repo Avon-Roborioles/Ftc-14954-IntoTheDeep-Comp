@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
@@ -143,6 +144,8 @@ public class CompTeleOpBlue extends CommandOpMode {
 //                        .whenPressed(new HeadingReset());
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new HangHoldCommand(hang));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new FixExtensionCommand(extend));
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
