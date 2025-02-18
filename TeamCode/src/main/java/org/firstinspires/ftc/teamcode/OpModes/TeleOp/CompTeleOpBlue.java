@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
+import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
@@ -36,6 +37,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
+import org.firstinspires.ftc.teamcode.commands.HeadingReset;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
@@ -139,6 +141,9 @@ public class CompTeleOpBlue extends CommandOpMode {
         // Lift Commands
 //        driverOp.getGamepadButton(GamepadKeys.Button.A)
 //                        .whenPressed(new HeadingReset());
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                .toggleWhenPressed(new HangHoldCommand(hang));
+
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
                                 follower.setPose(new Pose(0, 0, PI/2));

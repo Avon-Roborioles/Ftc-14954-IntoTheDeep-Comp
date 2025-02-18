@@ -52,6 +52,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import pedroPathing.constants.FConstants;
+import pedroPathing.constants.FConstantsL;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
@@ -60,7 +61,7 @@ public class BlueLeft4_0 extends AutoBase {
     Pose BLStartBucket = new Pose( 29.625 + 8.5625,70.125 - 8.1875, -PI/2);
     Pose BLScore = new Pose(57,54 , -3*PI/4 );
     Pose BLScorePreload = new Pose(55,55 , -3*PI/4 );
-    Pose BLGrab1 = new Pose(49.5, 41, -PI/2);
+    Pose BLGrab1 = new Pose(49.5, 42, -PI/2);
     Pose BLForward1 = new Pose(49.5, 38, -PI/2);
     Pose BLGrab2 = new Pose(59.5, 41, -PI/2);
     Pose BLForward2 = new Pose(59.5, 38, -PI/2);
@@ -192,7 +193,7 @@ public class BlueLeft4_0 extends AutoBase {
 
     @Override
     public void makeAuto() {
-        Constants.setConstants(FConstants.class, LConstants.class);
+        Constants.setConstants(FConstantsL.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(BLStartBucket);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);

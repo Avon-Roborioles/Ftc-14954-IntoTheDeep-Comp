@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
+import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
@@ -131,6 +132,8 @@ public class CompTeleOpRed extends CommandOpMode {
         Command Bindings
          */
         // Lift Commands
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                        .toggleWhenPressed(new HangHoldCommand(hang));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
                     follower.setPose(new Pose(0, 0, PI/2));
@@ -177,6 +180,7 @@ public class CompTeleOpRed extends CommandOpMode {
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                         .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
+
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 }

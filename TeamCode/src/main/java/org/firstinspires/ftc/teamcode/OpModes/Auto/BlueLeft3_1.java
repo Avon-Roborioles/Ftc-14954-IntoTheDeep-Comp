@@ -52,15 +52,16 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import pedroPathing.constants.FConstants;
+import pedroPathing.constants.FConstantsL;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
 public class BlueLeft3_1 extends AutoBase{
     Pose BLStartBar = new Pose( 8.5625 -0.75 ,68 - 8.1875, PI/2);
-    Pose BLBar = new Pose( 8.5625 -0.75 , 31, PI/2);
+    Pose BLBar = new Pose( 8.5625 -0.75 , 30, PI/2);
     Pose BLBarMid = new Pose( 8.5625 -0.75  , 38, PI/2);
-    Pose BLScore = new Pose(57,54 , -3*PI/4 );
-    Pose BLGrab1 = new Pose(49.5, 41, -PI/2);
+    Pose BLScore = new Pose(55,52 , -3*PI/4 );
+    Pose BLGrab1 = new Pose(49, 41, -PI/2);
     Pose BLGrab1Mid = new Pose(40, 50, -PI/2);
     Pose BLForward1 = new Pose(49.5, 38, -PI/2);
     Pose BLGrab2 = new Pose(59.5, 41, -PI/2);
@@ -201,7 +202,7 @@ public class BlueLeft3_1 extends AutoBase{
 
     @Override
     public void makeAuto() {
-        Constants.setConstants(FConstants.class, LConstants.class);
+        Constants.setConstants(FConstantsL.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(BLStartBar);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
@@ -248,7 +249,7 @@ public class BlueLeft3_1 extends AutoBase{
 
         toPickUp3 = new Path(new BezierCurve(new Point(BLScore),new Point(BLGrab3Mid), new Point(BLGrab3)));
         toPickUp3.setLinearHeadingInterpolation(BLScore.getHeading(), BLGrab3.getHeading());
-        toPickUp3.setPathEndTimeoutConstraint(1000);
+        toPickUp3.setPathEndTimeoutConstraint(1500);
 
         toScore3 = new Path(new BezierCurve(new Point(BLGrab3), new Point(BLScore)));
         toScore3.setLinearHeadingInterpolation(BLGrab3.getHeading(), BLScore.getHeading());

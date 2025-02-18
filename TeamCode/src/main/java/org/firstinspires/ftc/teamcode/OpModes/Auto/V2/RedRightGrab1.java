@@ -257,7 +257,7 @@ public class RedRightGrab1 extends AutoBase {
 
         toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
         toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
-        toScorePreload.setPathEndTimeoutConstraint(500);
+        toScorePreload.setPathEndTimeoutConstraint(750);
 
         backAwayFromBar = new Path(new BezierCurve(new Point(Bar), new Point(BackAwayFromBar)));
         backAwayFromBar.setLinearHeadingInterpolation(Bar.getHeading(), BackAwayFromBar.getHeading());
