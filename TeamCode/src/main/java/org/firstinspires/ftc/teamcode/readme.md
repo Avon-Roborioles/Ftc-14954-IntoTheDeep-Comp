@@ -9,8 +9,7 @@ M1: "frontRight"
 M2: "frontLeft"
 M3: "backLeft"
 
-S0: "extension"
-S1: "wrist"
+S1: "extension"
 S2: "blinkin"
 
 
@@ -29,6 +28,7 @@ S0: "swingArm" 0 with preloaded spring toward switch
 S1: "allianceColor"
 S2: "lever"
 S3: "intakeRoller"
+S5: "wrist"
 
 I2C0: "boxDistance"
 I2C1: "passDistance"

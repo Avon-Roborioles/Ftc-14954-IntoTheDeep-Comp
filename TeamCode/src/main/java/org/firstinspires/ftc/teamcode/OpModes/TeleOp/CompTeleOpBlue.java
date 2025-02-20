@@ -144,8 +144,8 @@ public class CompTeleOpBlue extends CommandOpMode {
 //                        .whenPressed(new HeadingReset());
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new HangHoldCommand(hang));
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new FixExtensionCommand(extend));
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .toggleWhenPressed(new FixExtensionCommand(extend));
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {

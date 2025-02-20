@@ -12,7 +12,7 @@ public class FixExtensionCommand extends CommandBase {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         subsystem.disable();
     }
     @Override
@@ -22,5 +22,6 @@ public class FixExtensionCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         subsystem.enable();
+        subsystem.setPosition(0.955);
     }
 }

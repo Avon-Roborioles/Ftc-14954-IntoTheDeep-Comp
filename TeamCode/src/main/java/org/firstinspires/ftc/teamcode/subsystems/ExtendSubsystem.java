@@ -23,10 +23,10 @@ public class ExtendSubsystem extends SubsystemBase {
     public boolean retracted(){return touch.isPressed();}
     public void setPosition(double position){servo.setPosition(position);}
     public void disable(){
-        servo.setPwmDisable();
+        servo.getController().pwmDisable();
     }
     public void enable(){
-        servo.setPwmEnable();
+        servo.getController().pwmEnable();
     }
 
 
