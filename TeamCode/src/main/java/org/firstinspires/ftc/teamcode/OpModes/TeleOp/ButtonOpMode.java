@@ -45,11 +45,9 @@ import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
@@ -68,7 +66,6 @@ public class ButtonOpMode extends CommandOpMode {
     private ServoImplEx extendservo;
     PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
 
-    private DriveSubsystem drive;
     private PedroDriveSubsystem pedroDriveSubsystem;
     private ExtendSubsystem extend;
     private LiftSubsystem liftSubsystem;
@@ -109,12 +106,10 @@ public class ButtonOpMode extends CommandOpMode {
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"), intake);
 
-        drive = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight);
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
         //Default Commands
-        drive.setDefaultCommand(new DriveCommand(drive, driverOp::getLeftX, driverOp::getLeftY, driverOp::getRightX));
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
         pass.setDefaultCommand(new PassCommand(pass, operatorOp::getLeftY));
 

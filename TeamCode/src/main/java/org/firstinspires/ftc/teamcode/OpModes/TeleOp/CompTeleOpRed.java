@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
+
+import com.pedropathing.pathgen.Path;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -24,6 +25,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.Storage;
+import org.firstinspires.ftc.teamcode.commands.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
@@ -45,13 +48,15 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassBack;
-import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TeleDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import com.pedropathing.follower.Follower;
+
+import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangSubsystem;
@@ -59,23 +64,21 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @TeleOp(name = "RedTeleOp")
-public class CompTeleOpRed extends CommandOpMode {
+public class CompTeleOpRed extends Storage {
     private Motor  liftMotor;
     private GamepadEx driverOp, operatorOp;
     private TouchSensor touch1, touch2;
     private ServoImplEx extendservo;
     PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     private Follower follower;
-    private PedroDriveSubsystem pedroDriveSubsystem;
+    private AutoDriveSubsystem autoDriveSubsystem;
     private ExtendSubsystem extend;
     private LiftSubsystem liftSubsystem;
     private SwingArmSubsystem swingArmSubsystem;
@@ -83,9 +86,9 @@ public class CompTeleOpRed extends CommandOpMode {
     private IntakeSubsystem intake;
     private BoxxySubsystem box;
     private WristSubsystem wrist;
-    private TelemetrySubsystem telemetrySubsystem;
     private LeverSubsystem lever;
     private HangSubsystem hang;
+    private Path scorePath;
     @Override
     public void initialize() {
 
@@ -107,25 +110,26 @@ public class CompTeleOpRed extends CommandOpMode {
         hang = new HangSubsystem(new Motor(hardwareMap, "climb"));
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, PI/2));
+        follower.setStartingPose(Storage.memory.lastPose);
+        follower.setPose(Storage.memory.lastPose);
         follower.startTeleopDrive();
+
 
 
 
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
 
-        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, Storage.memory.lastPose);
+        initPoseSelect(driverOp);
 
-        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenHeld(new PedroSlowDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
-                .whenInactive(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+                .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
+                .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
 
-        telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
         hang.setDefaultCommand(new HangJoystickCommand(hang, operatorOp::getLeftY));
-//        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
 
 
 
@@ -137,8 +141,10 @@ public class CompTeleOpRed extends CommandOpMode {
                         .toggleWhenPressed(new HangHoldCommand(hang));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
-                    follower.setPose(new Pose(0, 0, PI/2));
+                    follower.setPose(new Pose(0, 0, PI));
                 }));
+        driverOp.getGamepadButton(GamepadKeys.Button.X)
+                        .whileHeld(new TelePathDriveCommand(autoDriveSubsystem, follower.getPose()));
         driverOp.getGamepadButton(GamepadKeys.Button.A)
                 .toggleWhenPressed(new FixExtensionCommand(extend));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
@@ -184,6 +190,27 @@ public class CompTeleOpRed extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                         .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
 
+
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        initialize();
+        while (opModeInInit() && !isStopRequested()){
+            runPoseSelect(telemetry);
+            follower.setPose(Storage.memory.lastPose);
+            follower.drawOnDashBoard();
+        }
+        waitForStart();
+
+        // run the scheduler
+        while (!isStopRequested() && opModeIsActive()) {
+//            scorePath = new Path(new BezierCurve(new Point(follower.getPose()),  new Point(new Pose(-57 ,-54 , PI/4 ))));
+            run();
+        }
+        reset();
+    }
+
+
 }

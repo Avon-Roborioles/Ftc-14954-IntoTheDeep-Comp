@@ -17,6 +17,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Storage;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 
@@ -126,7 +127,10 @@ public class BlueLeft4_0 extends AutoBase {
                 new LeverClearCommand(lever),
                 new WaitCommand(100),
                 new HandoffCommand(wrist),
-                new RetractCommand(extend)
+                new RetractCommand(extend),
+                new InstantCommand(() -> {
+                    Storage.memory.scorePose =BLScore;
+                })
         );
         ParallelCommandGroup IntakeAndDrive = new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),

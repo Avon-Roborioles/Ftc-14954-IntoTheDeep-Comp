@@ -8,8 +8,10 @@ import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathBuilder;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Drawing;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Storage;
 
 
 public class AutoDriveSubsystem extends SubsystemBase {
@@ -42,6 +44,9 @@ public class AutoDriveSubsystem extends SubsystemBase {
     }
     public void update(){
         follower.update();
+        Storage.memory.lastPose = follower.getPose();
+        follower.drawOnDashBoard();
+//        follower.telemetryDebug(telemetry);
     }
     public boolean isBusy(){
         return follower.isBusy();
@@ -83,7 +88,9 @@ public class AutoDriveSubsystem extends SubsystemBase {
         follower.startTeleopDrive();
     }
     public void setTeleOpMovementVectors(double forwardSpeed, double strafeSpeed, double heading, boolean robotCentric){
-        follower.setTeleOpMovementVectors(forwardSpeed, strafeSpeed, heading);
+        follower.setTeleOpMovementVectors(-strafeSpeed,forwardSpeed
+                 , heading, false);
+        follower.updatePose();
     }
     public void holdPosition(){
         follower.holdPoint(new BezierPoint(new Point(getPose())), getPose().getHeading());

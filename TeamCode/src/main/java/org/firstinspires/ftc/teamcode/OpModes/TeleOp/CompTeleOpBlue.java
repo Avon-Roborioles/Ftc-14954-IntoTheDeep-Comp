@@ -38,7 +38,6 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.TopBucketScoreReady
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
-import org.firstinspires.ftc.teamcode.commands.HeadingReset;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
@@ -48,14 +47,15 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassBack;
-import org.firstinspires.ftc.teamcode.commands.PedroDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.PedroSlowDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TeleDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
+import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangSubsystem;
@@ -79,7 +79,7 @@ public class CompTeleOpBlue extends CommandOpMode {
     private ServoImplEx extendservo;
     PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     private Follower follower;
-    private PedroDriveSubsystem pedroDriveSubsystem;
+    private AutoDriveSubsystem pedroDriveSubsystem;
     private ExtendSubsystem extend;
     private LiftSubsystem liftSubsystem;
     private SwingArmSubsystem swingArmSubsystem;
@@ -113,27 +113,28 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, PI/2));
+        follower.setStartingPose(new Pose(0, 0, PI));
         follower.startTeleopDrive();
 
 
 
 
-        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
-        pedroDriveSubsystem = new PedroDriveSubsystem( follower);
 
-        pedroDriveSubsystem.setDefaultCommand(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
+        pedroDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0, 0, PI));
+
+        pedroDriveSubsystem.setDefaultCommand(new TeleDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenHeld(new PedroSlowDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
-                .whenInactive(new PedroDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+                .whenHeld(new TeleSlowDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
+                .whenInactive(new TeleDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
 
-        telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
+//        telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
 
 //        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
         ResetHeading = new InstantCommand(() -> {
-            follower.setPose(new Pose(0, 0, PI/2));
+            follower.setPose(new Pose(0, 0, PI));
         });
         hang.setDefaultCommand(new HangJoystickCommand(hang, operatorOp::getLeftY));
         /*
@@ -149,7 +150,7 @@ public class CompTeleOpBlue extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
-                                follower.setPose(new Pose(0, 0, PI/2));
+                                follower.setPose(new Pose(0, 0, PI));
                                 }));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                         .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
