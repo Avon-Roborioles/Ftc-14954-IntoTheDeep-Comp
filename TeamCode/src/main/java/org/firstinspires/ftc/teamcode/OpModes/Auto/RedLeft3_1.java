@@ -19,6 +19,7 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,7 +57,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.FConstantsL;
 import pedroPathing.constants.LConstants;
-
+@Disabled
 @Autonomous
 public class RedLeft3_1 extends AutoBase{
     Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3;

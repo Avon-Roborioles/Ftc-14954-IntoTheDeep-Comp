@@ -28,7 +28,7 @@ public class BoxxySubsystem extends SubsystemBase {
 //            intake.BoxFailLight();
 
         }
-        return(distanceSensor.getDistance(DistanceUnit.INCH) < 2.5);
+        return(distanceSensor.getDistance(DistanceUnit.INCH) < 2);
     }
 
     public boolean noSample(){
@@ -37,7 +37,7 @@ public class BoxxySubsystem extends SubsystemBase {
 //            intake.BoxFailLight();
 
         }
-        return (distanceSensor.getDistance(DistanceUnit.INCH) > 2.5);
+        return (distanceSensor.getDistance(DistanceUnit.INCH) > 2);
     }
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("box distance", distanceSensor.getDistance(DistanceUnit.INCH));

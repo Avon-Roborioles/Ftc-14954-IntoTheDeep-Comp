@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -66,13 +67,13 @@ public class RedLeft3_1V2 extends AutoBase {
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
     Pose Start = new Pose(- 7.8125 ,-60.8125, -PI/2);
-    Pose Bar = new Pose(-7.5625, -32, -PI/2);
+    Pose Bar = new Pose(-7.5625, -31, -PI/2);
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -42, PI/2);
-    Pose Grab2 = new Pose(-60, -44, PI/2);
-    Pose Grab3 = new Pose(-52, -36, 5* PI/6);
+    Pose Grab2 = new Pose(-60, -43, PI/2);
+    Pose Grab3 = new Pose(-52, -34, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
@@ -243,27 +244,27 @@ public class RedLeft3_1V2 extends AutoBase {
 
         toScore1 = new Path(new BezierCurve(new Point(Grab1), new Point(Score)));
         toScore1.setLinearHeadingInterpolation(Grab1.getHeading(), Score.getHeading());
-        toScore1.setPathEndTimeoutConstraint(2000);
+        toScore1.setPathEndTimeoutConstraint(750);
 
         toPickUp2 = new Path(new BezierCurve(new Point(Score), new Point(Grab2)));
         toPickUp2.setLinearHeadingInterpolation(Score.getHeading(), Grab2.getHeading());
-        toPickUp2.setPathEndTimeoutConstraint(1000);
+        toPickUp2.setPathEndTimeoutConstraint(750);
 
         toScore2 = new Path(new BezierCurve(new Point(Grab2), new Point(Score)));
         toScore2.setLinearHeadingInterpolation(Grab2.getHeading(), Score.getHeading());
-        toScore2.setPathEndTimeoutConstraint(1000);
+        toScore2.setPathEndTimeoutConstraint(750);
 
         toPickUp3 = new Path(new BezierCurve(new Point(Score),new Point(Grab3Mid), new Point(Grab3)));
         toPickUp3.setLinearHeadingInterpolation(Score.getHeading(), Grab3.getHeading());
-        toPickUp3.setPathEndTimeoutConstraint(1000);
+        toPickUp3.setPathEndTimeoutConstraint(750);
 
         toScore3 = new Path(new BezierCurve(new Point(Grab3), new Point(Score)));
         toScore3.setLinearHeadingInterpolation(Grab3.getHeading(), Score.getHeading());
-        toScore3.setPathEndTimeoutConstraint(1000);
+        toScore3.setPathEndTimeoutConstraint(750);
 
         toPark = new Path(new BezierCurve(new Point(Score),new Point(ParkMid), new Point(PrePark)));
         toPark.setLinearHeadingInterpolation(Score.getHeading(), PrePark.getHeading());
-        toPark.setPathEndTimeoutConstraint(1000);
+        toPark.setPathEndTimeoutConstraint(750);
 
         park= new Path(new BezierCurve(new Point(PrePark), new Point(Park)));
         park.setLinearHeadingInterpolation(PrePark.getHeading(), Park.getHeading());
