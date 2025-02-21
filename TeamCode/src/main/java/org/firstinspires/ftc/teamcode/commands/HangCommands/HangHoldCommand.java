@@ -14,7 +14,7 @@ public class HangHoldCommand extends CommandBase {
 
     @Override
     public void execute(){
-        hangSubsystem.setHangPower(-0.2);
+        hangSubsystem.setHangPower(-0.3);
     }
     @Override
     public boolean isFinished(){
