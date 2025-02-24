@@ -13,7 +13,7 @@ public class PassOnToBoxCommand extends SequentialCommandGroup {
     private PassSubsystem pass;
     private BoxxySubsystem box;
     private IntakeSubsystem intake;
-    Timing.Timer timer = new Timing.Timer(4, TimeUnit.SECONDS);
+    Timing.Timer timer = new Timing.Timer(2, TimeUnit.SECONDS);
     public PassOnToBoxCommand(PassSubsystem pass, BoxxySubsystem box, IntakeSubsystem intake){
         this.pass = pass;
         this.box = box;

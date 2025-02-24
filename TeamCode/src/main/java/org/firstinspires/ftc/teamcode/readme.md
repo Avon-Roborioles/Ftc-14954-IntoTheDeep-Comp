@@ -30,9 +30,10 @@ S2: "lever"
 S3: "intakeRoller"
 S5: "wrist"
 
-I2C0: "boxDistance"
+
 I2C1: "passDistance"
-I2C3: "intakeDistance"
+I2C2: "intakeDistance"
+I2C3: "boxDistance"
 
 D7:"liftDown"
 D5: "extensionIn"

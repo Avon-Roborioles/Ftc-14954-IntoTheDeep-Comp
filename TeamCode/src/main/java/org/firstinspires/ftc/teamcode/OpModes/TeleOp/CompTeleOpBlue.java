@@ -12,6 +12,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.Path;
 import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -26,6 +27,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.Storage;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
@@ -47,7 +49,9 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassBack;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.TeleDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
@@ -72,14 +76,14 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @TeleOp(name = "BlueTeleOp")
-public class CompTeleOpBlue extends CommandOpMode {
+public class CompTeleOpBlue extends Storage {
     private Motor  liftMotor;
     private GamepadEx driverOp, operatorOp;
     private TouchSensor touch1, touch2;
     private ServoImplEx extendservo;
     PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     private Follower follower;
-    private AutoDriveSubsystem pedroDriveSubsystem;
+    private AutoDriveSubsystem autoDriveSubsystem;
     private ExtendSubsystem extend;
     private LiftSubsystem liftSubsystem;
     private SwingArmSubsystem swingArmSubsystem;
@@ -87,10 +91,9 @@ public class CompTeleOpBlue extends CommandOpMode {
     private IntakeSubsystem intake;
     private BoxxySubsystem box;
     private WristSubsystem wrist;
-    private TelemetrySubsystem telemetrySubsystem;
     private LeverSubsystem lever;
     private HangSubsystem hang;
-    private Command ResetHeading;
+    private Path scorePath;
     @Override
     public void initialize() {
 
@@ -106,64 +109,61 @@ public class CompTeleOpBlue extends CommandOpMode {
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"),intake);
+        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"), intake);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"),intake);
+        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"), intake);
         hang = new HangSubsystem(new Motor(hardwareMap, "climb"));
-
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        follower.setStartingPose(new Pose(0, 0, PI));
+        follower.setStartingPose(Storage.memory.lastPose);
+        follower.setPose(Storage.memory.lastPose);
         follower.startTeleopDrive();
 
 
 
 
-
         lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
-        pedroDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0, 0, PI));
 
-        pedroDriveSubsystem.setDefaultCommand(new TeleDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, Storage.memory.lastPose);
+        initPoseSelect(driverOp);
+
+        autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenHeld(new TeleSlowDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
-                .whenInactive(new TeleDriveCommand(pedroDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
+                .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true))
+                .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, true));
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
 
-//        telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
-
-//        telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
-        ResetHeading = new InstantCommand(() -> {
-            follower.setPose(new Pose(0, 0, PI));
-        });
         hang.setDefaultCommand(new HangJoystickCommand(hang, operatorOp::getLeftY));
+
+
+
         /*
         Command Bindings
          */
         // Lift Commands
-//        driverOp.getGamepadButton(GamepadKeys.Button.A)
-//                        .whenPressed(new HeadingReset());
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new HangHoldCommand(hang));
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .toggleWhenPressed(new FixExtensionCommand(extend));
-
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new InstantCommand(() -> {
-                                follower.setPose(new Pose(0, 0, PI));
-                                }));
+                    follower.setPose(new Pose(0, 0, PI));
+                }));
+        driverOp.getGamepadButton(GamepadKeys.Button.X)
+                .whileHeld(new TelePathDriveCommand(autoDriveSubsystem, follower.getPose()));
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .toggleWhenPressed(new FixExtensionCommand(extend));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                        .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                        .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
+                .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new HangLevel1Command(liftSubsystem, swingArmSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
                 .whenPressed(new LiftBottomResetCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new LiftBottomCommand(liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .whenPressed(new LiftTopBarCommand(liftSubsystem));
+                .whenPressed(new LiftTopBarCommand(liftSubsystem));
         //Wrist Commands
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(new LowerWrist(wrist), new HandoffCommand(wrist));
@@ -192,7 +192,30 @@ public class CompTeleOpBlue extends CommandOpMode {
                 .whenPressed(new IntakeToReadyForEject(intake, wrist, pass, extend, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new SpitOutCommand(pass, liftSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
+
+
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        initialize();
+        while (opModeInInit() && !isStopRequested()){
+            runPoseSelect(telemetry);
+            follower.setPose(Storage.memory.lastPose);
+            follower.drawOnDashBoard();
+        }
+        waitForStart();
+
+        // run the scheduler
+        while (!isStopRequested() && opModeIsActive()) {
+//            scorePath = new Path(new BezierCurve(new Point(follower.getPose()),  new Point(new Pose(-57 ,-54 , PI/4 ))));
+            run();
+        }
+        reset();
+    }
+
 
 }

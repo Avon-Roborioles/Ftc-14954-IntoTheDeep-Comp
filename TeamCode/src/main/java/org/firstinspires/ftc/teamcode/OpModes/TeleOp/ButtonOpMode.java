@@ -163,6 +163,8 @@ public class ButtonOpMode extends CommandOpMode {
 //                .whenPressed(new PassToBox(pass, box, intake));
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                         .whenPressed(new LeverDownCommand(lever));
+        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                        .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
 //                .toggleWhenPressed(new PassOnToBoxCommand(pass, box, intake), new PassOffCommand(pass));
 
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
