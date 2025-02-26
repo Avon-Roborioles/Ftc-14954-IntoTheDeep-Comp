@@ -43,7 +43,7 @@ public class LiftSubsystem extends SubsystemBase {
         this.liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         this.liftMotor.setInverted(true);
         this.liftMotor.setPositionTolerance(25);
-        this.liftMotor.setPositionCoefficient(0.0375);
+        this.liftMotor.setPositionCoefficient(0.375);
         this.liftMotor.resetEncoder();
         liftPos = liftPosition.BOTTOM;
 
