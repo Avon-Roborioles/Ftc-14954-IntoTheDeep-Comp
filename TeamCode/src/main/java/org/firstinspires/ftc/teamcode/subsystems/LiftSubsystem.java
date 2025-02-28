@@ -15,7 +15,7 @@ public class LiftSubsystem extends SubsystemBase {
     private int topBarPosition = 1600;
     private int topBarHookPosition = 1100;
     private int bottomBucketPosition = 840;
-    private int swingarmClearPosition = 950;
+    private int swingarmClearPosition = 1100;
     private double liftTargetPosition = 0;
     private double power = 1;
 
@@ -43,7 +43,7 @@ public class LiftSubsystem extends SubsystemBase {
         this.liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         this.liftMotor.setInverted(true);
         this.liftMotor.setPositionTolerance(25);
-        this.liftMotor.setPositionCoefficient(0.375);
+        this.liftMotor.setPositionCoefficient(0.04);
         this.liftMotor.resetEncoder();
         liftPos = liftPosition.BOTTOM;
 
@@ -103,7 +103,9 @@ public class LiftSubsystem extends SubsystemBase {
     public void resetEncoder() {
         if ( isBottom()){
             liftMotor.resetEncoder();
+
         }
+        liftPos = liftPosition.BOTTOM;
         liftMotor.setRunMode(Motor.RunMode.PositionControl);
     }
 
