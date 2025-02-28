@@ -19,7 +19,7 @@ public class ExtendSubsystem extends SubsystemBase {
 
     public void extend() { servo.setPosition(0.45);}
 
-    public void retract() { servo.setPosition(0.955);}
+    public void retract() { servo.setPosition(0.935);}
     public boolean retracted(){return touch.isPressed();}
     public void setPosition(double position){servo.setPosition(position);}
     public void disable(){
