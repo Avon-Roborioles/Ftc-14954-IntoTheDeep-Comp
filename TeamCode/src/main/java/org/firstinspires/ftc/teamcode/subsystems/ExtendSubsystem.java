@@ -17,9 +17,12 @@ public class ExtendSubsystem extends SubsystemBase {
         this.servo = (ServoImplEx) servo; this.touch = touch;
     }
 
-    public void extend() { servo.setPosition(0.45);}
+    public void extend() { servo.setPosition(0.62);}
+    public void clear(){
+        servo.setPosition(0.93);
+    }
 
-    public void retract() { servo.setPosition(0.945);}
+    public void retract() { servo.setPosition(0.950);}
     public boolean retracted(){return touch.isPressed();}
     public void setPosition(double position){servo.setPosition(position);}
     public void disable(){

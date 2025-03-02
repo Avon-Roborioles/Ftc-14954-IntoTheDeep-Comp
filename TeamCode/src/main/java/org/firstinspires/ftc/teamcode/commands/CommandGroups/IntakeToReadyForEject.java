@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -29,6 +30,7 @@ public class IntakeToReadyForEject extends SequentialCommandGroup {
 
     public IntakeToReadyForEject(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, LiftSubsystem lift){
         addCommands(
+                new ExtendClearCommand(extend),
                 new LowerWrist(wrist),
                 new CollectSample(intake, wrist),
                 new WristClearBar(wrist),
