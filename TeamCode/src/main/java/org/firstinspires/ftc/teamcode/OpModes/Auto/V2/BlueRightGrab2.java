@@ -153,7 +153,7 @@ public class BlueRightGrab2 extends AutoBase {
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
                         new AutoClipSpecimen(liftSubsystem, 250),
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.6),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -161,7 +161,7 @@ public class BlueRightGrab2 extends AutoBase {
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.60),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new LiftBottomCommand(liftSubsystem)
                 ),
@@ -178,7 +178,7 @@ public class BlueRightGrab2 extends AutoBase {
                 new Reject(intake),
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new ExtensionCommand(extend, 0.64)
+                        new ExtensionCommand(extend, 0.6)
                 ),
                 new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist),
                         new ExtensionCommand(extend,0.5)),
@@ -186,7 +186,7 @@ public class BlueRightGrab2 extends AutoBase {
                 new ParallelCommandGroup(
                         new HandoffCommand(wrist),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new ExtensionCommand(extend, 0.7)
+                        new ExtensionCommand(extend, 0.64)
                 ),
                 new Reject(intake),
                 setPathToToSpecimen1,

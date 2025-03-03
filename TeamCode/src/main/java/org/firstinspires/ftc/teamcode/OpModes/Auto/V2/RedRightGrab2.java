@@ -158,7 +158,7 @@ public class RedRightGrab2 extends AutoBase {
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
                         new AutoClipSpecimen(liftSubsystem, 250),
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.6),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -176,14 +176,14 @@ public class RedRightGrab2 extends AutoBase {
                 setPathToSpit1,
                 new ParallelCommandGroup(
                         new HandoffCommand(wrist),
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.6),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToPickUp2,
                 new Reject(intake),
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new ExtensionCommand(extend, 0.64)
+                        new ExtensionCommand(extend, 0.6)
                 ),
                 new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist),
                         new ExtensionCommand(extend,0.5)),

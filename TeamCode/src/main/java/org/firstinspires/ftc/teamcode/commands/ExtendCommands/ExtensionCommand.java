@@ -16,7 +16,7 @@ public class ExtensionCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        extensionSubsystem.setPosition(targetPosition);
+        extensionSubsystem.setPosition(targetPosition+0.2);
     }
     public boolean isFinished() {
         return true;

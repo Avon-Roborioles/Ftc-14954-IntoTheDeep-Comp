@@ -61,7 +61,7 @@ public class RedRightGrab1 extends AutoBase {
     public Pose Bar = new Pose( 7.8125 , -31.5, -PI/2);
     public Pose BarMid = new Pose( 7.8125 , -38, -PI/2);
     public Pose BackAwayFromBar = new Pose( 8.5625-0.75 , -34, -PI/2);
-    public Pose Grab1 = new Pose(24, -41, PI/4);
+    public Pose Grab1 = new Pose(25, -41, PI/4);
     public Pose Spit1 = new Pose(40, -38, -PI/4);
     public Pose Grab2 = new Pose(38, -41, PI/4);
 
@@ -156,7 +156,7 @@ public class RedRightGrab1 extends AutoBase {
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.6),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new LiftBottomCommand(liftSubsystem)
                 ),
