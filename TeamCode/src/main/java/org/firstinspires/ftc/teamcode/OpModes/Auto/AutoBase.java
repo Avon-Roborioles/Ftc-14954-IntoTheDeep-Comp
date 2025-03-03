@@ -39,8 +39,8 @@ public abstract class AutoBase extends CommandOpMode {
     protected BoxxySubsystem box;
     protected WristSubsystem wrist;
     protected LeverSubsystem lever;
-    protected Command setPathToScorePreload, setPathToBar, setPathToBackAwayFromBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3, setPathToToSpecimen1, setPathToToSpecimen2,setPathToToSpecimen3, setPathToGrabSpecimen, setPathToSpit1, setPathToSpit2;
-    protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3, backAwayFromBar, toSpecimen1, toSpecimen2, toSpecimen3, toGrabSpecimen, toSpit1, toSpit2;
+    protected Command setPathToScorePreload, setPathToBar, setPathToBackAwayFromBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3, setPathToToSpecimen1, setPathToToSpecimen2,setPathToToSpecimen3, setPathToGrabSpecimen, setPathToSpit1, setPathToSpit2, PushSample;
+    protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3, backAwayFromBar, toSpecimen1, toSpecimen2, toSpecimen3, toGrabSpecimen, toSpit1, toSpit2, Backup;
 
     public abstract void makeAuto();
     public abstract void buildPaths();
