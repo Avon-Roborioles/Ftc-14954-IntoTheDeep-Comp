@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Storage;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpecimenIntakeGrab;
 import org.firstinspires.ftc.teamcode.commands.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
@@ -150,7 +151,7 @@ public class CompTeleOpRed extends Storage {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                        .whenPressed(new HangLevel1Command(liftSubsystem, swingArmSubsystem));
+                        .whenPressed(new SpecimenIntakeGrab(intake, wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)

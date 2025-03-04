@@ -43,6 +43,7 @@ import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpecimenIntakeGrab;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
@@ -155,7 +156,7 @@ public class CompTeleOpBlue extends Storage {
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new HangLevel1Command(liftSubsystem, swingArmSubsystem));
+                .whenPressed(new SpecimenIntakeGrab(intake, wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new TopBucketScoreReady(swingArmSubsystem, liftSubsystem,pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
