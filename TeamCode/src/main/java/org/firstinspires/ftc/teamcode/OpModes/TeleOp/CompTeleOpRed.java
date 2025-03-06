@@ -192,7 +192,7 @@ public class CompTeleOpRed extends Storage {
                         .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
 
 
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 
     @Override
