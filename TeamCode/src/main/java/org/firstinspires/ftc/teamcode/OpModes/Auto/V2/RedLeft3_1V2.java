@@ -185,7 +185,7 @@ public class RedLeft3_1V2 extends AutoBase {
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new RaiseWrist(wrist),
+                        new WristClearBar(wrist),
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPark,

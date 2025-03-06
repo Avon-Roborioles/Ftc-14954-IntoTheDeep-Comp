@@ -19,6 +19,7 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -57,6 +58,7 @@ import pedroPathing.constants.FConstantsL;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
+@Disabled
 public class BlueLeft3_1 extends AutoBase{
     Pose BLStartBar = new Pose( 8.5625 -0.75 ,68 - 8.1875, PI/2);
     Pose BLBar = new Pose( 8.5625 -0.75 , 30, PI/2);

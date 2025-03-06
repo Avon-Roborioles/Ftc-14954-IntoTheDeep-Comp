@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearGearCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToBox;
@@ -28,7 +29,7 @@ public class IntakeToReadyForTopScore extends SequentialCommandGroup {
 
     public IntakeToReadyForTopScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
         addCommands(
-                new ExtendClearCommand(extend),
+                new ExtendClearGearCommand(extend),
                 new LowerWrist(wrist),
                 new CollectSample(intake, wrist),
                 new WristClearBar(wrist),

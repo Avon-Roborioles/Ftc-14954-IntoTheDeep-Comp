@@ -12,6 +12,7 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
+import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -27,19 +28,16 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoBase;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoCollectNoColorSample;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -55,26 +53,24 @@ import pedroPathing.constants.LConstants;
 
 @Autonomous
 public class BlueRightGrab2V2 extends AutoBase {
+    public PathChain run1;
     public Pose Start = new Pose( 7.8125 ,-60.0125, -PI/2);
-    public Pose Bar = new Pose( 7.8125 , -31.5, -PI/2);
-    public Pose BarMid = new Pose( 7.8125 , -38, -PI/2);
-    public Pose BackAwayFromBar = new Pose( 8.5625-0.75 , -34, -PI/2);
-    public Pose Grab1 = new Pose(25, -44, PI/2);
-    public Pose Spit1 = new Pose(25, -38, -PI/2);
+    public Pose Bar = new Pose( 8.25 , -31.25, -PI/2);
+    public Pose BarMid = new Pose( 8.25 , -32.5, -PI/2);
+    public Pose BackAwayFromBar = new Pose( 8.5625-0.75 , -33, -PI/2);
+    public Pose StrafeOver = new Pose(30, -38, PI/2);
+    public Pose Clear1 = new Pose(32, -17,PI/2);
+    public Pose Over1 = new Pose(41, -17,PI/2);
+    public Pose Push1 = new Pose(41, -50, PI/2);
+    public Pose Over2 = new Pose(53, -16, PI/2);
+    public Pose Push2 = new Pose(42, -56, PI/2);
+    public Pose StrafeOver2 = new Pose(35, -56, PI/2);
+
     public Pose Grab2 = new Pose(32, -38, -PI/2);
-    public Pose Back1 = new Pose(32, -50, -PI/2);
 
-    public Pose ForSpecimen = new Pose(30.5, -56, PI/2);
-    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-1, PI/2);
-/*
-public Pose Grab1 = strafe1 = to pickup 1
+    public Pose ForSpecimen = new Pose(30.5, -58, PI/2);
+    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-2, PI/2);
 
-public Pose Spit1 = go foward = to spit 1
-
-public Pose grab2 = strafe again = to pick up 2
-
-Back1 = push sample = Spit 2
- */
 
 
     public Pose Park = new Pose(60, -60, PI);
@@ -96,7 +92,7 @@ Back1 = push sample = Spit 2
             autoDriveSubsystem.followPath(backAwayFromBar, true);
         });
         setPathToPickUp1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(toPickUp1, true);
+            autoDriveSubsystem.followPath(run1, true);
         });
         setPathToPickUp2 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toPickUp2, true);
@@ -133,6 +129,15 @@ Back1 = push sample = Spit 2
             autoDriveSubsystem.followPath(forward2, true);
             autoDriveSubsystem.setMaxPower(1);
         });
+        setPathToToSpecimen3 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toSpecimen3, true);
+        });
+
+        setPathToScore3 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toScore3, true);
+            autoDriveSubsystem.setMaxPower(1);
+        });
+
         PushSample = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(Backup, true);
             autoDriveSubsystem.setMaxPower(1);
@@ -147,7 +152,7 @@ Back1 = push sample = Spit 2
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new LeverClearCommand(lever),
                 new WaitCommand(50),
-                new HandoffCommand(wrist),
+                new RaiseWrist(wrist),
                 new RetractCommand(extend),
                 new SwingArmDownCommand(swingArmSubsystem)
         );
@@ -165,8 +170,7 @@ Back1 = push sample = Spit 2
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
-                        new AutoClipSpecimen(liftSubsystem, 250),
-                        new ExtensionCommand(extend, 0.64),
+                        new AutoClipSpecimen(liftSubsystem, 200),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -174,90 +178,74 @@ Back1 = push sample = Spit 2
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new RetractCommand(extend)
-                ),
-                setPathToSpit1,
-                new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry), new RetractCommand(extend)
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry), new RetractCommand(extend),
+                        new LiftBottomCommand(liftSubsystem)
 
                 ),
-                setPathToPickUp2,
+                setPathToGrabSpecimen,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                new LiftTopBarCommand(liftSubsystem),
+                setPathToScore1,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                setPathToForward1,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new RetractCommand(extend)
+                        new AutoClipSpecimen(liftSubsystem, 200),
+                        new SequentialCommandGroup(
+                                new WaitCommand(100),
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        )
                 ),
-                setPathToSpit2,
+                setPathToToSpecimen2,
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new RetractCommand(extend)
-                )
-//                setPathToPickUp1,
-
-//                new ParallelCommandGroup(
-//                        new ExtensionCommand(extend, 0.64),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                        new LiftBottomCommand(liftSubsystem)
-//                ),
-//                new LowerWrist(wrist),
-//                new ParallelCommandGroup(new AutoCollectNoColorSample(intake, wrist),
-//                        new ExtensionCommand(extend,0.5)),
-
-//                new ParallelCommandGroup(
-//                        new HandoffCommand(wrist),
-//                        new ExtensionCommand(extend, 0.64),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
-//                ),
-
-
-
-//                new ParallelCommandGroup(
-//                        new HandoffCommand(wrist),
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                        new ExtensionCommand(extend, 0.7)
-//                ),
-//                new Reject(intake),
-//                setPathToToSpecimen1,
-//                new ParallelCommandGroup(
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                        new RetractCommand(extend)
-//                ),
-//                setPathToGrabSpecimen,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                new LiftTopBarCommand(liftSubsystem)
-////                setPathToScore1,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                setPathToForward1,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                setPathToBackAwayFromBar,
-//                new ParallelCommandGroup(
-//                        new AutoClipSpecimen(liftSubsystem, 250),
-//                        new SequentialCommandGroup(
-//                                new WaitCommand(100),
-//                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-//                        )
-//                ),
-//                setPathToToSpecimen2,
-//                new ParallelCommandGroup(
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                        new LiftBottomCommand(liftSubsystem)
-//                ),
-//                setPathToGrabSpecimen,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                new LiftTopBarCommand(liftSubsystem),
-//                setPathToScore2,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                setPathToForward2,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                setPathToBackAwayFromBar,
-//                new ParallelCommandGroup(
-//                        new AutoLastClipSpecimen(liftSubsystem, 250),
-//                        new SequentialCommandGroup(
-//                                new WaitCommand(100),
-//                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-//                        )
-//                ),
-//                new LiftBottomCommand(liftSubsystem)
+                        new LiftBottomCommand(liftSubsystem)
+                ),
+                setPathToGrabSpecimen,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new SequentialCommandGroup(
+                                new SwingArmDownCommand(swingArmSubsystem),
+                                new WaitCommand(200),
+                                new LiftForSwingArmClearCommand(liftSubsystem)
+                        )
+                ),
+                setPathToScore2,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new LiftTopBarCommand(liftSubsystem)
+                ),
+                setPathToForward2,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                setPathToBackAwayFromBar,
+                new ParallelCommandGroup(
+                        new AutoClipSpecimen(liftSubsystem, 200),
+                        new SequentialCommandGroup(
+                                new WaitCommand(100),
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        )
+                ),
+                setPathToToSpecimen3,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new LiftBottomCommand(liftSubsystem)
+                ),
+                setPathToGrabSpecimen,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new SequentialCommandGroup(
+                                new SwingArmDownCommand(swingArmSubsystem),
+                                new WaitCommand(200),
+                                new LiftForSwingArmClearCommand(liftSubsystem)
+                        )
+                ),
+                setPathToScore3,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new LiftTopBarCommand(liftSubsystem)
+                ),
+                new LiftBottomCommand(liftSubsystem)
         );
 
 
@@ -295,7 +283,7 @@ Back1 = push sample = Spit 2
     public void buildPaths() {
         toBar = new Path(new BezierCurve(new Point(Start), new Point(BarMid)));
         toBar.setLinearHeadingInterpolation(Start.getHeading(), BarMid.getHeading());
-        toBar.setPathEndTimeoutConstraint(250);
+        toBar.setPathEndTimeoutConstraint(25);
 
         toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
         toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
@@ -303,43 +291,47 @@ Back1 = push sample = Spit 2
 
         backAwayFromBar = new Path(new BezierCurve(new Point(Bar), new Point(BackAwayFromBar)));
         backAwayFromBar.setLinearHeadingInterpolation(Bar.getHeading(), BackAwayFromBar.getHeading());
-        backAwayFromBar.setPathEndTimeoutConstraint(250);
+        backAwayFromBar.setPathEndTimeoutConstraint(25);
 
-        toPickUp1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Grab1)));
-        toPickUp1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Grab1.getHeading());
-        toPickUp1.setPathEndTimeoutConstraint(750);
+        Path strafe1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(StrafeOver)));
+        strafe1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), StrafeOver.getHeading());
 
-        toSpit1 = new Path(new BezierCurve(new Point(Grab1), new Point(Spit1)));
-        toSpit1.setLinearHeadingInterpolation(Grab1.getHeading(), Spit1.getHeading());
-        toSpit1.setPathEndTimeoutConstraint(250);
+        Path clear1 = new Path(new BezierCurve(new Point(StrafeOver), new Point(Clear1)));
+        clear1.setLinearHeadingInterpolation(StrafeOver.getHeading(), Clear1.getHeading());
 
-
-        toPickUp2 = new Path(new BezierCurve(new Point(Spit1), new Point(Grab2)));
-        toPickUp2.setLinearHeadingInterpolation(Spit1.getHeading(), Grab2.getHeading());
-        toPickUp2.setPathEndTimeoutConstraint(750);
-
-//        toSpit2 = new Path(new BezierCurve(new Point(Grab2), new Point(Spit1)));
-//        toSpit2.setLinearHeadingInterpolation(Grab2.getHeading(), Spit1.getHeading());
-//        toSpit2.setPathEndTimeoutConstraint(250);
-        toSpit2 = new Path(new BezierCurve(new Point(Grab2), new Point(Back1)));
-        toSpit2.setLinearHeadingInterpolation(Grab2.getHeading(), Back1.getHeading());
-        toSpit2.setPathEndTimeoutConstraint(250);
+        Path over1 = new Path(new BezierCurve(new Point(Clear1), new Point(Over1)));
+        over1.setLinearHeadingInterpolation(Clear1.getHeading(), Over1.getHeading());
 
 
+        Path push1 = new Path(new BezierCurve(new Point(Over1), new Point(Push1)));
+        push1.setLinearHeadingInterpolation(Over1.getHeading(), Push1.getHeading());
 
-        toSpecimen1 = new Path(new BezierCurve(new Point(Grab2), new Point(ForSpecimen)));
-        toSpecimen1.setLinearHeadingInterpolation(Grab2.getHeading(), ForSpecimen.getHeading());
-        toSpecimen1.setPathEndTimeoutConstraint(1000);
+        Path to2 = new Path(new BezierCurve(new Point(Push1), new Point(Over1)));
+        to2.setLinearHeadingInterpolation(Push1.getHeading(), Over1.getHeading());
 
-        Backup = new Path(new BezierLine(new Point(ForSpecimen), new Point(Back1)));
-        Backup.setLinearHeadingInterpolation(ForSpecimen.getHeading(), Back1.getHeading());
-        Backup.setPathEndTimeoutConstraint(1000);
+        Path over2 = new Path(new BezierCurve(new Point(Over1), new Point(Over2)));
+        over2.setLinearHeadingInterpolation(Over1.getHeading(), Over2.getHeading());
+
+        Path push2 = new Path(new BezierCurve(new Point(Over2), new Point(Push2)));
+        push2.setLinearHeadingInterpolation(Over2.getHeading(), Push2.getHeading());
+
+        Path strafe2 = new Path(new BezierCurve(new Point(Push2), new Point(StrafeOver2)));
+        strafe2.setLinearHeadingInterpolation(Push2.getHeading(), StrafeOver2.getHeading());
+
+
+
+        run1 = new PathChain(strafe1, clear1, over1, push1, to2, over2, push2, strafe2);
+
+        toSpecimen1 = new Path(new BezierCurve(new Point(StrafeOver2), new Point(ForSpecimen)));
+        toSpecimen1.setLinearHeadingInterpolation(StrafeOver2.getHeading(), ForSpecimen.getHeading());
+        toSpecimen1.setPathEndTimeoutConstraint(500);
+
 
         toGrabSpecimen = new Path(new BezierCurve(new Point(ForSpecimen), new Point(GrabSpecimen)));
         toGrabSpecimen.setLinearHeadingInterpolation(ForSpecimen.getHeading(), GrabSpecimen.getHeading());
         toGrabSpecimen.setPathEndTimeoutConstraint(500);
 
-        toScore1 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(BarMid.getX()+2, BarMid.getY(), BarMid.getHeading()))));
+        toScore1 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(BarMid.getX()+3, BarMid.getY()-2, BarMid.getHeading()))));
         toScore1.setLinearHeadingInterpolation(GrabSpecimen.getHeading(), BarMid.getHeading());
         toScore1.setPathEndTimeoutConstraint(500);
 
@@ -351,13 +343,24 @@ Back1 = push sample = Spit 2
         toSpecimen2.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), ForSpecimen.getHeading());
         toSpecimen2.setPathEndTimeoutConstraint(500);
 
-        toScore2 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(BarMid.getX()-2, BarMid.getY(), BarMid.getHeading()))));
+        toScore2 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(BarMid.getX()-4, BarMid.getY()-2.5, BarMid.getHeading()))));
         toScore2.setLinearHeadingInterpolation(GrabSpecimen.getHeading(), BarMid.getHeading());
-        toScore2.setPathEndTimeoutConstraint(500);
+        toScore2.setPathEndTimeoutConstraint(250);
 
-        forward2 = new Path(new BezierCurve(new Point(new Pose(BarMid.getX()-2, BarMid.getY(), BarMid.getHeading())), new Point(new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()))));
-        forward2.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()).getHeading());
+        forward2 = new Path(new BezierCurve(new Point(new Pose(BarMid.getX()-4, BarMid.getY()-2.5, BarMid.getHeading())), new Point(new Pose(Bar.getX()-4, Bar.getY(), Bar.getHeading()))));
+        forward2.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()-4, Bar.getY(), Bar.getHeading()).getHeading());
         forward2.setPathEndTimeoutConstraint(500);
+
+        toSpecimen3 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(ForSpecimen)));
+        toSpecimen3.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), ForSpecimen.getHeading());
+        toSpecimen3.setPathEndTimeoutConstraint(500);
+
+        toScore3 = new Path(new BezierCurve(new Point(GrabSpecimen), new Point(new Pose(Bar.getX()-7, Bar.getY(), Bar.getHeading()))));
+        toScore3.setLinearHeadingInterpolation(GrabSpecimen.getHeading(), Bar.getHeading());
+        toScore3.setPathEndTimeoutConstraint(500);
+
+
+
     }
 
 

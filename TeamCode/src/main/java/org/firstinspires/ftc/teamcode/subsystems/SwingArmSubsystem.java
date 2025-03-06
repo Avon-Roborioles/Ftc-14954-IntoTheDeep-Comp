@@ -9,21 +9,21 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SwingArmSubsystem extends SubsystemBase {
     private Servo SwingArmServo;
     private double TopPos = 0.79;
-    private double MidPos = 0.5;
+    private double MidPos = 0.4;
     private double ParkPos = 0.7;
     private TouchSensor touch;
 
     public SwingArmSubsystem(Servo SwingArmServo, TouchSensor touch) {
         this.SwingArmServo = SwingArmServo;
         this.touch = touch;
-        this.SwingArmServo.setDirection(Servo.Direction.REVERSE);
+        this.SwingArmServo.setDirection(Servo.Direction.FORWARD);
     }
     public void up() {
         SwingArmServo.setPosition(TopPos);
     }
     public boolean isDown(){return !touch.isPressed();}
     public void down() {
-        SwingArmServo.setPosition(0.03);
+        SwingArmServo.setPosition(0.00);
     }
     public void mid() { SwingArmServo.setPosition(MidPos);}
     public void park() { SwingArmServo.setPosition(ParkPos);}

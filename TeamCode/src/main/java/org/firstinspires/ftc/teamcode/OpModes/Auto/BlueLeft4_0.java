@@ -42,6 +42,7 @@ import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -175,7 +176,7 @@ public class BlueLeft4_0 extends AutoBase {
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new RaiseWrist(wrist),
+                        new WristClearBar(wrist),
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPark,
