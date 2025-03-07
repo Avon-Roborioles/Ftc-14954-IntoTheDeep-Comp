@@ -20,7 +20,7 @@ public class SpecimenIntakeGrab extends CommandBase {
         }
         public void end(boolean interrupted) {
             intake.stopMotor();
-            wrist.up();
+            wrist.ClearCenter();
         }
         public boolean isFinished() {
             return intake.hasSample();
