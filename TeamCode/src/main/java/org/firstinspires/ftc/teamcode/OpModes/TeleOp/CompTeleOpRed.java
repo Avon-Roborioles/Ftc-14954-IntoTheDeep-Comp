@@ -31,7 +31,6 @@ import org.firstinspires.ftc.teamcode.commands.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
-import org.firstinspires.ftc.teamcode.commands.HangCommands.HangLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForEject;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -43,7 +42,6 @@ import org.firstinspires.ftc.teamcode.commands.HangCommands.HangJoystickCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
@@ -62,7 +60,6 @@ import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
@@ -87,7 +84,6 @@ public class CompTeleOpRed extends Storage {
     private IntakeSubsystem intake;
     private BoxxySubsystem box;
     private WristSubsystem wrist;
-    private LeverSubsystem lever;
     private HangSubsystem hang;
     private Path scorePath;
     @Override
@@ -118,7 +114,6 @@ public class CompTeleOpRed extends Storage {
 
 
 
-        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
 
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, Storage.memory.lastPose);
         initPoseSelect(driverOp);
@@ -192,7 +187,7 @@ public class CompTeleOpRed extends Storage {
                         .toggleWhenPressed(new SwingArmDownCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
 
 
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new LeverClearCommand(lever), new WristClearBar(wrist), new RetractCommand(extend)));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new WristClearBar(wrist), new RetractCommand(extend)));
     }
 
     @Override

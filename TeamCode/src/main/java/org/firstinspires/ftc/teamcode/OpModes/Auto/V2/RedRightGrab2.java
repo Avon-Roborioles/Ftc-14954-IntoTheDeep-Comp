@@ -19,7 +19,6 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -32,16 +31,13 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoBase;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoCollectNoColorSample;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntakeForEject;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassEject;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
@@ -49,7 +45,6 @@ import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
@@ -137,7 +132,6 @@ public class RedRightGrab2 extends AutoBase {
 
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
-                new LeverClearCommand(lever),
                 new WaitCommand(50),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
@@ -265,7 +259,6 @@ public class RedRightGrab2 extends AutoBase {
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"),intake);
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
-        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
     }
 
     @Override

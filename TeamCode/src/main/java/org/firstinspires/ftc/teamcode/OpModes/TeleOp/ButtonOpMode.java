@@ -29,8 +29,6 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 //import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverDownCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomResetCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
@@ -51,7 +49,6 @@ import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PedroDriveSubsystem;
@@ -76,7 +73,6 @@ public class ButtonOpMode extends CommandOpMode {
     private BoxxySubsystem box;
     private WristSubsystem wrist;
     private TelemetrySubsystem telemetrySubsystem;
-    private LeverSubsystem lever;
 
 
 
@@ -109,7 +105,6 @@ public class ButtonOpMode extends CommandOpMode {
 
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         telemetrySubsystem = new TelemetrySubsystem(telemetry, box, extend, intake, liftSubsystem, pass, pedroDriveSubsystem, swingArmSubsystem, wrist);
-        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
         //Default Commands
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
         pass.setDefaultCommand(new PassCommand(pass, operatorOp::getLeftY));
@@ -159,11 +154,8 @@ public class ButtonOpMode extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new RaiseWrist(wrist));
 
-        driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                        .whenPressed(new LeverClearCommand(lever));
+
 //                .whenPressed(new PassToBox(pass, box, intake));
-        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                        .whenPressed(new LeverDownCommand(lever));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
 //                .toggleWhenPressed(new PassOnToBoxCommand(pass, box, intake), new PassOffCommand(pass));

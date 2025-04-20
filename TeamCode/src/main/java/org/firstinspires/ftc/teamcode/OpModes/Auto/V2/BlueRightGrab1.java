@@ -32,7 +32,6 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveComman
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
-import org.firstinspires.ftc.teamcode.commands.LeverCommands.LeverClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
@@ -44,7 +43,6 @@ import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LeverSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
@@ -126,7 +124,6 @@ public class BlueRightGrab1 extends AutoBase {
 
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
-                new LeverClearCommand(lever),
                 new WaitCommand(50),
                 new HandoffCommand(wrist),
                 new RetractCommand(extend),
@@ -244,7 +241,6 @@ public class BlueRightGrab1 extends AutoBase {
         box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"),intake);
         intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
-        lever = new LeverSubsystem(hardwareMap.get(Servo.class, "lever"));
     }
 
     @Override
