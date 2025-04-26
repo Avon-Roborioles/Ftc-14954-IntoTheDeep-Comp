@@ -100,16 +100,19 @@ public class IntakeSubsystem extends SubsystemBase {
         allianceColor.setPosition(0.333); // Orange
     }
 
+//    public boolean hasSample() {
+//        if (distanceSensor.getDistance(DistanceUnit.INCH) > 100) {
+//            DistanceSensorCooked = true;
+//            allianceColor.setPosition(0.722);
+//        }
+//        if(DistanceSensorCooked){
+//            return (getBlue()+getRed()+getGreen()>4000);
+//        }else {
+//            return (distanceSensor.getDistance(DistanceUnit.INCH) < 4.5);
+//        }
+//    }
     public boolean hasSample() {
-        if (distanceSensor.getDistance(DistanceUnit.INCH) > 100) {
-            DistanceSensorCooked = true;
-            allianceColor.setPosition(0.722);
-        }
-        if(DistanceSensorCooked){
-            return (getBlue()+getRed()+getGreen()>4000);
-        }else {
-            return (distanceSensor.getDistance(DistanceUnit.INCH) < 4.5);
-        }
+        return (getBlue()+getRed()+getGreen()>4000);
     }
 
     public double getRed() {
