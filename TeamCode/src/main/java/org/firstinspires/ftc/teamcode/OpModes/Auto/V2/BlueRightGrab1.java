@@ -163,7 +163,7 @@ public class BlueRightGrab1 extends AutoBase {
                         new HandoffCommand(wrist),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
-                new Reject(intake),
+                new Reject(intake, wrist),
                 setPathToToSpecimen1,
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),

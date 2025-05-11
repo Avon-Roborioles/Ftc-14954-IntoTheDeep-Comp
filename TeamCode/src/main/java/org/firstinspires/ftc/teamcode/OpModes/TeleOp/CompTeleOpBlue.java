@@ -176,7 +176,7 @@ public class CompTeleOpBlue extends Storage {
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new IntakeToReadyForTopScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new Reject(intake))
+                .whenPressed(new Reject(intake, wrist))
                 .whenPressed(new PassBack(pass));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new IntakeToReadyForBottomScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem));

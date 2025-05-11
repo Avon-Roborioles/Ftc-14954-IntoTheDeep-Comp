@@ -116,11 +116,14 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public double getRed() {
-        return colorSensor1.red()+ colorSensor2.red();}
+//        return colorSensor1.red()+ colorSensor2.red();}
+        return colorSensor1.red();}
     public double getBlue() {
-        return colorSensor1.blue()+ colorSensor2.blue();}
+//        return colorSensor1.blue()+ colorSensor2.blue();}
+     return colorSensor1.blue();}
     public double getGreen() {
-        return colorSensor1.green()+ colorSensor2.green();}
+//        return colorSensor1.green()+ colorSensor2.green();}
+     return colorSensor1.green();}
 
     public boolean isColorSensorRed() {return getRed() > getBlue() && getRed() > getGreen();}
 

@@ -171,7 +171,7 @@ public class RedRightGrab2Ice extends AutoBase {
                     new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToPickUp2,
-                new Reject(intake),
+                new Reject(intake, wrist),
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ExtensionCommand(extend, 0.64)
@@ -183,7 +183,7 @@ public class RedRightGrab2Ice extends AutoBase {
                         new HandoffCommand(wrist),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
-                new Reject(intake),
+                new Reject(intake, wrist),
                 setPathToToSpecimen1,
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),

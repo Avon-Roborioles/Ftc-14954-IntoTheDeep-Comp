@@ -39,7 +39,7 @@ public class CollectSample extends CommandBase {
             subsystem.runMotor();
         }
         if (ejecting & !timer.done()) {
-            subsystem.rejectMotor();
+            subsystem.runMotor();
         } else if (ejecting & timer.done()) {
             ejecting = false;
             subsystem.stopMotor();

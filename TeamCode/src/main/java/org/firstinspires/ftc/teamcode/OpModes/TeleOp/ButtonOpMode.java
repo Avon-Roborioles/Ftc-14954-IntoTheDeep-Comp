@@ -129,13 +129,13 @@ public class ButtonOpMode extends CommandOpMode {
                 .toggleWhenPressed(new ExtendCommand(extend), new RetractCommand(extend));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new Reject(intake));
+                .whenPressed(new Reject(intake, wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new CollectSample(intake, wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new ToggleAlliance(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new Reject(intake));
+                .whenPressed(new Reject(intake, wrist));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
