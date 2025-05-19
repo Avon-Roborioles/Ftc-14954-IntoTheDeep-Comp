@@ -12,7 +12,6 @@ public class ColorTest2 {
     private RevColorSensorV3 colorSensor;
     public void initColorSensor(HardwareMap hardwareMap) {
         colorSensor = hardwareMap.get(RevColorSensorV3.class, "colorSensor");
-        colorSensor.getConnectionInfo()
     }
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Red", colorSensor.red());
