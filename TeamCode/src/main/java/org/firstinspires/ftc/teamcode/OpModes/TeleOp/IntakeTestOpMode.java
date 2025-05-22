@@ -8,8 +8,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewSpitCommand;
@@ -17,6 +22,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewStopCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NomNomComand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
+import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
@@ -27,6 +33,10 @@ public class IntakeTestOpMode extends CommandOpMode {
     private GamepadEx driverOp, operatorOp;
     private WristSubsystem wrist;
     private NewIntakeSubsystem intake;
+    private ExtendSubsystem extend;
+    private ServoImplEx extendservo;
+    PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
+    private TouchSensor touch1, touch2;
 
 
     @Override
@@ -35,19 +45,26 @@ public class IntakeTestOpMode extends CommandOpMode {
         operatorOp = new GamepadEx(gamepad2);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"));
-
+//        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
+//        touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
+//        extendservo.setPwmRange(servoRange);
+//        extend = new ExtendSubsystem(extendservo, touch2 );
+//        driverOp.getGamepadButton(GamepadKeys.Button.START)
+//                .whenPressed(new ExtendCommand(extend));
+//        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+//                .whenPressed(new RetractCommand(extend));
         driverOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new RaiseWrist(wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new LowerWrist(wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new NewCollectCommand(intake, wrist, telemetry));
+                .whenPressed(new NewSpitCommand(intake, wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new NewStopCommand(intake));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new NewSpitCommand(intake, wrist));
+                .whenPressed(new NomNomComand(intake, wrist, telemetry, false));
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new NomNomComand(intake, wrist, telemetry));
+                .whenPressed(new NomNomComand(intake, wrist, telemetry, true));
 
 
     }

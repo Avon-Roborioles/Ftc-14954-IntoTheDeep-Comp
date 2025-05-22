@@ -16,13 +16,15 @@ public class NewCollectCommand extends CommandBase {
     private Telemetry telemetry;
     private boolean first=true;
     private boolean stalled = false;
+    private boolean RedAlliance;
 
     Timing.Timer stall = new Timing.Timer(250, TimeUnit.MILLISECONDS);
 
-    public NewCollectCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist, Telemetry telemetry) {
+    public NewCollectCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist, Telemetry telemetry, boolean RedAlliance) {
         this.subsystem = subsystem;
         this.wrist = wrist;
         this.telemetry = telemetry;
+        this.RedAlliance = RedAlliance;
         addRequirements(subsystem);
     }
 
@@ -38,6 +40,15 @@ public class NewCollectCommand extends CommandBase {
             if (!subsystem.isStalled()){
                 if (subsystem.hasSample()){
                     subsystem.stopMotor();
+                    if (RedAlliance) {
+                        if(!subsystem.isSampleRedOrYellow()){
+                            subsystem.runMotor();
+                        }
+                    }else {
+                        if(!subsystem.isSampleBlueOrYellow()){
+                            subsystem.runMotor();
+                        }
+                    }
                 }else {
                     subsystem.runMotor();
                     first = true;
@@ -71,7 +82,11 @@ public class NewCollectCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return subsystem.hasSample();
+        if (RedAlliance) {
+            return subsystem.isSampleRedOrYellow();
+        }else {
+            return subsystem.isSampleBlueOrYellow();
+        }
     }
 
 }

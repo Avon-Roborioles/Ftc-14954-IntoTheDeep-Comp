@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoCollectNoColorSample;
@@ -11,10 +12,10 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class NomNomComand extends SequentialCommandGroup {
 
-    public NomNomComand(NewIntakeSubsystem intake, WristSubsystem wrist, Telemetry telemetry) {
+    public NomNomComand(NewIntakeSubsystem intake, WristSubsystem wrist, Telemetry telemetry, boolean RedAlliance) {
         addCommands(
                 new LowerWrist(wrist),
-                new NewCollectCommand(intake, wrist, telemetry),
+                new NewCollectCommand(intake, wrist, telemetry, RedAlliance),
                 new NewSpitCommand(intake, wrist)
         );
     }
