@@ -81,6 +81,7 @@ public class NewIntakeSubsystem extends SubsystemBase {
     //Yellow: R:1000-2000, G:1000-2000, B:350-400
     public boolean isSampleRedOrYellow(){
            return colorSensor.red()>600;
+
     }
     public boolean isSampleBlueOrYellow(){
         return ((!isSampleRedOrYellow() || ((colorSensor.green()+colorSensor.red()-colorSensor.blue())> 2100) && (colorSensor.blue()<400 && colorSensor.blue()>200) )&& hasSample());
@@ -104,6 +105,7 @@ public class NewIntakeSubsystem extends SubsystemBase {
         telemetry.addData("Red Sensor", colorSensor.red());
         telemetry.addData("Blue Sensor", colorSensor.blue());
         telemetry.addData("Green Sensor", colorSensor.green());
+        telemetry.addData("alpha", colorSensor.alpha());
         telemetry.addData("Red Sample", isColorSensorRed());
         telemetry.addData("Blue Sample", isColorSensorBlue());
         telemetry.addData("Yellow Sample", isColorSensorYellow());
