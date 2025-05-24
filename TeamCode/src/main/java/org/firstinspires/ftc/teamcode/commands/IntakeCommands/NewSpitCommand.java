@@ -36,6 +36,16 @@ public class NewSpitCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         subsystem.stopMotor();
+        if (subsystem.isRampSensorRed()){
+            subsystem.redlight();
+        } else if (subsystem.isRampSensorBlue()){
+            subsystem.bluelight();
+        } else if (subsystem.isRampSensorYellow()){
+            subsystem.yellowlight();
+        }
+
+
+
 
     }
 

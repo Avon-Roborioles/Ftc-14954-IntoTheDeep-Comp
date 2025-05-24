@@ -17,12 +17,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class NewIntakeSubsystem extends SubsystemBase {
     private DcMotorEx motor;
     private ColorSensor colorSensor, rampSensor;
+    private RevBlinkinLedDriver blinkin;
+    private ServoImplEx allianceColor;
 
 
-    public NewIntakeSubsystem(DcMotorEx motor, ColorSensor colorSensor, ColorSensor rampSensor) {
+    public NewIntakeSubsystem(DcMotorEx motor, ColorSensor colorSensor, ColorSensor rampSensor, RevBlinkinLedDriver blinkin, ServoImplEx allianceColor) {
         this.motor = motor;
         this.colorSensor = colorSensor;
         this.rampSensor = rampSensor;
+        this.blinkin = blinkin;
+        this.allianceColor = allianceColor;
 
         this.motor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -39,7 +43,7 @@ public class NewIntakeSubsystem extends SubsystemBase {
 
 
     //1 is too fast
-    public void runMotor() {motor.setPower(1);}
+    public void runMotor() {motor.setPower(0.9);}
 
     public void rejectMotor() {motor.setPower(-0.9);
     }
@@ -50,6 +54,40 @@ public class NewIntakeSubsystem extends SubsystemBase {
     public void stopMotor() {
         motor.setPower(0);
 
+    }
+    public void redlight() {
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+    }
+
+    public void bluelight() {
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+    }
+
+    public void yellowlight() {
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+    }
+
+    public void rainbowlight() {
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
+    }
+    public void redAllianceLight(){allianceColor.setPosition(0.28);}
+    public void blueAllianceLight(){allianceColor.setPosition(0.61);}
+    public double getRed() {
+//        return colorSensor1.red()+ colorSensor2.red();}
+        return rampSensor.red();}
+    public double getBlue() {
+//        return colorSensor1.blue()+ colorSensor2.blue();}
+        return rampSensor.blue();}
+    public double getGreen() {
+//        return colorSensor1.green()+ colorSensor2.green();}
+        return rampSensor.green();}
+
+    public boolean isRampSensorRed() {return getRed() > getBlue() && getRed() > getGreen();}
+
+    public boolean isRampSensorBlue() {return getBlue() > getRed()&& getBlue()>200;}
+
+    public boolean isRampSensorYellow() {
+        return !isRampSensorBlue() && !isRampSensorRed() && getGreen() > 200;
     }
     public boolean inRamp(){
         return rampSensor.red()+rampSensor.blue()+rampSensor.green()>1000;
@@ -84,8 +122,9 @@ public class NewIntakeSubsystem extends SubsystemBase {
 
     }
     public boolean isSampleBlueOrYellow(){
-        return ((!isSampleRedOrYellow() || ((colorSensor.green()+colorSensor.red()-colorSensor.blue())> 2100) && (colorSensor.blue()<400 && colorSensor.blue()>200) )&& hasSample());
+//        return ((!isSampleRedOrYellow() || ((colorSensor.green()+colorSensor.red()-colorSensor.blue())> 2100) && (colorSensor.blue()<400 && colorSensor.blue()>200) )&& hasSample());
 //        return (!isSampleRedOrYellow() || colorSensor.green()+colorSensor.blue()>1000) && hasSample();
+        return  (!isSampleRedOrYellow() || (colorSensor.alpha() > 1100)) && hasSample();
     }
 
     public boolean isColorSensorRed() {return colorSensor.red() > colorSensor.blue() && colorSensor.red() > colorSensor.green();}

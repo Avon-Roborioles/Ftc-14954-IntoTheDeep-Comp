@@ -30,7 +30,11 @@ public class NewCollectCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+    if (RedAlliance) {
+        subsystem.redAllianceLight();
+    }else {
+        subsystem.blueAllianceLight();
+    }
     }
 
     @Override

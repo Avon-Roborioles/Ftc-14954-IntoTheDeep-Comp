@@ -24,6 +24,7 @@ M2: "liftMotor"
 
 S0: "swingArm" 0 with preloaded spring toward switch
 S1: "allianceColor"
+S2: "claw'
 
 
 S5: "wrist"
