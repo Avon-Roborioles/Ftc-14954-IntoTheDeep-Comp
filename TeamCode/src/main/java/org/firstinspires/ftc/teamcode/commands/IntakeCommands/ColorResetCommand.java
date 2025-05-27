@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 
 public class ColorResetCommand extends CommandBase {
-    private IntakeSubsystem subsystem;
+    private NewIntakeSubsystem subsystem;
 
-    public ColorResetCommand(IntakeSubsystem subsystem) {
+    public ColorResetCommand(NewIntakeSubsystem subsystem) {
         this.subsystem = subsystem;
         addRequirements(subsystem);
     }
