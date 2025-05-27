@@ -4,22 +4,22 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class AutoLiftForSwingArmClearCommand extends CommandBase {
+public class LiftClearRampCommand extends CommandBase {
     private LiftSubsystem liftSubsystem;
-    public AutoLiftForSwingArmClearCommand(LiftSubsystem liftSubsystem) {
+    public LiftClearRampCommand(LiftSubsystem liftSubsystem) {
         this.liftSubsystem = liftSubsystem;
         addRequirements(liftSubsystem);
     }
     @Override
-    public void execute () {
-        liftSubsystem.setSwingarmClearPosition();
+    public void initialize() {
+        liftSubsystem.setClearRampPosition();
     }
     @Override
-    public boolean isFinished () {
-        return !liftSubsystem.isBusy();
+    public boolean isFinished() {
+        return true;
     }
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         liftSubsystem.stopLift();
     }
 }

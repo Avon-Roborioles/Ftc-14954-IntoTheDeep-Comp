@@ -39,14 +39,12 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
@@ -79,7 +77,7 @@ public class BlueLeft4_0 extends AutoBase {
     public void initialize() {
         makeAuto();
         buildPaths();
-        register(extend, liftSubsystem, swingArmSubsystem, pass, intake, box, wrist, autoDriveSubsystem);
+        register(extend, liftSubsystem, swingArmSubsystem, intake, wrist, autoDriveSubsystem, claw);
 
 
         setPathToScorePreload = new InstantCommand(() -> {
@@ -122,7 +120,7 @@ public class BlueLeft4_0 extends AutoBase {
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(10),
                 new WaitCommand(100),
-                new HandoffCommand(wrist),
+                new RaiseWrist(wrist),
                 new RetractCommand(extend),
                 new InstantCommand(() -> {
                     Storage.memory.scorePose =BLScore;
@@ -137,41 +135,41 @@ public class BlueLeft4_0 extends AutoBase {
                 initSubsystems,
                 setPathToScorePreload,
                 new ParallelCommandGroup(
-                        new PreloadToScore(swingArmSubsystem, box, liftSubsystem, intake),
+                        new PreloadToScore(swingArmSubsystem, liftSubsystem, intake, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToForward1,
                 IntakeAndDrive,
                 setPathToScore1,
                 new ParallelCommandGroup(
-                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
+                        new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp2,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToForward2,
                 IntakeAndDrive,
                 setPathToScore2,
                 new ParallelCommandGroup(
-                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
+                        new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToForward3,
                 IntakeAndDrive,
                 setPathToScore3,
                 new ParallelCommandGroup(
-                        new AutoToScore(intake, wrist, pass, extend, swingArmSubsystem, box, liftSubsystem),
+                        new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPark,
                 new ParallelCommandGroup(
-                        new WristClearBar(wrist),
+                        new RaiseWrist(wrist),
                         new AutoEndCommand(swingArmSubsystem, liftSubsystem),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPark,
@@ -204,11 +202,10 @@ public class BlueLeft4_0 extends AutoBase {
         extend = new ExtendSubsystem(extendservo, touch2);
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"), intake);
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class, "boxDistance"), intake);
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"), hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
+        claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
+        wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, BLStartBucket);
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
     }
 
     @Override

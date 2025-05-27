@@ -2,41 +2,35 @@ package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearGearCommand;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
-import org.firstinspires.ftc.teamcode.commands.PassCommands.PassToBox;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.WristClearBar;
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NomNomComand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 public class IntakeToReadyForBottomScore extends SequentialCommandGroup {
-    private IntakeSubsystem intake;
-    private WristSubsystem wrist;
-    private PassSubsystem pass;
-    private LiftSubsystem lift;
-    private ExtendSubsystem extend;
-    private SwingArmSubsystem swingArm;
-    private BoxxySubsystem box;
-
-    public IntakeToReadyForBottomScore(IntakeSubsystem intake, WristSubsystem wrist, PassSubsystem pass, ExtendSubsystem extend, SwingArmSubsystem swingArm, BoxxySubsystem box, LiftSubsystem lift){
+    public IntakeToReadyForBottomScore(NewIntakeSubsystem intake, WristSubsystem wrist, ExtendSubsystem extend, SwingArmSubsystem swingArm, LiftSubsystem lift, ClawSubsystem claw){
         addCommands(
                 new ExtendClearGearCommand(extend),
-                new LowerWrist(wrist),
-                new CollectSample(intake, wrist),
-                new WristClearBar(wrist),
-                new RetractCommand(extend),
-                new HandoffCommand(wrist),
-                new PassToBox(pass, box, intake),
-                new BottomBucketScoreReady(swingArm, lift, pass)
+                new LiftClearRampCommand(lift),
+                new OpenClawCommand(claw),
+                new NomNomComand(intake, wrist, extend),
+                new LiftBottomCommand(lift),
+                new CloseClawCommand(claw),
+                new LiftForSwingArmClearCommand(lift),
+                new SwingArmUpCommand(swingArm),
+                new LiftBottomBucketCommand(lift)
         );
     }
 }

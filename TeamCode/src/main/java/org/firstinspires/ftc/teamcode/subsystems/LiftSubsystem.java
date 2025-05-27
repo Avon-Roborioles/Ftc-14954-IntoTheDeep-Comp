@@ -16,6 +16,7 @@ public class LiftSubsystem extends SubsystemBase {
     private int topBarHookPosition = 1100;
     private int bottomBucketPosition = 840;
     private int swingarmClearPosition = 1100;
+    private int ClearRampPosition = 500;
     private double liftTargetPosition = 0;
     private double power = 1;
 
@@ -31,6 +32,7 @@ public class LiftSubsystem extends SubsystemBase {
         TOPBAR,
         SWINGARMCLEAR,
         BOTTOMBUCKET,
+        CLEARRAMP,
         TOPHOOK;
 
     }
@@ -84,6 +86,12 @@ public class LiftSubsystem extends SubsystemBase {
         liftTargetPosition = topBarHookPosition;
         liftMotor.set(power);
         liftPos = liftPosition.TOPHOOK;
+    }
+    public void setClearRampPosition() {
+        liftMotor.setTargetPosition(ClearRampPosition);
+        liftTargetPosition = ClearRampPosition;
+        liftMotor.set(power);
+        liftPos = liftPosition.CLEARRAMP;
     }
     public void setPower (double power) {
         liftMotor.setRunMode(Motor.RunMode.RawPower);

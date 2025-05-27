@@ -2,21 +2,21 @@ package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
-import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmScoreCommand;
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
 public class AutoAfterScore extends SequentialCommandGroup {
-    private SwingArmSubsystem swingArm;
-    private LiftSubsystem lift;
-    public AutoAfterScore(SwingArmSubsystem swingArm, LiftSubsystem lift){
+    public AutoAfterScore(SwingArmSubsystem swingArm, LiftSubsystem lift, ClawSubsystem claw){
         addCommands(
+                new LiftForSwingArmClearCommand(lift),
                 new SwingArmDownCommand(swingArm),
-                new LiftForSwingArmClearCommand(lift)
+                new LiftClearRampCommand(lift),
+                new OpenClawCommand(claw)
         );
     }
 }

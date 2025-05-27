@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.commands.LightCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 
 public class LightBlueAlliance extends CommandBase {
-    private IntakeSubsystem intake;
-    public LightBlueAlliance(IntakeSubsystem intake) {
+    private NewIntakeSubsystem intake;
+    public LightBlueAlliance(NewIntakeSubsystem intake) {
         this.intake = intake;
     }
     public void initialize() {

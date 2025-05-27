@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.commands.SwingArmCommand;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
 public class SwingArmUpCommand extends CommandBase {

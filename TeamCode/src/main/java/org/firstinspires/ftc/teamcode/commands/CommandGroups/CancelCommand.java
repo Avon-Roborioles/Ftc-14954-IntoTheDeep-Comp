@@ -1,12 +1,9 @@
-package org.firstinspires.ftc.teamcode.commands.IntakeCommands;
+package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
 
 public class CancelCommand extends CommandBase {
     private NewIntakeSubsystem subsystem;

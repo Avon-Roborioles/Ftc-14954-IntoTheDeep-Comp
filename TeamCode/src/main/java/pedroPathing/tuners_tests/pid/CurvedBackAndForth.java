@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import com.pedropathing.follower.Follower;
@@ -68,7 +67,7 @@ public class CurvedBackAndForth extends OpMode {
         extend = new ExtendSubsystem(extendservo, touch2 );
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         extend.retract();
-        wrist.middle();
+        wrist.up();
         forwards = new Path(new BezierCurve(new Point(0,0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN)));
         backwards = new Path(new BezierCurve(new Point(Math.abs(DISTANCE),DISTANCE, Point.CARTESIAN), new Point(Math.abs(DISTANCE),0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         forwards.setPathEndTimeoutConstraint(1000);

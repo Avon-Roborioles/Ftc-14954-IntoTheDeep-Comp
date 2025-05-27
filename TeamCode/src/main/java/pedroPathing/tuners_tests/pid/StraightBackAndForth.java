@@ -12,8 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import com.pedropathing.follower.Follower;
@@ -63,8 +62,7 @@ public class StraightBackAndForth extends OpMode {
     private Servo extendservo;
     private TouchSensor touch2;
     private WristSubsystem wrist;
-    private IntakeSubsystem intakeSubsystem;
-    private PassSubsystem passSubsystem;
+    private NewIntakeSubsystem intake;
 
     /**
      * This initializes the Follower and creates the forward and backward Paths. Additionally, this
@@ -78,11 +76,10 @@ public class StraightBackAndForth extends OpMode {
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         extend = new ExtendSubsystem(extendservo, touch2 );
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        intakeSubsystem = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false, hardwareMap.get(CRServo.class, "intakeRoller"));
-        passSubsystem  = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"),intakeSubsystem);
 
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         extend.retract();
-        wrist.middle();
+        wrist.up();
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
         forwards.setPathEndTimeoutConstraint(1000);
@@ -91,8 +88,6 @@ public class StraightBackAndForth extends OpMode {
         backwards.setPathEndTimeoutConstraint(1000);
 
         follower.followPath(forwards);
-        passSubsystem.PassOn();
-        intakeSubsystem.runMotor();
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will run the robot in a straight line going " + DISTANCE
                             + " inches forward. The robot will go forward and backward continuously"

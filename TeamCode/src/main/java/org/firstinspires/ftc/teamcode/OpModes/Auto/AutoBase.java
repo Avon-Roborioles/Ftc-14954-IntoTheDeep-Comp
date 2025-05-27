@@ -13,11 +13,10 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
@@ -32,10 +31,9 @@ public abstract class AutoBase extends CommandOpMode {
     protected ExtendSubsystem extend;
     protected LiftSubsystem liftSubsystem;
     protected SwingArmSubsystem swingArmSubsystem;
-    protected PassSubsystem pass;
-    protected IntakeSubsystem intake;
-    protected BoxxySubsystem box;
+    protected NewIntakeSubsystem intake;
     protected WristSubsystem wrist;
+    protected ClawSubsystem claw;
     protected Command setPathToScorePreload, setPathToBar, setPathToBackAwayFromBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3, setPathToToSpecimen1, setPathToToSpecimen2,setPathToToSpecimen3, setPathToGrabSpecimen, setPathToSpit1, setPathToSpit2, PushSample;
     protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3, backAwayFromBar, toSpecimen1, toSpecimen2, toSpecimen3, toGrabSpecimen, toSpit1, toSpit2, Backup;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
+package org.firstinspires.ftc.teamcode.OpModes.Tests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -16,14 +15,12 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
+import org.firstinspires.ftc.teamcode.commands.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.EjectCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewSpitCommand;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NewStopCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NomNomComand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
@@ -32,7 +29,6 @@ import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
@@ -59,7 +55,7 @@ public class IntakeTestOpMode extends CommandOpMode {
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         extendservo = hardwareMap.get(ServoImplEx.class, "extension");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         swingArm = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
@@ -76,17 +72,13 @@ public class IntakeTestOpMode extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new LowerWrist(wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new NewSpitCommand(intake, wrist));
+                .whenPressed(new SpitCommand(intake, wrist));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(new NewStopCommand(intake));
+                .whenPressed(new CancelCommand(intake, lift));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new NomNomComand(intake, wrist,extend, telemetry, false));
-        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new NomNomComand(intake, wrist, extend, telemetry, true));
+                .whenPressed(new NomNomComand(intake, wrist,extend));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new NewCollectCommand(intake, wrist, telemetry, false));
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new NewCollectCommand(intake, wrist, telemetry, true));
+                .whenPressed(new CollectSample(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new SwingArmUpCommand(swingArm));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)

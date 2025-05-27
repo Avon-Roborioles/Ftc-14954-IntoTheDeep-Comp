@@ -8,13 +8,13 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
-public class NewSpitCommand extends CommandBase {
+public class SpitCommand extends CommandBase {
     private NewIntakeSubsystem subsystem;
     private WristSubsystem wrist;
 
     Timing.Timer timer = new Timing.Timer(450, TimeUnit.MILLISECONDS);
 
-    public NewSpitCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist) {
+    public SpitCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist) {
         this.subsystem = subsystem;
         this.wrist = wrist;
         addRequirements(subsystem);

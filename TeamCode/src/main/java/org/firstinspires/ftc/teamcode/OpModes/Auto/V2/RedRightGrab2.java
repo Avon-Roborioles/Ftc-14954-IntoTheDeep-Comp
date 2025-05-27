@@ -39,14 +39,13 @@ import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLastClipSpecimen
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
-import org.firstinspires.ftc.teamcode.commands.WristCommands.HandoffCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.PassSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
@@ -75,7 +74,7 @@ public class RedRightGrab2 extends AutoBase {
     public void initialize() {
         makeAuto();
         buildPaths();
-        register(extend, liftSubsystem, swingArmSubsystem, pass, intake, box, wrist, autoDriveSubsystem);
+        register(extend, liftSubsystem, swingArmSubsystem,  intake, wrist, autoDriveSubsystem, claw);
 
         setPathToBar = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toBar, true);
@@ -133,7 +132,7 @@ public class RedRightGrab2 extends AutoBase {
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(50),
-                new HandoffCommand(wrist),
+                new RaiseWrist(wrist),
                 new RetractCommand(extend),
                 new SwingArmDownCommand(swingArmSubsystem)
         );
@@ -169,12 +168,12 @@ public class RedRightGrab2 extends AutoBase {
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit1,
                 new ParallelCommandGroup(
-                        new HandoffCommand(wrist),
+                        new RaiseWrist(wrist),
                         new ExtensionCommand(extend, 0.6),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToPickUp2,
-                new Reject(intake, wrist),
+                new Reject(intake),
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ExtensionCommand(extend, 0.6)
@@ -183,11 +182,11 @@ public class RedRightGrab2 extends AutoBase {
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit2,
                 new ParallelCommandGroup(
-                        new HandoffCommand(wrist),
+                        new RaiseWrist(wrist),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ExtensionCommand(extend, 0.7)
                 ),
-                new Reject(intake, wrist),
+                new Reject(intake),
                 setPathToToSpecimen1,
                 new ParallelCommandGroup(
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
@@ -254,10 +253,9 @@ public class RedRightGrab2 extends AutoBase {
         extend = new ExtendSubsystem(extendservo, touch2 );
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
-        pass = new PassSubsystem(hardwareMap.get(DcMotorEx.class, "pass"), hardwareMap.get(Rev2mDistanceSensor.class, "passDistance"), intake);
+        claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
-        box = new BoxxySubsystem(hardwareMap.get(DistanceSensor.class,"boxDistance"),intake);
-        intake = new IntakeSubsystem(hardwareMap.get(DcMotor.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "intakeColor2"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(DistanceSensor.class, "intakeDistance"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true, hardwareMap.get(CRServo.class, "intakeRoller"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
     }
 

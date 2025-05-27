@@ -3,33 +3,30 @@ package org.firstinspires.ftc.teamcode.commands.SwingArmCommand;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
 
-import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
 public class AutoSwingArmScoreCommand extends CommandBase {
     private SwingArmSubsystem SwingArmSubsystem;
-    private BoxxySubsystem box;
-    private IntakeSubsystem intake;
-    private Timing.Timer timer = new Timing.Timer(1, TimeUnit.SECONDS);
+    private NewIntakeSubsystem intake;
+    private ClawSubsystem claw;
+    private Timing.Timer timer = new Timing.Timer(250, TimeUnit.MILLISECONDS);
 
-    public AutoSwingArmScoreCommand(SwingArmSubsystem SwingArmSubsystem, BoxxySubsystem box, IntakeSubsystem intake) {
+    public AutoSwingArmScoreCommand(SwingArmSubsystem SwingArmSubsystem, NewIntakeSubsystem intake, ClawSubsystem claw) {
         this.SwingArmSubsystem = SwingArmSubsystem;
-        this.box = box;
         this.intake = intake;
-        addRequirements(SwingArmSubsystem, box, intake);
+        this.claw = claw;
+        addRequirements(SwingArmSubsystem, intake, claw);
     }
 
     @Override
     public void initialize() {
         SwingArmSubsystem.up();
+        claw.open();
         timer.start();
-        if (box.IsBoxDistanceSensorCooked()) {
-            intake.BoxFailLight();
-        }
-
 
     }
 
@@ -38,11 +35,7 @@ public class AutoSwingArmScoreCommand extends CommandBase {
         if (intake.getSkipLastSample()){
             return true;
         }else {
-            if (box.IsBoxDistanceSensorCooked()) {
-                return timer.done();
-            } else {
-                return !box.haveSample();
-            }
+            return timer.done();
         }
     }
 }

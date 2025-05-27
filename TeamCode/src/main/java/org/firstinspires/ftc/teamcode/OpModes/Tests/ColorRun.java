@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
 public class ColorRun extends LinearOpMode {
-    private final org.firstinspires.ftc.teamcode.ColorTest2 colorTest = new ColorTest2();
+    private final ColorTest2 colorTest = new ColorTest2();
     @Override
     public void runOpMode() throws InterruptedException {
         colorTest.initColorSensor(hardwareMap);

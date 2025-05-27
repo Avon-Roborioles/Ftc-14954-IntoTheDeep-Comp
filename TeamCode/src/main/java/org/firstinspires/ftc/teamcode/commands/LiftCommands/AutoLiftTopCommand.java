@@ -2,13 +2,13 @@ package org.firstinspires.ftc.teamcode.commands.LiftCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 
 public class AutoLiftTopCommand extends CommandBase {
     private LiftSubsystem liftSubsystem;
-    private IntakeSubsystem intake;
-    public AutoLiftTopCommand(LiftSubsystem liftSubsystem, IntakeSubsystem intake) {
+    private NewIntakeSubsystem intake;
+    public AutoLiftTopCommand(LiftSubsystem liftSubsystem, NewIntakeSubsystem intake) {
         this.liftSubsystem = liftSubsystem;
         this.intake = intake;
         addRequirements(liftSubsystem);
