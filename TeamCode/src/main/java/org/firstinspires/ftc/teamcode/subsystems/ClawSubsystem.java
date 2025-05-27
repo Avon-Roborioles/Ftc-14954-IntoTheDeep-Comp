@@ -8,6 +8,6 @@ public class ClawSubsystem extends SubsystemBase {
     public ClawSubsystem(Servo claw) {
         this.claw = claw;
     }
-    public void open(){claw.setPosition(0.0);}
+    public void open(){claw.setPosition(0.01);}
     public void close(){claw.setPosition(0.5);}
 }

@@ -167,8 +167,8 @@ public class CompTeleOpBlue extends Storage {
                 .whenPressed(new WristClearBar(wrist))
                 .whenPressed(new RetractCommand(extend));
         //Other Commands
-        operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
+//        operatorOp.getGamepadButton(GamepadKeys.Button.B)
+//                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
         // Score Command
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, box, intake));

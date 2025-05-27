@@ -136,8 +136,8 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new ToggleAlliance(intake));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(new Reject(intake, wrist));
-        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
+//        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+//                .whenPressed(new CancelCommand(intake, pass, liftSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenPressed(new EjectCommand(intake, pass));

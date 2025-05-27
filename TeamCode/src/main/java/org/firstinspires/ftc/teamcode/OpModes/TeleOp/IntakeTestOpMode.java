@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 @TeleOp(name = "IntakeTestOpMode", group = "Test Op Modes")
 public class IntakeTestOpMode extends CommandOpMode {
-    private Motor frontLeft, frontRight, backLeft, backRight;
+    private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
     private WristSubsystem wrist;
     private NewIntakeSubsystem intake;
@@ -55,6 +55,7 @@ public class IntakeTestOpMode extends CommandOpMode {
 
     @Override
     public void initialize() {
+        liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
@@ -65,7 +66,7 @@ public class IntakeTestOpMode extends CommandOpMode {
         extendservo.setPwmRange(servoRange);
         extend = new ExtendSubsystem(extendservo, touch2 );
         claw = new ClawSubsystem (hardwareMap.get(Servo.class, "claw"));
-        lift = new LiftSubsystem (hardwareMap.get(Motor.class, "liftMotor"), hardwareMap.get(TouchSensor.class, "liftDown"));
+        lift = new LiftSubsystem (liftMotor, hardwareMap.get(TouchSensor.class, "liftDown"));
         driverOp.getGamepadButton(GamepadKeys.Button.START)
                 .whenPressed(new ExtendCommand(extend));
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)

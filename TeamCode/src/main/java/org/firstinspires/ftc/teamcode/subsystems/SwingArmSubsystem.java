@@ -23,7 +23,7 @@ public class SwingArmSubsystem extends SubsystemBase {
     }
     public boolean isDown(){return !touch.isPressed();}
     public void down() {
-        SwingArmServo.setPosition(0.01);
+        SwingArmServo.setPosition(0.0075);
     }
     public void mid() { SwingArmServo.setPosition(MidPos);}
     public void park() { SwingArmServo.setPosition(ParkPos);}
