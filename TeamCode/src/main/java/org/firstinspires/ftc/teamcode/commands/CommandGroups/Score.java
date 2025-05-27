@@ -11,21 +11,23 @@ import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmScoreComm
 import org.firstinspires.ftc.teamcode.subsystems.BoxxySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 
-public class Score extends SequentialCommandGroup {
-    private SwingArmSubsystem swingArm;
-    private LiftSubsystem lift;
-    private BoxxySubsystem box;
-    private IntakeSubsystem intake;
-
-    public Score(SwingArmSubsystem swingArm, LiftSubsystem lift, BoxxySubsystem box, IntakeSubsystem intake){
-        addCommands(
-                new SwingArmScoreCommand(swingArm, box, intake),
-                new ColorResetCommand(intake),
-                new SwingArmDownCommand(swingArm),
-                new LiftForSwingArmClearCommand(lift),
-                new LiftBottomCommand(lift)
-        );
-    }
-}
+//public class Score extends SequentialCommandGroup {
+//    private SwingArmSubsystem swingArm;
+//    private LiftSubsystem lift;
+//    private BoxxySubsystem box;
+////    private IntakeSubsystem intake;
+//    private NewIntakeSubsystem intake;
+//
+//    public Score(SwingArmSubsystem swingArm, LiftSubsystem lift, BoxxySubsystem box, NewIntakeSubsystem intake){
+//        addCommands(
+////                new SwingArmScoreCommand(swingArm, box, intake),
+////                new ColorResetCommand(intake),
+////                new SwingArmDownCommand(swingArm),
+////                new LiftForSwingArmClearCommand(lift),
+////                new LiftBottomCommand(lift)
+////        );
+//    }
+//}
