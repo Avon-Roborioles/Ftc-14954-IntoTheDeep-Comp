@@ -8,7 +8,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -41,12 +40,10 @@ public class IntakeTestOpMode extends CommandOpMode {
     private WristSubsystem wrist;
     private NewIntakeSubsystem intake;
     private ExtendSubsystem extend;
-    private ServoImplEx extendservo;
     private SwingArmSubsystem swingArm;
     private LiftSubsystem lift;
     private ClawSubsystem claw;
-    PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
-    private TouchSensor touch1, touch2;
+        private TouchSensor touch1, touch2;
 
 
     @Override
@@ -56,11 +53,9 @@ public class IntakeTestOpMode extends CommandOpMode {
         operatorOp = new GamepadEx(gamepad2);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
-        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         swingArm = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
-        extendservo.setPwmRange(servoRange);
-        extend = new ExtendSubsystem(extendservo, touch2 );
+        extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
         claw = new ClawSubsystem (hardwareMap.get(Servo.class, "claw"));
         lift = new LiftSubsystem (liftMotor, hardwareMap.get(TouchSensor.class, "liftDown"));
         driverOp.getGamepadButton(GamepadKeys.Button.START)

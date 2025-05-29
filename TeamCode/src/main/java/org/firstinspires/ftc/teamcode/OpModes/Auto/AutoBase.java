@@ -25,8 +25,6 @@ public abstract class AutoBase extends CommandOpMode {
     protected Telemetry mTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     protected AutoDriveSubsystem autoDriveSubsystem;
     protected TouchSensor touch1, touch2;
-    protected ServoImplEx extendservo;
-    protected PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     protected Motor liftMotor;
     protected ExtendSubsystem extend;
     protected LiftSubsystem liftSubsystem;

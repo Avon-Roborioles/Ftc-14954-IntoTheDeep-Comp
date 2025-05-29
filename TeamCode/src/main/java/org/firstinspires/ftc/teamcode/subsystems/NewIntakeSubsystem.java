@@ -37,7 +37,7 @@ public class NewIntakeSubsystem extends SubsystemBase {
             this.allianceColor.setPosition(0.28);
             this.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
-        this.motor.setDirection(DcMotor.Direction.FORWARD);
+        this.motor.setDirection(DcMotor.Direction.REVERSE);
 
         SkippedLastSample = false;
     }

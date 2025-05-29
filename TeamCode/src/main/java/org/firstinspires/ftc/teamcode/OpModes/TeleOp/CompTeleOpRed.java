@@ -16,7 +16,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -25,11 +24,10 @@ import org.firstinspires.ftc.teamcode.Storage;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForBottomScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
-import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpitCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.AfterAutoReset;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.FixExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.HangCommands.HangHoldCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
@@ -64,8 +62,6 @@ public class CompTeleOpRed extends Storage {
     private Motor  liftMotor;
     private GamepadEx driverOp, operatorOp;
     private TouchSensor touch1, touch2;
-    private ServoImplEx extendservo;
-    PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
     private Follower follower;
     private AutoDriveSubsystem autoDriveSubsystem;
     private ExtendSubsystem extend;
@@ -86,9 +82,7 @@ public class CompTeleOpRed extends Storage {
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
 
-        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
-        extendservo.setPwmRange(servoRange);
-        extend = new ExtendSubsystem(extendservo, touch2 );
+        extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
@@ -128,9 +122,6 @@ public class CompTeleOpRed extends Storage {
         driverOp.getGamepadButton(GamepadKeys.Button.X)
                         .whileHeld(new TelePathDriveCommand(autoDriveSubsystem, follower.getPose()));
 
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .toggleWhenPressed(new FixExtensionCommand(extend));
-
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new ClipTopSpecimen(liftSubsystem, 2000));
 
@@ -166,7 +157,7 @@ public class CompTeleOpRed extends Storage {
                         .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
 
 
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new RaiseWrist(wrist), new RetractCommand(extend)));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new RaiseWrist(wrist), new ZeroExtensionCommand(extend), new RetractCommand(extend)));
     }
 
     @Override

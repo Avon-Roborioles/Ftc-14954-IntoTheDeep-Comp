@@ -18,5 +18,5 @@ public class ExtendCommand extends CommandBase {
         }
 
         @Override
-    public boolean isFinished() { return true; }
+    public boolean isFinished() { return !subsystem.isBusy(); }
 }

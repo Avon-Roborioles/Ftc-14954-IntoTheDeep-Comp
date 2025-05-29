@@ -1,40 +1,78 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.PwmControl;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ExtendSubsystem extends SubsystemBase {
-    private ServoImplEx servo;
-
+    private DcMotorEx motor;
+    private int maxPosition = 450;
+    private double power = 1;
+    private int target= 0;
     private TouchSensor touch;
 
-    public ExtendSubsystem(Servo servo, TouchSensor touch) {
-        this.servo = (ServoImplEx) servo; this.touch = touch;
+    public ExtendSubsystem(TouchSensor touch, DcMotorEx motor) {
+        this.motor = motor;
+        this.motor.setTargetPosition(0);
+        this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.motor.setPositionPIDFCoefficients(13);
+        this.motor.setTargetPositionTolerance(5);
+        this.touch = touch;
     }
 
-    public void extend() { servo.setPosition(0.62);}
+    public void extend() {
+        motor.setTargetPosition(maxPosition);
+        target = maxPosition;
+    }
     public void clear(){
-        servo.setPosition(0.80);
+        motor.setTargetPosition(190);
+        target = 190;
+
     }
 
-    public void retract() { servo.setPosition(0.95);}
-    public boolean retracted(){return touch.isPressed();}
-    public void setPosition(double position){servo.setPosition(position);}
-    public void disable(){
-        servo.getController().pwmDisable();
+    public void retract() {
+        motor.setTargetPosition(0);
+        target = 0;
     }
-    public void enable(){
-        servo.getController().pwmEnable();
+    public boolean retracted(){return touch.isPressed();}
+
+    public void setPosition(double position){
+        motor.setTargetPosition((int) (maxPosition*position));
+        target = (int) (maxPosition*position);
+    }
+    public boolean isBusy(){
+        return motor.isBusy();
+    }
+    public void zero() {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setTargetPosition(0);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
 
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("Extend Retracted", touch.isPressed());
+        telemetry.addData("Extend Motor Position", motor.getCurrentPosition());
+        telemetry.addData("Extend Target Position", target);
+    }
+    public void setPower (double power) {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor.setPower(power);
+    }
+    public void stop() {
+        motor.setPower(0);
+    }
 
+    @Override
+    public void periodic(){
+        motor.setTargetPosition(target);
+        motor.setPower(power);
     }
 }

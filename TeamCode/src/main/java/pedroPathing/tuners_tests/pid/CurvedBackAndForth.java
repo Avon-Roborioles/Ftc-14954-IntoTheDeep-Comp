@@ -16,6 +16,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -50,7 +51,6 @@ public class CurvedBackAndForth extends OpMode {
     private Path forwards;
     private Path backwards;
     private ExtendSubsystem extend;
-    private Servo extendservo;
     private TouchSensor touch2;
     private WristSubsystem wrist;
 
@@ -62,9 +62,8 @@ public class CurvedBackAndForth extends OpMode {
     public void init() {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
-        extendservo = hardwareMap.get(Servo.class, "extension");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
-        extend = new ExtendSubsystem(extendservo, touch2 );
+        extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         extend.retract();
         wrist.up();

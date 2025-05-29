@@ -4,24 +4,26 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
 
-public class FixExtensionCommand extends CommandBase {
+public class ZeroExtensionCommand extends CommandBase {
     private ExtendSubsystem subsystem;
-    public FixExtensionCommand(ExtendSubsystem subsystem) {
+
+    public ZeroExtensionCommand(ExtendSubsystem subsystem) {
         this.subsystem = subsystem;
         addRequirements(subsystem);
     }
 
     @Override
-    public void execute() {
-        subsystem.disable();
+    public void execute () {
+        subsystem.setPower(-1);
     }
     @Override
-    public boolean isFinished() {
+    public boolean isFinished () {
         return subsystem.retracted();
     }
     @Override
-    public void end(boolean interrupted) {
-        subsystem.enable();
-        subsystem.setPosition(0.955);
+    public void end(boolean interrupted){
+        subsystem.stop();
+        subsystem.zero();
     }
+
 }

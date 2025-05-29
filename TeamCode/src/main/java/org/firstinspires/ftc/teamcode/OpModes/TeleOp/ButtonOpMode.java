@@ -5,22 +5,18 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.CRServo;
 
 
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 //import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ToggleAlliance;
@@ -55,8 +51,6 @@ public class ButtonOpMode extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;
     private TouchSensor touch1, touch2;
-    private ServoImplEx extendservo;
-    PwmControl.PwmRange servoRange = new PwmControl.PwmRange(799, 1500);
 
     private PedroDriveSubsystem pedroDriveSubsystem;
     private ExtendSubsystem extend;
@@ -87,9 +81,7 @@ public class ButtonOpMode extends CommandOpMode {
         backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        extendservo = hardwareMap.get(ServoImplEx.class, "extension");
-        extendservo.setPwmRange(servoRange);
-        extend = new ExtendSubsystem(extendservo, touch2 );
+        extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
@@ -148,7 +140,7 @@ public class ButtonOpMode extends CommandOpMode {
                 .whenPressed(new Score(swingArmSubsystem, liftSubsystem, claw, intake));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
                 .whenPressed(new IntakeToReadyForTopScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw));
-        CommandScheduler.getInstance().schedule(new ExtendCommand(extend), new RetractCommand(extend));
+        CommandScheduler.getInstance().schedule(new ExtendCommand(extend), new ZeroExtensionCommand(extend), new RetractCommand(extend));
 
 //        Sample Trigger code
 //        Trigger intakeTrigger = new Trigger(()-> driverOp.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)>.7);

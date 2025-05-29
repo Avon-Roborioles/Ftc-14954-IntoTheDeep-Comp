@@ -9,7 +9,7 @@ M1: "frontRight"
 M2: "frontLeft"
 M3: "backLeft"
 
-S1: "extension"
+
 S2: "blinkin"
 
 
@@ -20,6 +20,7 @@ Expansion Hub:
 M0: "Intake"
 M1: "climb"
 M2: "liftMotor"
+M3: "extensionMotor"
 
 
 S0: "swingArm" 0 with preloaded spring toward switch
