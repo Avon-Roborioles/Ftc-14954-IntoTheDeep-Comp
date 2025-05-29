@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ScoreClawCommand extends CommandBase {
     private ClawSubsystem claw;
-    private Timing.Timer timer = new Timing.Timer(1, TimeUnit.SECONDS);
+    private Timing.Timer timer = new Timing.Timer(250, TimeUnit.MILLISECONDS);
 
     public ScoreClawCommand(ClawSubsystem claw){
         this.claw = claw;
@@ -26,6 +26,5 @@ public class ScoreClawCommand extends CommandBase {
     }
     @Override
     public void end(boolean interrupted){
-        claw.close();
     }
 }

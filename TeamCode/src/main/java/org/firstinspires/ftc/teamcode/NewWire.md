@@ -25,16 +25,14 @@ M2: "liftMotor"
 S0: "swingArm" 0 with preloaded spring toward switch
 S1: "allianceColor"
 S2: "claw'
-
-
 S5: "wrist"
 
 
 I2C1: "RampColor"
 I2C2: "intakeColor"
-I2C3: "boxDistance"
 
+D1: "extensionIn"
 D7:"liftDown"
-D5: "extensionIn"
 D3: "swingArmDown"
 
+D5 Inop

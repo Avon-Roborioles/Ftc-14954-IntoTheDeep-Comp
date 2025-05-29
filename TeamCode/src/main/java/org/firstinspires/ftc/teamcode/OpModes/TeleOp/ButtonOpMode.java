@@ -93,7 +93,7 @@ public class ButtonOpMode extends CommandOpMode {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor1"),hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"),hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
         telemetrySubsystem = new TelemetrySubsystem(telemetry, extend,  liftSubsystem, pedroDriveSubsystem, swingArmSubsystem, wrist);
         claw = new ClawSubsystem(hardwareMap.get(ServoImplEx.class, "claw"));
         //Default Commands

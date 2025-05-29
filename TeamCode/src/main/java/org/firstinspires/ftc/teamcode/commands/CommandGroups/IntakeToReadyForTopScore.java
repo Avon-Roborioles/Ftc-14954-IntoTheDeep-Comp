@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
@@ -29,7 +30,9 @@ public class IntakeToReadyForTopScore extends SequentialCommandGroup {
                 new OpenClawCommand(claw),
                 new NomNomComand(intake, wrist, extend),
                 new LiftBottomCommand(lift),
+                new WaitCommand(100),
                 new CloseClawCommand(claw),
+                new WaitCommand(100),
                 new LiftForSwingArmClearCommand(lift),
                 new SwingArmUpCommand(swingArm),
                 new LiftTopCommand(lift)
