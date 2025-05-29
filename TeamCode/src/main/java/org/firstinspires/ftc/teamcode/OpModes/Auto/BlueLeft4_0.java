@@ -12,7 +12,6 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -44,7 +43,7 @@ import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-import pedroPathing.constants.FConstantsL;
+import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
@@ -187,8 +186,7 @@ public class BlueLeft4_0 extends AutoBase {
 
     @Override
     public void makeAuto() {
-        Constants.setConstants(FConstantsL.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(BLStartBucket);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");

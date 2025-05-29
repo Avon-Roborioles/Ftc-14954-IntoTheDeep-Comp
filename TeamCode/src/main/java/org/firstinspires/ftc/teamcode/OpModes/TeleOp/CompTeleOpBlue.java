@@ -89,8 +89,7 @@ public class CompTeleOpBlue extends Storage {
         liftSubsystem = new LiftSubsystem(liftMotor, touch1);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
         hang = new HangSubsystem(new Motor(hardwareMap, "climb"));
-        Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(Storage.memory.lastPose);
         follower.setPose(Storage.memory.lastPose);
         follower.startTeleopDrive();

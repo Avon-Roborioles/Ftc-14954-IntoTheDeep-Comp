@@ -47,7 +47,7 @@ import org.firstinspires.ftc.teamcode.subsystems.NewIntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
-import pedroPathing.constants.FConstantsL;
+import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
@@ -194,8 +194,7 @@ public class BlueLeft3_1V2 extends AutoBase {
 
     @Override
     public void makeAuto() {
-        Constants.setConstants(FConstantsL.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(Start);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");

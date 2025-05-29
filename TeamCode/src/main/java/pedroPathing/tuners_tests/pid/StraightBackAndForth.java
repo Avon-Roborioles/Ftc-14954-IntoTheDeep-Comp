@@ -66,8 +66,7 @@ public class StraightBackAndForth extends OpMode {
      */
     @Override
     public void init() {
-        Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
