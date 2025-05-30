@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ExtendSubsystem extends SubsystemBase {
     private DcMotorEx motor;
     private int maxPosition = 450;
-    private double power = 1;
+    private double power = 0.5;
     private int target= 0;
     private TouchSensor touch;
 

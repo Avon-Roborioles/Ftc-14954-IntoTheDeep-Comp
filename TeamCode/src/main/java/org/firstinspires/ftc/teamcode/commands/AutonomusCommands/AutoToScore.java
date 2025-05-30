@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
@@ -30,6 +31,7 @@ public class AutoToScore extends SequentialCommandGroup {
                 ),
                 new LiftBottomCommand(lift),
                 new CloseClawCommand(claw),
+                new WaitCommand(100),
                 new AutoTopBucketScoreReady(swingArm, lift, intake),
                 new AutoSwingArmScoreCommand(swingArm, intake, claw),
                 new ColorResetCommand(intake)

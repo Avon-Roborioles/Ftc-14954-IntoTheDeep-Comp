@@ -51,7 +51,7 @@ public class SpitCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return subsystem.inRamp();
+        return subsystem.inRamp() || subsystem.getSkipLastSample();
     }
 
 }

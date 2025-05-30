@@ -2,41 +2,40 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
 
+
 import static java.lang.Math.PI;
 
-import com.arcrobotics.ftclib.command.Command;
+import com.pedropathing.localization.Pose;
+
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.localization.Pose;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.Storage;
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
+
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.Storage;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
-import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoEndCommand;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.ClipTopSpecimen;
+import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
+
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
-import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
-import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
@@ -48,26 +47,21 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
-@Disabled
-@Autonomous
-public class RedLeft3_1 extends AutoBase{
-    Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3;
-    Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3;
 
-    Pose Start = new Pose(- 7.8125 ,-60.8125, -PI/2);
-    Pose Bar = new Pose(-7.5625, -32, -PI/2);
-    Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
-    Pose Score = new Pose(-57 ,-54 , PI/4 );
+@Autonomous
+public class Left4_0 extends AutoBase{
+    Pose StartBucket = new Pose( -29.625 - 8.5625,-70.125 + 8.1875, PI/2);
+    Pose Score = new Pose(-55 ,-54 , PI/4 );
+    Pose ScorePreload = new Pose(-54 ,-54 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -41.5, PI/2);
-    Pose Grab1Mid = new Pose(-40, -50, PI/2);
     Pose Forward1 = new Pose(-49.5, -38, PI/2);
-    Pose Grab2 = new Pose(-60, -41.5, PI/2);
-    Pose Forward2 = new Pose(-60, -38, PI/2);
+    Pose Grab2 = new Pose(-60.5, -42.5, PI/2);
+    Pose Forward2 = new Pose(-60.5, -38, PI/2);
     Pose Grab3 = new Pose(-53, -34, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Forward3 = new Pose(-56, -33, 5* PI/6);
-    Pose Park = new Pose(-24.6875, -11.0625, PI);
-    Pose PrePark = new Pose(-33.1875, -11.0625, PI);
+    Pose Park = new Pose(-16.25 - 8.1875, -2.5 - 8.5625, PI);
+    Pose PrePark = new Pose(-25 - 8.1875, -2.5 - 8.5625, PI);
     Pose ParkMid = new Pose(-60, -11, PI/2);
 
 
@@ -77,9 +71,7 @@ public class RedLeft3_1 extends AutoBase{
         buildPaths();
         register(extend, liftSubsystem, swingArmSubsystem,  intake, wrist, autoDriveSubsystem, claw);
 
-        setPathToBar = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(toBar, true);
-        });
+
         setPathToScorePreload = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScorePreload, true);
         });
@@ -118,36 +110,29 @@ public class RedLeft3_1 extends AutoBase{
         });
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
+
                 new WaitCommand(100),
                 new RaiseWrist(wrist),
-                new RetractCommand(extend),
+                new ZeroExtensionCommand(extend),
                 new InstantCommand(() -> {
                     Storage.memory.scorePose = Score;
                 })
         );
         ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
-                new AutoIntake(intake, wrist),
+                new AutoIntake(intake, wrist, extend),
                 new LiftBottomCommand(liftSubsystem),
                 new AutoDriveCommand(autoDriveSubsystem, telemetry));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                new SwingArmDownCommand(swingArmSubsystem),
-                setPathToBar,
-                new ParallelCommandGroup(
-                        new LiftTopBarCommand(liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 initSubsystems,
                 setPathToScorePreload,
                 new ParallelCommandGroup(
-                        new LiftTopBarCommand(liftSubsystem),
+                        new PreloadToScore(swingArmSubsystem, liftSubsystem, intake, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                new LiftForSwingArmClearCommand(liftSubsystem),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ClipTopSpecimen(liftSubsystem, 1000),
-                        new SequentialCommandGroup(
-                                new WaitCommand(250),
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry))),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToForward1,
                 IntakeAndDrive,
                 setPathToScore1,
@@ -162,7 +147,7 @@ public class RedLeft3_1 extends AutoBase{
                 IntakeAndDrive,
                 setPathToScore2,
                 new ParallelCommandGroup(
-                        new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
+                    new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                     new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
@@ -199,7 +184,7 @@ public class RedLeft3_1 extends AutoBase{
     @Override
     public void makeAuto() {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
-        follower.setStartingPose(Start);
+        follower.setStartingPose(StartBucket);
         liftMotor = new Motor(hardwareMap, "liftMotor", Motor.GoBILDA.RPM_312);
         touch1 = hardwareMap.get(TouchSensor.class, "liftDown");
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
@@ -207,25 +192,21 @@ public class RedLeft3_1 extends AutoBase{
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, StartBucket);
 
     }
 
     @Override
     public void buildPaths() {
-        toBar = new Path(new BezierCurve(new Point(Start), new Point(BarMid)));
-        toBar.setLinearHeadingInterpolation(Start.getHeading(), BarMid.getHeading());
-        toBar.setPathEndTimeoutConstraint(250);
+        toScorePreload = new Path(new BezierCurve(new Point(StartBucket), new Point(ScorePreload)));
+        toScorePreload.setLinearHeadingInterpolation(StartBucket.getHeading(), ScorePreload.getHeading());
+        toScorePreload.setPathEndTimeoutConstraint(1200);
 
-        toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
-        toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
-
-
-        toPickUp1 = new Path(new BezierCurve(new Point(Score),new Point(Grab1Mid), new Point(Grab1)));
-        toPickUp1.setLinearHeadingInterpolation(Score.getHeading(), Grab1.getHeading());
-        toPickUp1.setPathEndTimeoutConstraint(500);
+        toPickUp1 = new Path(new BezierCurve(new Point(ScorePreload), new Point(Grab1)));
+        toPickUp1.setLinearHeadingInterpolation(ScorePreload.getHeading(), Grab1.getHeading());
+        toPickUp1.setPathEndTimeoutConstraint(1000);
 
         toScore1 = new Path(new BezierCurve(new Point(Grab1), new Point(Score)));
         toScore1.setLinearHeadingInterpolation(Grab1.getHeading(), Score.getHeading());

@@ -41,11 +41,22 @@ public class NewIntakeSubsystem extends SubsystemBase {
 
         SkippedLastSample = false;
     }
+    public NewIntakeSubsystem(DcMotorEx motor, ColorSensor colorSensor, ColorSensor rampSensor, RevBlinkinLedDriver blinkin, ServoImplEx allianceColor) {
+        this.motor = motor;
+        this.colorSensor = colorSensor;
+        this.rampSensor = rampSensor;
+        this.blinkin = blinkin;
+        this.allianceColor = allianceColor;
+        this.motor.setDirection(DcMotor.Direction.REVERSE);
+
+        SkippedLastSample = false;
+    }
 
 
-    public void runMotor() {motor.setPower(0.9);}
 
-    public void rejectMotor() {motor.setPower(-0.9);
+    public void runMotor() {motor.setPower(1);}
+
+    public void rejectMotor() {motor.setPower(1);
     }
     public boolean isStalled(){
         return motor.getCurrent(CurrentUnit.MILLIAMPS)>7000;

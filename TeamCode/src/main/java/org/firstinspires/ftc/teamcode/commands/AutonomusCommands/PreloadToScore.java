@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
@@ -20,8 +21,9 @@ public class PreloadToScore extends SequentialCommandGroup {
         addCommands(
                 new LiftClearRampCommand(lift),
                 new CloseClawCommand(claw),
+                new WaitCommand(100),
                 new LiftForSwingArmClearCommand(lift),
-                new SwingArmUpCommand(swingArm),
+                new SwingArmMidCommand(swingArm),
                 new LiftTopCommand(lift),
                 new Score(swingArm, lift, claw, intake)
         );

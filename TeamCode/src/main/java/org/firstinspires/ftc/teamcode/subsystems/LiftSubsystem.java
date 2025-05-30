@@ -11,8 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class LiftSubsystem extends SubsystemBase {
     private Motor liftMotor = null;
     private TouchSensor touch;
-    private int topPosition = 2300;
-    private int topBarPosition = 1600;
+    private int topPosition = 2400;
+    private int topBarPosition = 1800;
     private int topBarHookPosition = 1100;
     private int bottomBucketPosition = 840;
     private int swingarmClearPosition = 600;

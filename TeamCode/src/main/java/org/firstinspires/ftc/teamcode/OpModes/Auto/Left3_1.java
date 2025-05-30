@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto.V2;
+package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 
 
@@ -15,7 +15,6 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -24,7 +23,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoBase;
 import org.firstinspires.ftc.teamcode.Storage;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoAfterScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoDriveCommand;
@@ -33,7 +31,7 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
-
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
@@ -51,8 +49,7 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-//@Disabled
-public class BlueLeft3_1V2 extends AutoBase {
+public class Left3_1 extends AutoBase {
     Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToBackAwayFromBar;
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
@@ -61,9 +58,9 @@ public class BlueLeft3_1V2 extends AutoBase {
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
-    Pose Grab1 = new Pose(-49.5, -42, PI/2);
+    Pose Grab1 = new Pose(-49.5, -44, PI/2);
     Pose Grab2 = new Pose(-60, -43, PI/2);
-    Pose Grab3 = new Pose(-52, -34, 5* PI/6);
+    Pose Grab3 = new Pose(-51, -36, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
@@ -113,15 +110,14 @@ public class BlueLeft3_1V2 extends AutoBase {
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(100),
                 new RaiseWrist(wrist),
-                new RetractCommand(extend),
+                new ZeroExtensionCommand(extend),
                 new InstantCommand(() -> {
                     Storage.memory.scorePose = Score;
                 })
         );
         ParallelCommandGroup IntakeAndExtend =  new ParallelCommandGroup(
                 new AutoIntake(intake, wrist),
-                new LiftBottomCommand(liftSubsystem),
-                new ExtensionCommand(extend, 0.74));
+                new ExtensionCommand(extend, 0.75));
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 setPathToBar,
@@ -161,11 +157,11 @@ public class BlueLeft3_1V2 extends AutoBase {
                 setPathToScore2,
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
-                    new AutoDriveCommand(autoDriveSubsystem, telemetry)),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
-//                        new ExtensionCommand(extend, 0.64),
+                        new ExtensionCommand(extend, 0.9),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
                 setPathToScore3,
@@ -203,7 +199,7 @@ public class BlueLeft3_1V2 extends AutoBase {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
     }
