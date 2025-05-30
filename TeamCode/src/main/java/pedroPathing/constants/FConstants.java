@@ -51,5 +51,12 @@ public class FConstants {
         FollowerConstants.pathEndHeadingConstraint = 0.007;
 
         FollowerConstants.motorCachingThreshold = 0.005;
+        FollowerConstants.automaticHoldEnd = true;
+
+        FollowerConstants.useVoltageCompensationInAuto= true;
+        FollowerConstants.useVoltageCompensationInTeleOp = true;
+        FollowerConstants.nominalVoltage = 14;
+        FollowerConstants.cacheInvalidateSeconds = 0.5;
+
     }
 }
