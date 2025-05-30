@@ -46,7 +46,7 @@ import pedroPathing.constants.LConstants;
 public class StraightBackAndForth extends OpMode {
     private Telemetry telemetryA;
 
-    public static double DISTANCE = 80;
+    public static double DISTANCE = 60;
 
     private boolean forward = true;
 
@@ -57,8 +57,7 @@ public class StraightBackAndForth extends OpMode {
     private ExtendSubsystem extend;
 
     private TouchSensor touch2;
-    private WristSubsystem wrist;
-    private NewIntakeSubsystem intake;
+
 
     /**
      * This initializes the Follower and creates the forward and backward Paths. Additionally, this
@@ -69,11 +68,8 @@ public class StraightBackAndForth extends OpMode {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         touch2 = hardwareMap.get(TouchSensor.class, "extensionIn");
         extend = new ExtendSubsystem(touch2, hardwareMap.get(DcMotorEx.class, "extensionMotor"));
-        wrist = new WristSubsystem(hardwareMap.get(Servo.class, "wrist"));
 
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), true);
-        extend.retract();
-        wrist.up();
+
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
         forwards.setPathEndTimeoutConstraint(1000);
@@ -96,6 +92,7 @@ public class StraightBackAndForth extends OpMode {
     @Override
     public void loop() {
         follower.update();
+        extend.retract();
         if (!follower.isBusy()) {
             if (forward) {
                 forward = false;

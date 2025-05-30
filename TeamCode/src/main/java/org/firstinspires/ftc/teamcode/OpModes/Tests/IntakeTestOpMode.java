@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -34,6 +35,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SwingArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 
 @TeleOp(name = "IntakeTestOpMode", group = "Test Op Modes")
+@Disabled
 public class IntakeTestOpMode extends CommandOpMode {
     private Motor frontLeft, frontRight, backLeft, backRight, liftMotor;
     private GamepadEx driverOp, operatorOp;

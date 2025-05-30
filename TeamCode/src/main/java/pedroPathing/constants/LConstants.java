@@ -13,7 +13,7 @@ public class LConstants {
         PinpointConstants.hardwareMapName = "odometry";
         PinpointConstants.useYawScalar = false;
         PinpointConstants.yawScalar = 1.0;
-        PinpointConstants.useCustomEncoderResolution = true;
+        PinpointConstants.useCustomEncoderResolution = false;
         PinpointConstants.encoderResolution = GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD;
         PinpointConstants.customEncoderResolution = 19.89436789;
         PinpointConstants.forwardEncoderDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;

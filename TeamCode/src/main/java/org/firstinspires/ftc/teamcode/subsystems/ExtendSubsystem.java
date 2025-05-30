@@ -39,6 +39,7 @@ public class ExtendSubsystem extends SubsystemBase {
 
     public void retract() {
         motor.setTargetPosition(0);
+        motor.setPower(power);
         target = 0;
     }
     public boolean retracted(){return touch.isPressed();}
