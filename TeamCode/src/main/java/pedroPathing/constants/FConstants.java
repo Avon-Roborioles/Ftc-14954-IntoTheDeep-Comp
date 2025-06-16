@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
     static {
-        FollowerConstants.maxPower= 0.25;
+        FollowerConstants.maxPower= 1;
         FollowerConstants.localizers = Localizers.PINPOINT;
 
         FollowerConstants.leftFrontMotorName = "frontLeft";
