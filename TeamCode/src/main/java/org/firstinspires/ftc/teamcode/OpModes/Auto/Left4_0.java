@@ -34,6 +34,8 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoIntake;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.PreloadToScore;
 
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
+import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
@@ -54,12 +56,9 @@ public class Left4_0 extends AutoBase{
     Pose Score = new Pose(-55 ,-54 , PI/4 );
     Pose ScorePreload = new Pose(-54 ,-54 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -41.5, PI/2);
-    Pose Forward1 = new Pose(-49.5, -38, PI/2);
-    Pose Grab2 = new Pose(-60.5, -42.5, PI/2);
-    Pose Forward2 = new Pose(-60.5, -38, PI/2);
+    Pose Grab2 = new Pose(-60, -42.5, PI/2);
     Pose Grab3 = new Pose(-53, -34, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
-    Pose Forward3 = new Pose(-56, -33, 5* PI/6);
     Pose Park = new Pose(-16.25 - 8.1875, -2.5 - 8.5625, PI);
     Pose PrePark = new Pose(-25 - 8.1875, -2.5 - 8.5625, PI);
     Pose ParkMid = new Pose(-60, -11, PI/2);
@@ -96,15 +95,6 @@ public class Left4_0 extends AutoBase{
         setPathToPark = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toPark, false);
         });
-        setPathToForward1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward1, true);
-        });
-        setPathToForward2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward2, true);
-        });
-        setPathToForward3 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(forward3, true);
-        });
         setPark = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(park, false);
         });
@@ -118,10 +108,11 @@ public class Left4_0 extends AutoBase{
                     Storage.memory.scorePose = Score;
                 })
         );
-        ParallelCommandGroup IntakeAndDrive =  new ParallelCommandGroup(
-                new AutoIntake(intake, wrist, extend),
-                new LiftBottomCommand(liftSubsystem),
-                new AutoDriveCommand(autoDriveSubsystem, telemetry));
+        ParallelCommandGroup IntakeAndExtend =  new ParallelCommandGroup(
+                new ExtensionCommand(extend, 0.75),
+                new AutoIntake(intake, wrist),
+                new LiftBottomCommand(liftSubsystem)
+        );
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 initSubsystems,
@@ -131,30 +122,27 @@ public class Left4_0 extends AutoBase{
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPathToForward1,
-                IntakeAndDrive,
+                IntakeAndExtend,
                 setPathToScore1,
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp2,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPathToForward2,
-                IntakeAndDrive,
+                IntakeAndExtend,
                 setPathToScore2,
                 new ParallelCommandGroup(
                     new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                     new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPathToForward3,
-                IntakeAndDrive,
+                IntakeAndExtend,
                 setPathToScore3,
                 new ParallelCommandGroup(
                         new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
@@ -236,14 +224,7 @@ public class Left4_0 extends AutoBase{
         park.setLinearHeadingInterpolation(PrePark.getHeading(), Park.getHeading());
         park.setPathEndTimeoutConstraint(250);
 
-        forward1 = new Path(new BezierCurve(new Point(Grab1), new Point(Forward1)));
-        forward1.setConstantHeadingInterpolation(Grab1.getHeading());
 
-        forward2 = new Path(new BezierCurve(new Point(Grab2), new Point(Forward2)));
-        forward2.setConstantHeadingInterpolation(Grab2.getHeading());
-
-        forward3 = new Path(new BezierCurve(new Point(Grab3), new Point(Forward3)));
-        forward3.setConstantHeadingInterpolation(Grab3.getHeading());
     }
 
 

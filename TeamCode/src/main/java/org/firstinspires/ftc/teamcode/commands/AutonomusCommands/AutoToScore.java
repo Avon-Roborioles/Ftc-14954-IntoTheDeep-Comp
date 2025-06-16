@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ColorResetCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.AutoSwingArmScoreCommand;
@@ -27,7 +28,8 @@ public class AutoToScore extends SequentialCommandGroup {
                         new RetractCommand(extend),
                         new RaiseWrist(wrist),
                         new LiftClearRampCommand(lift),
-                        new OpenClawCommand(claw)
+                        new OpenClawCommand(claw),
+                        new SpitCommand(intake, wrist)
                 ),
                 new LiftBottomCommand(lift),
                 new CloseClawCommand(claw),

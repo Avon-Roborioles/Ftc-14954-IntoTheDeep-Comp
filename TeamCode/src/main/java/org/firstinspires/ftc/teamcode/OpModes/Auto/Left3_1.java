@@ -53,13 +53,13 @@ public class Left3_1 extends AutoBase {
     Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToBackAwayFromBar;
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
-    Pose Start = new Pose(- 7.8125 ,-60.8125, -PI/2);
+    Pose Start = new Pose(- 7.8125 ,-61.5, -PI/2);
     Pose Bar = new Pose(-7.5625, -31, -PI/2);
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
     Pose Score = new Pose(-57 ,-54 , PI/4 );
-    Pose Grab1 = new Pose(-49.5, -44, PI/2);
-    Pose Grab2 = new Pose(-60, -43, PI/2);
+    Pose Grab1 = new Pose(-49.5, -43, PI/2);
+    Pose Grab2 = new Pose(-59, -43, PI/2);
     Pose Grab3 = new Pose(-51, -36, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Park = new Pose(-24.6875, -11.0625, PI);
@@ -116,8 +116,10 @@ public class Left3_1 extends AutoBase {
                 })
         );
         ParallelCommandGroup IntakeAndExtend =  new ParallelCommandGroup(
+                new ExtensionCommand(extend, 0.75),
                 new AutoIntake(intake, wrist),
-                new ExtensionCommand(extend, 0.75));
+                new LiftBottomCommand(liftSubsystem)
+        );
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 setPathToBar,
@@ -140,7 +142,7 @@ public class Left3_1 extends AutoBase {
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ExtensionCommand(extend, 0.9),
+                        new ExtensionCommand(extend, 0.65),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 IntakeAndExtend,
@@ -151,7 +153,7 @@ public class Left3_1 extends AutoBase {
                 setPathToPickUp2,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
-                        new ExtensionCommand(extend, 0.9),
+                        new ExtensionCommand(extend, 0.65),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
                 setPathToScore2,
@@ -161,7 +163,7 @@ public class Left3_1 extends AutoBase {
                 setPathToPickUp3,
                 new ParallelCommandGroup(
                         new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
-                        new ExtensionCommand(extend, 0.9),
+                        new ExtensionCommand(extend, 0.65),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
                 setPathToScore3,

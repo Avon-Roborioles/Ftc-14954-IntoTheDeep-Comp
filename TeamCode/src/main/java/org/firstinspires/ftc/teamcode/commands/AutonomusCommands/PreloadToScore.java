@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.AutoSwingArmScoreCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
@@ -25,7 +26,7 @@ public class PreloadToScore extends SequentialCommandGroup {
                 new LiftForSwingArmClearCommand(lift),
                 new SwingArmMidCommand(swingArm),
                 new LiftTopCommand(lift),
-                new Score(swingArm, lift, claw, intake)
+                new AutoSwingArmScoreCommand(swingArm, intake, claw)
         );
     }
 }

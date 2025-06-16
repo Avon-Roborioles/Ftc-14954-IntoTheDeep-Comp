@@ -24,8 +24,8 @@ public class AutoIntake extends SequentialCommandGroup {
     public AutoIntake(NewIntakeSubsystem intake, WristSubsystem wrist){
         addCommands(
                 new LowerWrist(wrist),
-                new AutoCollectNoColorSample(intake, wrist),
-                new SpitCommand(intake, wrist)
+                new AutoCollectNoColorSample(intake, wrist)//,
+//                new SpitCommand(intake, wrist)
         );
     }
 }
