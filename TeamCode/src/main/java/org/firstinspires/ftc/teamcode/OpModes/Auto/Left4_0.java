@@ -53,8 +53,8 @@ import pedroPathing.constants.LConstants;
 @Autonomous
 public class Left4_0 extends AutoBase{
     Pose StartBucket = new Pose( -29.625 - 8.5625,-70.125 + 8.1875, PI/2);
-    Pose Score = new Pose(-55 ,-54 , PI/4 );
-    Pose ScorePreload = new Pose(-55 ,-54 , PI/4 );
+    Pose Score = new Pose(-54.5 ,-54.5 , PI/4 );
+    Pose ScorePreload = new Pose(-54.5 ,-54.5 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -41.5, PI/2);
     Pose Grab2 = new Pose(-60, -42.5, PI/2);
     Pose Grab3 = new Pose(-53, -34, 5* PI/6);
