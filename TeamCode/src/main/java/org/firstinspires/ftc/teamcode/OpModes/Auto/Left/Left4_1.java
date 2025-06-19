@@ -68,6 +68,7 @@ public class Left4_1 extends AutoBase {
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Grab4 = new Pose(-25, -11.0625, 0);
     Pose Grab4Mid = new Pose(-60, -11, PI/2);
+    Pose Strafe = new Pose(-25, -7, 0);
 
     Boolean RedAlliance = null;
 
@@ -111,6 +112,9 @@ public class Left4_1 extends AutoBase {
         });
         setPathToScore4 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScore4, true);
+        });
+        setPathToStrafe = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(strafe, true);
         });
 
 
@@ -187,9 +191,11 @@ public class Left4_1 extends AutoBase {
                         new ExtensionCommand(extend, 0.5)
                 ),
                 new LowerWrist(wrist),
+                setPathToStrafe,
                 new ParallelCommandGroup(
                         new CollectSample(intake),
-                        new ExtensionCommand(extend, 0.8)
+                        new ExtensionCommand(extend, 0.8),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToScore4,
                 new ParallelCommandGroup(
@@ -239,11 +245,11 @@ public class Left4_1 extends AutoBase {
 
         toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
         toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
-        toScorePreload.setPathEndTimeoutConstraint(500);
+        toScorePreload.setPathEndTimeoutConstraint(250);
 
         backAwayFromBar = new Path(new BezierCurve(new Point(Bar), new Point(BackAwayFromBar)));
         backAwayFromBar.setLinearHeadingInterpolation(Bar.getHeading(), BackAwayFromBar.getHeading());
-        backAwayFromBar.setPathEndTimeoutConstraint(250);
+        backAwayFromBar.setPathEndTimeoutConstraint(50);
 
         toPickUp1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Grab1)));
         toPickUp1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Grab1.getHeading());
@@ -276,6 +282,10 @@ public class Left4_1 extends AutoBase {
         toScore4 = new Path(new BezierCurve(new Point(Grab4), new Point(Grab4Mid), new Point(Score)));
         toScore4.setLinearHeadingInterpolation(Grab4.getHeading(), Score.getHeading());
         toScore4.setPathEndTimeoutConstraint(750);
+
+        strafe = new Path(new BezierCurve(new Point(Grab4), new Point(Strafe)));
+        strafe.setLinearHeadingInterpolation(Grab4.getHeading(), Strafe.getHeading());
+        strafe.setPathEndTimeoutConstraint(50);
     }
     public void SetAllianceColor(){
     }

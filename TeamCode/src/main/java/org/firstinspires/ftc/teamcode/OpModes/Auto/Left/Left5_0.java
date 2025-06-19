@@ -63,6 +63,7 @@ public class Left5_0 extends AutoBase {
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Grab4 = new Pose(-16.25 - 8.1875, -2 - 8.5625, 0);
     Pose Grab4Mid = new Pose(-60, -10, PI/2);
+    Pose Strafe  = new Pose(-16.25 - 8.1875, -6, 0);
 //    Pose Park = new Pose(-16.25 - 8.1875, -2.5 - 8.5625, PI);
 //    Pose PrePark = new Pose(-25 - 8.1875, -2.5 - 8.5625, PI);
 //    Pose ParkMid = new Pose(-60, -11, PI/2);
@@ -106,6 +107,9 @@ public class Left5_0 extends AutoBase {
         });
         setPathToScore4 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScore4, true);
+        });
+        setPathToStrafe = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(strafe, true);
         });
 
 
@@ -183,9 +187,11 @@ public class Left5_0 extends AutoBase {
                     new ExtensionCommand(extend, 0.5)
                 ),
                 new LowerWrist(wrist),
+                setPathToStrafe,
                 new ParallelCommandGroup(
                         new CollectSample(intake),
-                        new ExtensionCommand(extend, 0.8)
+                        new ExtensionCommand(extend, 0.8),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
                 ),
                 setPathToScore4,
                 new ParallelCommandGroup(
@@ -279,6 +285,10 @@ public class Left5_0 extends AutoBase {
         toScore4 = new Path(new BezierCurve(new Point(Grab4), new Point(Grab4Mid), new Point(Score)));
         toScore4.setLinearHeadingInterpolation(Grab4.getHeading(), Score.getHeading());
         toScore4.setPathEndTimeoutConstraint(1000);
+
+        strafe = new Path(new BezierCurve(new Point(Grab4), new Point(Strafe)));
+        strafe.setLinearHeadingInterpolation(Grab4.getHeading(), Strafe.getHeading());
+        strafe.setPathEndTimeoutConstraint(50);
 
 
 //        toPark = new Path(new BezierCurve(new Point(Score),new Point(ParkMid), new Point(PrePark)));

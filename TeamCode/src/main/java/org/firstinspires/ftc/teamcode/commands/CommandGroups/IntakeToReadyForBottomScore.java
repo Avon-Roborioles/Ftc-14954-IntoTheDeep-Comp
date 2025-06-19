@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.CommandGroups;
 
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearGearCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.NomNomComand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomBucketCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
@@ -27,13 +29,19 @@ public class IntakeToReadyForBottomScore extends SequentialCommandGroup {
                 new LiftClearRampCommand(lift),
                 new OpenClawCommand(claw),
                 new NomNomComand(intake, wrist, extend),
-                new LiftBottomCommand(lift),
-                new WaitCommand(100),
-                new CloseClawCommand(claw),
-                new WaitCommand(100),
-                new LiftForSwingArmClearCommand(lift),
-                new SwingArmUpCommand(swingArm),
-                new LiftBottomBucketCommand(lift)
+                new ParallelCommandGroup(
+                        new Reject(intake),
+                        new SequentialCommandGroup(
+                                new LiftBottomCommand(lift),
+                                new WaitCommand(100),
+                                new CloseClawCommand(claw),
+                                new WaitCommand(100),
+                                new LiftForSwingArmClearCommand(lift),
+                                new SwingArmUpCommand(swingArm),
+                                new LiftBottomBucketCommand(lift)
+                        )
+                )
+
         );
     }
 }

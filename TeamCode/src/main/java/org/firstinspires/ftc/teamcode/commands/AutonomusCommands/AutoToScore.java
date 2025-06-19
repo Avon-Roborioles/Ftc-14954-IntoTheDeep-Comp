@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.RetractCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.ColorResetCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.Reject;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftClearRampCommand;
@@ -32,10 +33,15 @@ public class AutoToScore extends SequentialCommandGroup {
                         new OpenClawCommand(claw),
                         new SpitCommand(intake, wrist)
                 ),
-                new LiftBottomCommand(lift),
-                new CloseClawCommand(claw),
-                new WaitCommand(100),
-                new AutoTopBucketScoreReady(swingArm, lift, intake)
+                new ParallelCommandGroup(
+                        new Reject(intake),
+                        new SequentialCommandGroup(
+                            new LiftBottomCommand(lift),
+                            new CloseClawCommand(claw),
+                            new WaitCommand(100),
+                            new AutoTopBucketScoreReady(swingArm, lift, intake)
+                        )
+                )
         );
     }
 

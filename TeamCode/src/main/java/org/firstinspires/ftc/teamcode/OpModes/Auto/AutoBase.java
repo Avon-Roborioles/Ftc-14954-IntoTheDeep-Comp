@@ -32,8 +32,8 @@ public abstract class AutoBase extends CommandOpMode {
     protected NewIntakeSubsystem intake;
     protected WristSubsystem wrist;
     protected ClawSubsystem claw;
-    protected Command setPathToScorePreload, setPathToBar, setPathToBackAwayFromBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3, setPathToToSpecimen1, setPathToToSpecimen2,setPathToToSpecimen3, setPathToGrabSpecimen, setPathToSpit1, setPathToSpit2, PushSample, setPathToGrab4, setPathToScore4;
-    protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3, backAwayFromBar, toSpecimen1, toSpecimen2, toSpecimen3, toGrabSpecimen, toSpit1, toSpit2, Backup, toGrab4, toScore4;
+    protected Command setPathToScorePreload, setPathToBar, setPathToBackAwayFromBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToForward1, setPathToForward2, setPathToForward3, setPathToToSpecimen1, setPathToToSpecimen2,setPathToToSpecimen3, setPathToGrabSpecimen, setPathToSpit1, setPathToSpit2, PushSample, setPathToGrab4, setPathToScore4, setPathToStrafe;
+    protected Path toScorePreload,toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, forward1, forward2, forward3, backAwayFromBar, toSpecimen1, toSpecimen2, toSpecimen3, toGrabSpecimen, toSpit1, toSpit2, Backup, toGrab4, toScore4, strafe;
 
     public abstract void makeAuto();
     public abstract void buildPaths();

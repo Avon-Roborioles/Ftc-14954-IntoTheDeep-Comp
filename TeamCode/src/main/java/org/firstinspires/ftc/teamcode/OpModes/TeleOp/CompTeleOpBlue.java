@@ -159,7 +159,7 @@ public class CompTeleOpBlue extends Storage {
                 .toggleWhenPressed(new SwingArmUpCommand(swingArmSubsystem), new SwingArmDownCommand(swingArmSubsystem));
 
 
-        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem), new RaiseWrist(wrist),  new ZeroExtensionCommand(extend),new RetractCommand(extend)));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(new WaitCommand(10), new RaiseWrist(wrist), new LiftBottomResetCommand(liftSubsystem), new AfterAutoReset(liftSubsystem, swingArmSubsystem),  new ZeroExtensionCommand(extend),new RetractCommand(extend)));
     }
 
     @Override
