@@ -24,6 +24,7 @@ public class AutoToScore extends SequentialCommandGroup {
 
     public AutoToScore(NewIntakeSubsystem intake, WristSubsystem wrist, ExtendSubsystem extend, SwingArmSubsystem swingArm, LiftSubsystem lift, ClawSubsystem claw){
         addCommands(
+                new LiftClearRampCommand(lift),
                 new ParallelCommandGroup(
                         new RetractCommand(extend),
                         new RaiseWrist(wrist),
@@ -34,10 +35,9 @@ public class AutoToScore extends SequentialCommandGroup {
                 new LiftBottomCommand(lift),
                 new CloseClawCommand(claw),
                 new WaitCommand(100),
-                new AutoTopBucketScoreReady(swingArm, lift, intake),
-                new AutoSwingArmScoreCommand(swingArm, intake, claw),
-                new ColorResetCommand(intake)
+                new AutoTopBucketScoreReady(swingArm, lift, intake)
         );
     }
+
 
 }

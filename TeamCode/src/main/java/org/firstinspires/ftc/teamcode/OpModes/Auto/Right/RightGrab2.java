@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto.V2;
+package org.firstinspires.ftc.teamcode.OpModes.Auto.Right;
 
 
 
@@ -15,7 +15,6 @@ import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -49,7 +48,7 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-public class RedRightGrab2 extends AutoBase {
+public class RightGrab2 extends AutoBase {
     public Pose Start = new Pose( 7.8125 ,-60.0125, -PI/2);
     public Pose Bar = new Pose( 7.8125 , -31.5, -PI/2);
     public Pose BarMid = new Pose( 7.8125 , -38, -PI/2);
@@ -160,7 +159,7 @@ public class RedRightGrab2 extends AutoBase {
                         new LiftBottomCommand(liftSubsystem)
                 ),
                 new LowerWrist(wrist),
-                new ParallelCommandGroup(new AutoCollectNoColorSample(intake, wrist),
+                new ParallelCommandGroup(new AutoCollectNoColorSample(intake, wrist, 2000),
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit1,
                 new ParallelCommandGroup(
@@ -174,7 +173,7 @@ public class RedRightGrab2 extends AutoBase {
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ExtensionCommand(extend, 0.6)
                 ),
-                new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist),
+                new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist, 2000),
                         new ExtensionCommand(extend,0.5)),
                 setPathToSpit2,
                 new ParallelCommandGroup(
@@ -247,7 +246,7 @@ public class RedRightGrab2 extends AutoBase {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
     }

@@ -12,6 +12,11 @@ public class SpitCommand extends CommandBase {
     private NewIntakeSubsystem subsystem;
     private WristSubsystem wrist;
 
+    private boolean first=true;
+    private boolean stalled = false;
+    Timing.Timer stall = new Timing.Timer(100, TimeUnit.MILLISECONDS);
+
+
     Timing.Timer timer = new Timing.Timer(450, TimeUnit.MILLISECONDS);
 
     public SpitCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist) {
@@ -29,7 +34,26 @@ public class SpitCommand extends CommandBase {
     public void execute() {
         wrist.up();
         if (timer.done()){
-            subsystem.runMotor();
+            if (!stalled) {
+                if (!subsystem.isStalled()) {
+                    subsystem.runMotor();
+                }else {
+                    if (first){
+                        stall.start();
+                        subsystem.stopMotor();
+                        first=false;
+                        stalled = true;
+                    }
+
+                    subsystem.rejectMotor();
+
+                }
+            }else {
+                if (stall.done()){
+                    subsystem.stopMotor();
+                    stalled = false;
+                }
+            }
         }
     }
 

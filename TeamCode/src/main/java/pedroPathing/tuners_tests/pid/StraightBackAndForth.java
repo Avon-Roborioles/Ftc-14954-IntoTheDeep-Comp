@@ -72,12 +72,13 @@ public class StraightBackAndForth extends OpMode {
 
         forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
-        forwards.setPathEndTimeoutConstraint(1000);
+        forwards.setPathEndTimeoutConstraint(500);
         backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
-        backwards.setPathEndTimeoutConstraint(1000);
+        backwards.setPathEndTimeoutConstraint(500);
 
         follower.followPath(forwards);
+
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will run the robot in a straight line going " + DISTANCE
                             + " inches forward. The robot will go forward and backward continuously"
@@ -92,7 +93,7 @@ public class StraightBackAndForth extends OpMode {
     @Override
     public void loop() {
         follower.update();
-        extend.retract();
+
         if (!follower.isBusy()) {
             if (forward) {
                 forward = false;
@@ -104,6 +105,7 @@ public class StraightBackAndForth extends OpMode {
         }
 
         telemetryA.addData("going forward", forward);
+//        telemetryA.addData("Drive Velocity Error", follower.getDriveVelocityError());
         follower.telemetryDebug(telemetryA);
     }
 }

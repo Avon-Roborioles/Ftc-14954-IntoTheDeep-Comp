@@ -13,7 +13,7 @@ public class CollectSample extends CommandBase {
     private NewIntakeSubsystem subsystem;
     private boolean first=true;
     private boolean stalled = false;
-    Timing.Timer stall = new Timing.Timer(250, TimeUnit.MILLISECONDS);
+    Timing.Timer stall = new Timing.Timer(100, TimeUnit.MILLISECONDS);
 
     public CollectSample(NewIntakeSubsystem subsystem) {
         this.subsystem = subsystem;

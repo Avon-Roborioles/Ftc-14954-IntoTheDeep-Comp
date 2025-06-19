@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoLiftTopCommand;
+import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.AutoSwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.AutoSwingArmUpCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmMidCommand;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
@@ -15,7 +16,7 @@ public class AutoTopBucketScoreReady extends SequentialCommandGroup {
         addCommands(
 
                 new AutoLiftForSwingArmClearCommand(lift),
-                new SwingArmMidCommand(swingArm),
+                new AutoSwingArmMidCommand(swingArm, intake),
                 new AutoLiftTopCommand(lift, intake)
         );
     }

@@ -16,7 +16,7 @@ public class LiftSubsystem extends SubsystemBase {
     private int topBarHookPosition = 1100;
     private int bottomBucketPosition = 840;
     private int swingarmClearPosition = 600;
-    private int ClearRampPosition = 0;
+    private int ClearRampPosition = 200;
     private double liftTargetPosition = 0;
     private double power = 1;
 

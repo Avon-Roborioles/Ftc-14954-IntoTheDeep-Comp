@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.commands.AutonomusCommands;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendClearGearCommand;
-import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommands.SpitCommand;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.subsystems.ExtendSubsystem;
@@ -17,14 +16,14 @@ public class AutoIntake extends SequentialCommandGroup {
         addCommands(
                 new ExtendClearGearCommand(extend),
                 new LowerWrist(wrist),
-                new AutoCollectNoColorSample(intake, wrist),
+                new AutoCollectNoColorSample(intake, wrist, 2000),
                 new SpitCommand(intake, wrist)
         );
     }
     public AutoIntake(NewIntakeSubsystem intake, WristSubsystem wrist){
         addCommands(
                 new LowerWrist(wrist),
-                new AutoCollectNoColorSample(intake, wrist)//,
+                new AutoCollectNoColorSample(intake, wrist, 2000)//,
 //                new SpitCommand(intake, wrist)
         );
     }

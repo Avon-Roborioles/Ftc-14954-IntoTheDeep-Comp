@@ -20,13 +20,9 @@ public class PreloadToScore extends SequentialCommandGroup {
 
     public PreloadToScore(SwingArmSubsystem swingArm, LiftSubsystem lift, NewIntakeSubsystem intake, ClawSubsystem claw){
         addCommands(
-                new LiftClearRampCommand(lift),
                 new CloseClawCommand(claw),
                 new WaitCommand(100),
-                new LiftForSwingArmClearCommand(lift),
-                new SwingArmMidCommand(swingArm),
-                new LiftTopCommand(lift),
-                new AutoSwingArmScoreCommand(swingArm, intake, claw)
+                new AutoTopBucketScoreReady(swingArm, lift, intake)
         );
     }
 }

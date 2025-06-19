@@ -12,14 +12,19 @@ public class AutoCollectNoColorSample extends CommandBase {
     private NewIntakeSubsystem subsystem;
     private WristSubsystem wrist;
     private boolean hasSample = false;
+    private boolean first=true;
     private boolean validSample = false;
     boolean ejecting = false;
-    Timing.Timer timer = new Timing.Timer(4, TimeUnit.SECONDS);
+    private boolean stalled = false;
+    Timing.Timer stall = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+
+    Timing.Timer timer;
 
     // This command will acquire samples and either eject them or accept them based on color
-    public AutoCollectNoColorSample(NewIntakeSubsystem subsystem, WristSubsystem wrist) {
+    public AutoCollectNoColorSample(NewIntakeSubsystem subsystem, WristSubsystem wrist, long timeout) {
         this.subsystem = subsystem;
         this.wrist = wrist;
+        timer = new Timing.Timer(timeout, TimeUnit.MILLISECONDS);
         subsystem.setSkipLastSample(false);
         addRequirements(subsystem);
     }
@@ -35,24 +40,46 @@ public class AutoCollectNoColorSample extends CommandBase {
 
     @Override
     public void execute() {
-        hasSample = subsystem.hasSample();
-        if (!timer.done()) {
-            if (!hasSample) {
-                subsystem.runMotor();
-            } else {
-                validSample = true;
-                if (subsystem.getRedAlliance() & subsystem.isColorSensorRed()) {
-                    subsystem.redlight();
-                } else if (!subsystem.getRedAlliance() & subsystem.isColorSensorBlue()) {
-                    subsystem.bluelight();
-                } else {
-                    subsystem.yellowlight();
+
+        if (!stalled){
+            if (!subsystem.isStalled()){
+                first = true;
+
+                hasSample = subsystem.hasSample();
+                if (!timer.done()) {
+                    if (!hasSample) {
+                        subsystem.runMotor();
+                    } else {
+                        validSample = true;
+                    }
+                }else{
+                    validSample = true;
+                    subsystem.setSkipLastSample(true);
                 }
+
+
+
+            }else {
+                if (first){
+                    stall.start();
+                    subsystem.stopMotor();
+                    first=false;
+                    stalled = true;
+                }
+
+                subsystem.rejectMotor();
+
             }
-        }else{
-            validSample = true;
-            subsystem.setSkipLastSample(true);
+        }else {
+            if (stall.done()){
+                subsystem.stopMotor();
+                stalled = false;
+            }
         }
+
+
+
+
     }
 
     @Override
