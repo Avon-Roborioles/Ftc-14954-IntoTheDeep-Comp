@@ -55,15 +55,15 @@ public class Left3_1 extends AutoBase {
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
     Pose Start = new Pose(- 7.8125 ,-61.5, -PI/2);
-    Pose Bar = new Pose(-7.5625, -31, -PI/2);
+    Pose Bar = new Pose(-7.5625, -31.5, -PI/2);
     Pose BackAwayFromBar = new Pose(-7.5625, -34, -PI/2);
     Pose BarMid = new Pose(-7.5625 , -38, -PI/2);
-    Pose Score = new Pose(-57 ,-54 , PI/4 );
-    Pose Grab1 = new Pose(-49.5, -43, PI/2);
+    Pose Score = new Pose(-56 ,-52.5 , PI/4 );
+    Pose Grab1 = new Pose(-49, -43, PI/2);
     Pose Grab2 = new Pose(-59, -43, PI/2);
-    Pose Grab3 = new Pose(-51, -36, 5* PI/6);
+    Pose Grab3 = new Pose(-51, -35.25, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
-    Pose Park = new Pose(-24.6875, -11.0625, PI);
+    Pose Park = new Pose(-25, -11.0625, PI);
     Pose PrePark = new Pose(-33.1875, -11.0625, PI);
     Pose ParkMid = new Pose(-60, -11, PI/2);
 
@@ -154,7 +154,7 @@ public class Left3_1 extends AutoBase {
                 new AutoScore(intake, swingArmSubsystem,claw),
                 setPathToPickUp2,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
                         new ExtensionCommand(extend, 0.65),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
@@ -165,7 +165,7 @@ public class Left3_1 extends AutoBase {
                 new AutoScore(intake, swingArmSubsystem,claw),
                 setPathToPickUp3,
                 new ParallelCommandGroup(
-                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
+                        new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw),
                         new ExtensionCommand(extend, 0.65),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 IntakeAndExtend,
@@ -174,6 +174,7 @@ public class Left3_1 extends AutoBase {
                         new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 new AutoScore(intake, swingArmSubsystem,claw),
+                new SwingArmDownCommand(swingArmSubsystem),
                 setPathToPark,
                 new ParallelCommandGroup(
                         new RaiseWrist(wrist),

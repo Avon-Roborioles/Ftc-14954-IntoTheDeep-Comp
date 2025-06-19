@@ -16,7 +16,7 @@ public class AutoCollectNoColorSample extends CommandBase {
     private boolean validSample = false;
     boolean ejecting = false;
     private boolean stalled = false;
-    Timing.Timer stall = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
+    Timing.Timer stall = new Timing.Timer(250, TimeUnit.MILLISECONDS);
 
     Timing.Timer timer;
 
