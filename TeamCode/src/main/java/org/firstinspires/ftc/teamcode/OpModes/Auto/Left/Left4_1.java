@@ -33,10 +33,13 @@ import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoScore;
 import org.firstinspires.ftc.teamcode.commands.AutonomusCommands.AutoToScore;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
+import org.firstinspires.ftc.teamcode.commands.IntakeCommands.CollectSample;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.AutoClipSpecimen;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftBottomCommand;
+import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftForSwingArmClearCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommands.LiftTopBarCommand;
 import org.firstinspires.ftc.teamcode.commands.SwingArmCommand.SwingArmDownCommand;
+import org.firstinspires.ftc.teamcode.commands.WristCommands.LowerWrist;
 import org.firstinspires.ftc.teamcode.commands.WristCommands.RaiseWrist;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ClawSubsystem;
@@ -49,8 +52,8 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
-@Autonomous
-public class Left3_1 extends AutoBase {
+
+public class Left4_1 extends AutoBase {
     Command setPathToScorePreload, setPathToBar, setPathToPickUp1, setPathToScore1, setPathToPickUp2, setPathToScore2, setPathToPickUp3, setPathToScore3, setPathToPark, setPark, setPathToBackAwayFromBar;
     Path toScorePreload, toBar, toPickUp1,toScore1, toPickUp2, toScore2, toPickUp3, toScore3, toPark, park, backAwayFromBar;
 
@@ -63,13 +66,15 @@ public class Left3_1 extends AutoBase {
     Pose Grab2 = new Pose(-59, -43, PI/2);
     Pose Grab3 = new Pose(-51, -35.25, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
-    Pose Park = new Pose(-25, -11.0625, PI);
-    Pose PrePark = new Pose(-33.1875, -11.0625, PI);
-    Pose ParkMid = new Pose(-60, -11, PI/2);
+    Pose Grab4 = new Pose(-25, -11.0625, 0);
+    Pose Grab4Mid = new Pose(-60, -11, PI/2);
 
+    Boolean RedAlliance = null;
 
     @Override
     public void initialize() {
+        RedAlliance = null;
+        SetAllianceColor();
         makeAuto();
         buildPaths();
         register(extend, liftSubsystem, swingArmSubsystem,  intake, wrist, autoDriveSubsystem, claw);
@@ -101,12 +106,13 @@ public class Left3_1 extends AutoBase {
         setPathToScore3 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toScore3, true);
         });
-        setPathToPark = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(toPark, false);
+        setPathToGrab4 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toGrab4, true);
         });
-        setPark = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(park, false);
+        setPathToScore4 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toScore4, true);
         });
+
 
         SequentialCommandGroup initSubsystems = new SequentialCommandGroup(
                 new WaitCommand(100),
@@ -174,16 +180,26 @@ public class Left3_1 extends AutoBase {
                         new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)),
                 new AutoScore(intake, swingArmSubsystem,claw),
+                new AutoAfterScore(swingArmSubsystem, liftSubsystem, claw, extend),
+                setPathToGrab4,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new ExtensionCommand(extend, 0.5)
+                ),
+                new LowerWrist(wrist),
+                new ParallelCommandGroup(
+                        new CollectSample(intake),
+                        new ExtensionCommand(extend, 0.8)
+                ),
+                setPathToScore4,
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new AutoToScore(intake, wrist, extend, swingArmSubsystem, liftSubsystem, claw)
+                ),
+                new AutoScore(intake, swingArmSubsystem,claw),
                 new SwingArmDownCommand(swingArmSubsystem),
-                setPathToPark,
-                new ParallelCommandGroup(
-                        new RaiseWrist(wrist),
-                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)),
-                setPark,
-                new ParallelCommandGroup(
-                        new AutoEndCommand(swingArmSubsystem, liftSubsystem),
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry))
+                new LiftForSwingArmClearCommand(liftSubsystem),
+                new LiftBottomCommand(liftSubsystem)
         );
         schedule(new SequentialCommandGroup(
                         number5IsAlive,
@@ -206,7 +222,11 @@ public class Left3_1 extends AutoBase {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        if (RedAlliance != null){
+            intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), RedAlliance);
+        }else {
+            intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        }
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
     }
@@ -249,12 +269,14 @@ public class Left3_1 extends AutoBase {
         toScore3.setLinearHeadingInterpolation(Grab3.getHeading(), Score.getHeading());
         toScore3.setPathEndTimeoutConstraint(750);
 
-        toPark = new Path(new BezierCurve(new Point(Score),new Point(ParkMid), new Point(PrePark)));
-        toPark.setLinearHeadingInterpolation(Score.getHeading(), PrePark.getHeading());
-        toPark.setPathEndTimeoutConstraint(750);
+        toGrab4 = new Path(new BezierCurve(new Point(Score), new Point(Grab4Mid), new Point(Grab4)));
+        toGrab4.setLinearHeadingInterpolation(Score.getHeading(), Grab4.getHeading());
+        toGrab4.setPathEndTimeoutConstraint(750);
 
-        park= new Path(new BezierCurve(new Point(PrePark), new Point(Park)));
-        park.setLinearHeadingInterpolation(PrePark.getHeading(), Park.getHeading());
-        park.setPathEndTimeoutConstraint(250);
+        toScore4 = new Path(new BezierCurve(new Point(Grab4), new Point(Grab4Mid), new Point(Score)));
+        toScore4.setLinearHeadingInterpolation(Grab4.getHeading(), Score.getHeading());
+        toScore4.setPathEndTimeoutConstraint(750);
+    }
+    public void SetAllianceColor(){
     }
 }
