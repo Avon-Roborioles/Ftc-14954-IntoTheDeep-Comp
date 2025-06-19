@@ -18,6 +18,7 @@ public class SpitCommand extends CommandBase {
 
 
     Timing.Timer timer = new Timing.Timer(450, TimeUnit.MILLISECONDS);
+    Timing.Timer timer2 = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
 
     public SpitCommand(NewIntakeSubsystem subsystem, WristSubsystem wrist) {
         this.subsystem = subsystem;
@@ -28,6 +29,7 @@ public class SpitCommand extends CommandBase {
     @Override
     public void initialize() {
         timer.start();
+        timer2.start();
     }
 
     @Override
@@ -75,7 +77,7 @@ public class SpitCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return subsystem.inRamp() || subsystem.getSkipLastSample();
+        return subsystem.inRamp() && timer2.done() || subsystem.getSkipLastSample();
     }
 
 }

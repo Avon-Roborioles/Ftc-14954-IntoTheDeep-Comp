@@ -23,6 +23,7 @@ public class CollectSample extends CommandBase {
 
     @Override
     public void execute() {
+        subsystem.setSkipLastSample(false);
         if (!stalled){
             if (!subsystem.isStalled()){
                 if (subsystem.hasSample()){

@@ -14,6 +14,7 @@ public class AutoSwingArmScoreCommand extends CommandBase {
     private NewIntakeSubsystem intake;
     private ClawSubsystem claw;
     private Timing.Timer timer = new Timing.Timer(250, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer2 = new Timing.Timer(75, TimeUnit.MILLISECONDS);
 
     public AutoSwingArmScoreCommand(SwingArmSubsystem SwingArmSubsystem, NewIntakeSubsystem intake, ClawSubsystem claw) {
         this.SwingArmSubsystem = SwingArmSubsystem;
@@ -25,9 +26,16 @@ public class AutoSwingArmScoreCommand extends CommandBase {
     @Override
     public void initialize() {
         SwingArmSubsystem.up();
-        claw.open();
-        timer.start();
 
+        timer.start();
+        timer2.start();
+
+    }
+    @Override
+    public void execute() {
+        if (timer2.done()) {
+            claw.open();
+        }
     }
 
     @Override

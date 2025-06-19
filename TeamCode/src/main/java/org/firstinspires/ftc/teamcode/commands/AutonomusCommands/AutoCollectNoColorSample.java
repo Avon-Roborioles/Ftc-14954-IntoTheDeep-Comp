@@ -16,7 +16,7 @@ public class AutoCollectNoColorSample extends CommandBase {
     private boolean validSample = false;
     boolean ejecting = false;
     private boolean stalled = false;
-    Timing.Timer stall = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+    Timing.Timer stall = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
 
     Timing.Timer timer;
 
@@ -51,6 +51,7 @@ public class AutoCollectNoColorSample extends CommandBase {
                         subsystem.runMotor();
                     } else {
                         validSample = true;
+                        subsystem.setSkipLastSample(false);
                     }
                 }else{
                     validSample = true;
