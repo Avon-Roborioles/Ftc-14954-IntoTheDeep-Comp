@@ -1,5 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Auto.Right;
-
+package org.firstinspires.ftc.teamcode.OpModes.Auto.OldRight;
 
 import static java.lang.Math.PI;
 
@@ -46,17 +45,17 @@ import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous
-public class RightGrab1 extends AutoBase {
+public class RightGrab2 extends AutoBase {
     public Pose Start = new Pose( 7.8125 ,-60.0125, -PI/2);
-    public Pose Bar = new Pose( 7.8125 , -31.5, -PI/2);
+    public Pose Bar = new Pose( 7.8125 , -30.5, -PI/2);
     public Pose BarMid = new Pose( 7.8125 , -38, -PI/2);
     public Pose BackAwayFromBar = new Pose( 8.5625-0.75 , -34, -PI/2);
-    public Pose Grab1 = new Pose(25, -41, PI/4);
-    public Pose Spit1 = new Pose(40, -38, -PI/4);
-    public Pose Grab2 = new Pose(38, -41, PI/4);
+    public Pose Grab1 = new Pose(30, -37, PI/4);
+    public Pose Spit1 = new Pose(42, -37, -PI/4);
+    public Pose Grab2 = new Pose(40, -38, PI/4);
 
     public Pose ForSpecimen = new Pose(30.5, -56, PI/2);
-    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-1.25, PI/2);
+    public Pose GrabSpecimen = new Pose(ForSpecimen.getX(),Start.getY()-1, PI/2);
 
 
 
@@ -81,6 +80,9 @@ public class RightGrab1 extends AutoBase {
         setPathToPickUp1 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toPickUp1, true);
         });
+        setPathToPickUp2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toPickUp2, true);
+        });
         setPathToToSpecimen1 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toSpecimen1, true);
         });
@@ -98,6 +100,9 @@ public class RightGrab1 extends AutoBase {
         });
         setPathToSpit1 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toSpit1, true);
+        });
+        setPathToSpit2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(toSpit2, true);
         });
         setPathToToSpecimen2 = new InstantCommand(() -> {
             autoDriveSubsystem.followPath(toSpecimen2, true);
@@ -138,6 +143,7 @@ public class RightGrab1 extends AutoBase {
                 setPathToBackAwayFromBar,
                 new ParallelCommandGroup(
                         new AutoClipSpecimen(liftSubsystem, 250),
+                        new ExtensionCommand(extend, 1),
                         new SequentialCommandGroup(
                                 new WaitCommand(100),
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -145,17 +151,32 @@ public class RightGrab1 extends AutoBase {
                 ),
                 setPathToPickUp1,
                 new ParallelCommandGroup(
-                        new ExtensionCommand(extend, 0.6),
+                        new ExtensionCommand(extend, 1),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new LiftBottomCommand(liftSubsystem)
                 ),
                 new LowerWrist(wrist),
                 new ParallelCommandGroup(new AutoCollectNoColorSample(intake, wrist, 2000),
-                        new ExtensionCommand(extend,0.5)),
+                        new ExtensionCommand(extend,1)),
                 setPathToSpit1,
-                new SequentialCommandGroup(
+                new ParallelCommandGroup(
                         new RaiseWrist(wrist),
+                        new ExtensionCommand(extend, 1),
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                ),
+                setPathToPickUp2,
+                new Reject(intake),
+                new ParallelCommandGroup(
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new ExtensionCommand(extend, 1)
+                ),
+                new ParallelCommandGroup(new LowerWrist(wrist), new AutoCollectNoColorSample(intake, wrist, 2000),
+                        new ExtensionCommand(extend,1)),
+                setPathToSpit2,
+                new ParallelCommandGroup(
+                        new RaiseWrist(wrist),
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new ExtensionCommand(extend, 1)
                 ),
                 new Reject(intake),
                 setPathToToSpecimen1,
@@ -198,13 +219,7 @@ public class RightGrab1 extends AutoBase {
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         )
                 ),
-                setPathToPark,
-                new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new LiftBottomCommand(liftSubsystem)
-                )
-
-
+                new LiftBottomCommand(liftSubsystem)
         );
 
 
@@ -228,7 +243,7 @@ public class RightGrab1 extends AutoBase {
         swingArmSubsystem = new SwingArmSubsystem(hardwareMap.get(Servo.class, "swingArm"), hardwareMap.get(TouchSensor.class, "swingArmDown"));
         liftSubsystem = new LiftSubsystem(liftMotor,touch1);
         claw = new ClawSubsystem(hardwareMap.get(Servo.class, "claw"));
-        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"));
+        intake = new NewIntakeSubsystem(hardwareMap.get(DcMotorEx.class, "Intake"), hardwareMap.get(ColorSensor.class, "intakeColor"), hardwareMap.get(ColorSensor.class, "RampColor"), hardwareMap.get(RevBlinkinLedDriver.class, "blinkin"), hardwareMap.get(ServoImplEx.class, "allianceColor"), false);
         wrist = new WristSubsystem(hardwareMap.get(Servo.class,"wrist"));
         autoDriveSubsystem = new AutoDriveSubsystem(follower, mTelemetry, Start);
     }
@@ -241,7 +256,7 @@ public class RightGrab1 extends AutoBase {
 
         toScorePreload = new Path(new BezierCurve(new Point(BarMid), new Point(Bar)));
         toScorePreload.setLinearHeadingInterpolation(BarMid.getHeading(), Bar.getHeading());
-        toScorePreload.setPathEndTimeoutConstraint(750);
+        toScorePreload.setPathEndTimeoutConstraint(500);
 
         backAwayFromBar = new Path(new BezierCurve(new Point(Bar), new Point(BackAwayFromBar)));
         backAwayFromBar.setLinearHeadingInterpolation(Bar.getHeading(), BackAwayFromBar.getHeading());
@@ -249,15 +264,24 @@ public class RightGrab1 extends AutoBase {
 
         toPickUp1 = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Grab1)));
         toPickUp1.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Grab1.getHeading());
-        toPickUp1.setPathEndTimeoutConstraint(500);
+        toPickUp1.setPathEndTimeoutConstraint(750);
 
         toSpit1 = new Path(new BezierCurve(new Point(Grab1), new Point(Spit1)));
         toSpit1.setLinearHeadingInterpolation(Grab1.getHeading(), Spit1.getHeading());
         toSpit1.setPathEndTimeoutConstraint(250);
 
 
-        toSpecimen1 = new Path(new BezierCurve(new Point(Spit1), new Point(ForSpecimen)));
-        toSpecimen1.setLinearHeadingInterpolation(Spit1.getHeading(), ForSpecimen.getHeading());
+        toPickUp2 = new Path(new BezierCurve(new Point(Spit1), new Point(Grab2)));
+        toPickUp2.setLinearHeadingInterpolation(Spit1.getHeading(), Grab2.getHeading());
+        toPickUp2.setPathEndTimeoutConstraint(750);
+
+        toSpit2 = new Path(new BezierCurve(new Point(Grab2), new Point(Spit1)));
+        toSpit2.setLinearHeadingInterpolation(Grab2.getHeading(), Spit1.getHeading());
+        toSpit2.setPathEndTimeoutConstraint(250);
+
+
+        toSpecimen1 = new Path(new BezierCurve(new Point(Grab2), new Point(ForSpecimen)));
+        toSpecimen1.setLinearHeadingInterpolation(Grab2.getHeading(), ForSpecimen.getHeading());
         toSpecimen1.setPathEndTimeoutConstraint(1000);
 
         toGrabSpecimen = new Path(new BezierCurve(new Point(ForSpecimen), new Point(GrabSpecimen)));
@@ -283,24 +307,5 @@ public class RightGrab1 extends AutoBase {
         forward2 = new Path(new BezierCurve(new Point(new Pose(BarMid.getX()-2, BarMid.getY(), BarMid.getHeading())), new Point(new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()))));
         forward2.setLinearHeadingInterpolation(BarMid.getHeading(), new Pose(Bar.getX()-2, Bar.getY(), Bar.getHeading()).getHeading());
         forward2.setPathEndTimeoutConstraint(500);
-
-        toPark = new Path(new BezierCurve(new Point(BackAwayFromBar), new Point(Park)));
-        toPark.setLinearHeadingInterpolation(BackAwayFromBar.getHeading(), Park.getHeading());
-        toPark.setPathEndTimeoutConstraint(500);
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
 }
