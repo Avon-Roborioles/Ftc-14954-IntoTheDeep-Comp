@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
+import org.firstinspires.ftc.teamcode.commands.ClawCommands.CloseClawCommand;
+import org.firstinspires.ftc.teamcode.commands.ClawCommands.OpenClawCommand;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.IntakeToReadyForTopScore;
 import org.firstinspires.ftc.teamcode.commands.CommandGroups.Score;
 import org.firstinspires.ftc.teamcode.commands.ExtendCommands.ZeroExtensionCommand;
@@ -134,6 +136,8 @@ public class ButtonOpMode extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenPressed(new SwingArmDownCommand(swingArmSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                        .toggleWhenPressed(new OpenClawCommand(claw), new CloseClawCommand(claw));
 //
 
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)

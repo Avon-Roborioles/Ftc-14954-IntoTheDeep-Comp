@@ -59,7 +59,7 @@ public class NewIntakeSubsystem extends SubsystemBase {
     public void rejectMotor() {motor.setPower(-1);
     }
     public boolean isStalled(){
-        return motor.getCurrent(CurrentUnit.MILLIAMPS)>7000;
+        return motor.getCurrent(CurrentUnit.MILLIAMPS)>8000;
     }
 
     public void stopMotor() {

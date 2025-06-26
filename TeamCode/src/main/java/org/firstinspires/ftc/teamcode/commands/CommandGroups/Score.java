@@ -22,7 +22,7 @@ public class Score extends SequentialCommandGroup {
         addCommands(
                 new SwingArmUpCommand(swingArm),
                 new ScoreClawCommand(claw),
-                new SwingArmMidCommand(swingArm),
+                new SwingArmDownCommand(swingArm),
                 new LiftForSwingArmClearCommand(lift),
                 new SwingArmDownCommand(swingArm),
                 new LiftClearRampCommand(lift),
