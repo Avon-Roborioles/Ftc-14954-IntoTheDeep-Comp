@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WristSubsystem;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.FConstantsFast;
 import pedroPathing.constants.LConstants;
-//@Disabled
+@Disabled
 @Autonomous
 public class RightPush2 extends AutoBase {
     public PathChain run1;

@@ -58,12 +58,12 @@ public class Left5_0 extends AutoBase {
     Pose Score = new Pose(-56 ,-52.5, PI/4 );
     Pose ScorePreload = new Pose(-54 ,-54 , PI/4 );
     Pose Grab1 = new Pose(-49.5, -40.5, PI/2);
-    Pose Grab2 = new Pose(-59, -42.5, PI/2);
+    Pose Grab2 = new Pose(-58.5, -42.5, PI/2);
     Pose Grab3 = new Pose(-52.5, -34, 5* PI/6);
     Pose Grab3Mid = new Pose(-40, -36, 5* PI/6);
     Pose Grab4 = new Pose(-16.25 - 8.1875, -2 - 8.5625, 0);
     Pose Grab4Mid = new Pose(-60, -10, PI/2);
-    Pose Strafe  = new Pose(-16.25 - 8.1875, -8, 0);
+    Pose Strafe  = new Pose(-16.25 - 8.1875, -6, 0);
 //    Pose Park = new Pose(-16.25 - 8.1875, -2.5 - 8.5625, PI);
 //    Pose PrePark = new Pose(-25 - 8.1875, -2.5 - 8.5625, PI);
 //    Pose ParkMid = new Pose(-60, -11, PI/2);
